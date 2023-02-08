@@ -95,7 +95,7 @@ rmf.copySelect = function () {
 //回到顶部
 rmf.scrollToTop = function () {
     document.getElementsByClassName("menus_items")[1].setAttribute("style", "");
-    document.getElementById("name-container").setAttribute("style", "display:none");
+    document.getElementById("go-up").setAttribute("style", "display:none");
     btf.scrollToDest(0, 500);
 }
 
@@ -312,3 +312,5 @@ function changeMouseMode() {
         }, 300);
     }
 }
+
+

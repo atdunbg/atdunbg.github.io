@@ -1,3 +1,25 @@
+/* 自己摸索的东西 */
+
+
+/* 推荐文章圆角 */
+#pagination.pagination-post {
+  border-radius: 10px;
+}
+
+#pagination .next-post img, #pagination .prev-post img, #pagination.pagination-post, .postImgHover img, .relatedPosts>.relatedPosts-list>div, .relatedPosts>.relatedPosts-list>div img {
+  border-radius: 12px;
+}
+
+/* 右侧小按钮圆角 */
+#rightside > div > button, #rightside > div > a {
+  border-radius: 30px;
+}
+
+
+
+
+
+
 :root {
     --trans-light: rgba(255, 255, 255, 0.88);
     --trans-dark: rgba(25, 25, 25, 0.88);
@@ -125,7 +147,7 @@
 
 /* 背景宇宙星光  */
 #universe{
-    display: block;
+    
     position: fixed;
     margin: 0;
     padding: 0;
@@ -172,7 +194,7 @@
     width: 16px;
     height: 16px;
     /* 这里改变跟随的底色 */
-    background: rgb(57, 197, 187);
+    background: var(--theme-color);
     border-radius: 8px;
     opacity: 0.25;
     z-index: 10086;
@@ -264,16 +286,16 @@
 
 /* 个人信息Follow me按钮 */
 #aside-content > .card-widget.card-info > #card-info-btn {
-  background-color: #3eb8be;
+  background-color: var(--theme-color);
   border-radius: 8px;
 }
 
 
 /* 音乐播放器 */
 
-/* .aplayer .aplayer-lrc {
+.aplayer .aplayer-lrc {
   display: none !important;
-} */
+} 
 
 .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
   left: -66px !important;
@@ -299,8 +321,6 @@
   padding: 30px;
   margin: 30px 0px 0px 0px;
 }
-
-
 
 
 
@@ -451,7 +471,7 @@
   background-image: url(https://sourcebucket.s3.ladydaily.com/img/aurora.webp);
   background-repeat: no-repeat;
   background-attachment: inherit;
-  background-size: 100%;
+  background-size:cover;
 }
 
 
@@ -490,7 +510,6 @@
   color: #fff;
   background-color: var(--theme-color);
 }
-
 
 
 
@@ -673,6 +692,7 @@ blockquote {
 }
 .site-data > a:hover div {
   color: var(--theme-color) !important;
+
 }
 
 #post-comment .comment-head #comment-switch .first-comment {
@@ -1039,3 +1059,31 @@ input[name="colors"] {
   border: 3px solid var(--color-blackgray);
   background-color: var(--color-blackgray);
 }
+
+
+
+
+
+/* 返回顶部 */
+
+button#go-up #percent {
+  display: none;
+  font-weight: bold;
+  font-size: 15px !important;
+}
+
+button#go-up span {
+  font-size: 12px!important;
+  margin-right: -1px;
+}
+
+/* 鼠标滑动到按钮上时显示返回顶部图标 */
+button#go-up:hover i {
+  display: block !important;
+}
+
+button#go-up:hover #percent {
+  display: none !important;
+}
+
+
