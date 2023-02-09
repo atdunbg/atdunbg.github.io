@@ -17,6 +17,9 @@
 
 
 
+#rightside {
+  display: var(--rightside-display);
+}
 
 
 
@@ -296,6 +299,7 @@
 .aplayer .aplayer-lrc {
   display: none !important;
 } 
+
 
 .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
   left: -66px !important;
