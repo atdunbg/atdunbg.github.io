@@ -279,7 +279,7 @@ if (localStorage.getItem("blogbg") != undefined) {
     // 替换你自己的默认背景
   document.getElementById("defineBg").innerText = `:root{
     --default-bg: url(xxx);
-    --darkmode-bg:url(xxx);
+    --darkmode-bg:url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5);
     --mobileday-bg: url(xxx);
     --mobilenight-bg: url(xxx);
   }`;
@@ -520,7 +520,7 @@ function createWinbox() {
 
 <details class="folding-tag" cyan><summary> 查看风景背景 </summary>
               <div class='content'>
-              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)" class="imgbox" onclick="changeBg('url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)')"></a></div>
+              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)" class="imgbox" onclick="changeBg('url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)" class="imgbox" onclick="changeBg('url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)')"></a></div>
               </div>
             </details>
 
