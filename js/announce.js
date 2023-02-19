@@ -73,6 +73,9 @@ $.ajax({
                             break;
                         case "河南省":
                             switch (ipLoacation.result.ad_info.city) {
+                                case "郑州市":
+                                    posdesc = "我就读的学校也在郑州,有时间你来带我介绍一下郑州吧";
+                                    break;
                                 case "商丘市":
                                     posdesc = "老乡 ! ! !";
                                     break;
@@ -259,3 +262,4 @@ $.ajax({
  document.getElementById("con-mode").addEventListener("click", function () { setTimeout(switchPostChart, 100) })}
     
 
+ 
