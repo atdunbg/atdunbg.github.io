@@ -5,7 +5,10 @@
 #pagination.pagination-post {
   border-radius: 10px;
 }
-
+/* 折叠框边界线 */
+details.folding-tag[cyan] {
+  border-color: rgba(27,205,252,0.3);
+}
 
 
 /*哔哩哔哩视频适配*/
