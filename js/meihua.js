@@ -511,7 +511,7 @@ function createWinbox() {
 <h3>1. 二次元</h3>
 <details class="folding-tag" cyan><summary> 查看二次元背景 </summary>
               <div class='content'>
-              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/home_bg.webp)" class="imgbox" onclick="changeBg('url(https\://sourcebucket.s3.ladydaily.com/img/home_bg.webp)')"></a></div>
+              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/home_bg.webp)" class="imgbox" onclick="changeBg('url(https\://sourcebucket.s3.ladydaily.com/img/home_bg.webp)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://api.ixiaowai.cn/api/api.php)" class="imgbox" onclick="changeBg('url(https://api.ixiaowai.cn/api/api.php)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://tuapi.eees.cc/api.php?category=dongman)" class="imgbox" onclick="changeBg('url(https://tuapi.eees.cc/api.php?category=dongman)')"></a></div>
               </div>
             </details>
 
@@ -520,7 +520,7 @@ function createWinbox() {
 
 <details class="folding-tag" cyan><summary> 查看风景背景 </summary>
               <div class='content'>
-              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)" class="imgbox" onclick="changeBg('url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)" class="imgbox" onclick="changeBg('url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)')"></a></div>
+              <div class="bgbox"><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)" class="imgbox" onclick="changeBg('url(https://sourcebucket.s3.ladydaily.com/img/fj1.webp)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)" class="imgbox" onclick="changeBg('url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5)')"></a><a href="javascript:;" rel="noopener external nofollow" style="background-image:url(https://api.yimian.xyz/img?type=moe&size=1920x1080)" class="imgbox" onclick="changeBg('url(https://api.yimian.xyz/img?type=moe&size=1920x1080)')"></a></div>
               </div>
             </details>
 
