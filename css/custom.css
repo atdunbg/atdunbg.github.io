@@ -1,3 +1,9 @@
+#aside-content .card-info #card-info-btn:hover {
+  background-color: #409eff;
+}
+
+
+
 .pace {
   -webkit-pointer-events: none;
   pointer-events: none;
@@ -378,8 +384,7 @@ details.folding-tag[cyan] {
 
 /* 个人信息Follow me按钮 */
 #aside-content > .card-widget.card-info > #card-info-btn {
-  background-color: var(--theme-color);
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 
