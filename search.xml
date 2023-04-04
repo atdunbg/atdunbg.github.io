@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>云计算--Linux 系统管理(笔记)</title>
+      <link href="/2023/03/27/cloud_linux_2/"/>
+      <url>/2023/03/27/cloud_linux_2/</url>
+      
+        <content type="html"><![CDATA[<h1 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h1><h1 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h1><blockquote><ul><li>文件系统格式操作系统用于明确存储设备或分区上的文件的方法和数据结构,即在储存设备上组织文件的方法.</li><li>操作系统中负责管理和储存文件信息的软件机构称为文件下管理系统,简称文件系统.</li><li>文件系统时命名文件以及放置文件逻辑级储存和恢复的系统.</li></ul></blockquote><h2 id="文件系统类型"><a href="#文件系统类型" class="headerlink" title="文件系统类型"></a>文件系统类型</h2><blockquote><ul><li>本地文件系统(基于磁盘的文件系统):<ul><li>Windows系统: FAT,NTFS</li><li>Linux系统: EXT2,EXT3,EXT4,XFS</li><li>Unix系统: ZFS,JFS,JFS2,HFS</li></ul></li><li>网络文件系统: <ul><li>NTFS,GFS,GFS2,NFS,CIFS</li></ul></li><li>虚拟文件系统: 基于内存的文件系统<ul><li>TMPFS</li><li>PROC</li><li>SYSFS</li><li>…</li></ul></li><li>交换分区(swap)</li></ul></blockquote><h1 id="文件系统类型-1"><a href="#文件系统类型-1" class="headerlink" title="文件系统类型"></a>文件系统类型</h1><h2 id="inode-和-block-概述"><a href="#inode-和-block-概述" class="headerlink" title="inode 和 block 概述"></a>inode 和 block 概述</h2><blockquote><p>文件是存储在硬盘上的，硬盘的最小存储单位叫做扇区sector，每个扇区存储512字节。操作系统读取硬盘的时候，不会一个个扇区地读取，这样效率太低，而是一次性连续读取多个扇区，即一次性读取一个块block。这种由多个扇区组成的块，是文件存取的最小单位。块的大小，最常见的是4KB，即连续八个sector组成一个block。</p><p>文件数据存储在块中，那么还必须找到一个地方存储文件的元信息，比如文件的创建者、文件的创建日期、文件的大小等等。这种存储文件元信息的区域就叫做inode，中文译名为索引节点，也叫i节点。因此，一个文件必须占用一个inode，但至少占用一个block。</p></blockquote><ul><li>元信息 → inode</li><li>数据 → block</li></ul><h3 id="inode"><a href="#inode" class="headerlink" title="inode"></a>inode</h3><blockquote><ul><li>inode表包括ext2,ext3或ext4文件系统上的所有文件列表</li><li>inode(索引节点)时表的入口,包括文件信息(元数据)<ul><li>文件类型,许可权限,UID,GID</li><li>链接数量(指向该文件的路径数目)</li><li>文件大小和可变的时间戳</li><li>文件数据在磁盘上的块指针</li><li>文件的其他数据</li></ul></li><li>目录<ul><li>文件的计算机引用时inode数字</li><li>我对为五年间引用,人类的方式文件名</li><li>目录时人类方式的文件名字和计算机inode数字的映射</li></ul></li></ul></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 云计算 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>云计算--Linux 用户基础(笔记)</title>
       <link href="/2023/03/19/cloud_linux_1/"/>
       <url>/2023/03/19/cloud_linux_1/</url>
