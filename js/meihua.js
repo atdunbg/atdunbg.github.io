@@ -483,15 +483,8 @@ function createWinbox() {
   <div class="content-text" style="font-weight:bold; padding-left:20px"> 必应每日壁纸 </div><input type="checkbox" id="bingSet" onclick="setBing()">
 </div>
 
-<h2>二、字体设置</h2>
-<div class="note warning modern"><p>非商免字体未经授权只能个人使用。本站为完全非商业、非盈利性质的网站，平时用于个人学习交流，如有侵权请联系站长删除，谢谢！ —— 致版权方</p>
-</div>
-<p id="swfs">
-<a class="swf" id="swf_ZhuZiAWan" href="javascript:;" rel="noopener external nofollow" style="font-family:'ZhuZiAWan'!important;color:black" onclick="setFont('ZhuZiAWan')">筑紫A丸标准体2.0</a>
-<a class="swf" id="swf_default" href="javascript:;" rel="noopener external nofollow" style="font-family:-apple-system, IBM Plex Mono ,monosapce,'微软雅黑', sans-serif;!important;color:black" onclick="setFont('default')">系统默认</a>
-</p>
 
-<h2>三、主题色设置</h2>
+<h2>二、主题色设置</h2>
 <div class="content" style="display:flex"><input type="radio" id="red" name="colors" value=" "
         onclick="setColor('red')"><input type="radio" id="orange" name="colors" value=" "
         onclick="setColor('orange')"><input type="radio" id="yellow" name="colors" value=" "
@@ -505,7 +498,7 @@ function createWinbox() {
         onclick="setColor('black')"><input type="radio" id="blackgray" name="colors" value=" "
         onclick="setColor('blackgray')"></div>
 
-<h2>四、背景设置</h2>
+<h2>三、背景设置</h2>
 <center><button onclick="resetBg()" style="background:var(--theme-color);display:block;width:35%;padding:15px 0;border-radius:30px;color:white;"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;恢复默认背景</button></center>
 
 <h3>1. 二次元</h3>

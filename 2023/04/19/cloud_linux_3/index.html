@@ -1,0 +1,1050 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>云计算--Linux 服务与安全(笔记3) | Atdunbg</title><meta name="author" content="Atdunbg,979541498@qq.com"><meta name="copyright" content="Atdunbg"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="网络基础Socket 通讯 所谓socket通常也称作”套接字” ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。   C&#x2F;S, B&#x2F;S架构C&#x2F;S（Client&#x2F;Server）：客户端-服务器结构  C&#x2F;S结构在技术上很成熟，它的主要特点是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云计算--Linux 服务与安全(笔记3)">
+<meta property="og:url" content="https://atdunbg.xyz/2023/04/19/cloud_linux_3/index.html">
+<meta property="og:site_name" content="Atdunbg">
+<meta property="og:description" content="网络基础Socket 通讯 所谓socket通常也称作”套接字” ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。   C&#x2F;S, B&#x2F;S架构C&#x2F;S（Client&#x2F;Server）：客户端-服务器结构  C&#x2F;S结构在技术上很成熟，它的主要特点是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021">
+<meta property="article:published_time" content="2023-04-19T02:30:07.000Z">
+<meta property="article:modified_time" content="2023-04-21T15:51:51.065Z">
+<meta property="article:author" content="Atdunbg">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://atdunbg.xyz/2023/04/19/cloud_linux_3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '云计算--Linux 服务与安全(笔记3)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-21 23:51:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><span id="fps"></span><style id="themeColor"></style><style id="rightSide"></style><style id="transPercent"></style><style id="blurNum"></style><style id="settingStyle"></style><span id="fps"></span><style id="defineBg"></style><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/custom.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><link rel="stylesheet" href="/css/custom.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/04/aeb5288bfffd4876b9bd2c99b7d1933d" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="http://81.68.242.29:5212/s/pecL?path=%2F"><span> 小工具盘</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 值得推荐</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于..</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw hide"></i><span> 线路</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.gitee.io/"><span> Gitee</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.github.io/"><span> Github</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.atdunbg.xyz/"><span> Vercel</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021')"><nav id="nav"><span id="blog-info"><a href="/" title="Atdunbg"><span class="site-name">Atdunbg</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="http://81.68.242.29:5212/s/pecL?path=%2F"><span> 小工具盘</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 值得推荐</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于..</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw hide"></i><span> 线路</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.gitee.io/"><span> Gitee</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.github.io/"><span> Github</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.atdunbg.xyz/"><span> Vercel</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">云计算--Linux 服务与安全(笔记3)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-19T02:30:07.000Z" title="发表于 2023-04-19 10:30:07">2023-04-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-21T15:51:51.065Z" title="更新于 2023-04-21 23:51:51">2023-04-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="云计算--Linux 服务与安全(笔记3)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h1><h2 id="Socket-通讯"><a href="#Socket-通讯" class="headerlink" title="Socket 通讯"></a>Socket 通讯</h2><ul>
+<li>所谓socket通常也称作”套接字” ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/19/c3c2efcc5f0840f4bb365212449401c1" alt=""></p>
+<h2 id="C-S-B-S架构"><a href="#C-S-B-S架构" class="headerlink" title="C/S, B/S架构"></a>C/S, B/S架构</h2><p><strong>C/S（Client/Server）：客户端-服务器结构</strong></p>
+<ul>
+<li>C/S结构在技术上很成熟，它的主要特点是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C/S结构的软件需要针对不同的操作系统系统开发不同版本的软件，加之产品的更新换代十分快，已经很难适应百台电脑以上局域网用户同时使用。</li>
+</ul>
+<p><strong>B/S（Browser/Server）：浏览器-服务器结构，是目前应用系统的发展方向</strong></p>
+<ul>
+<li>BS是伴随着Internet技术的兴起，对C/S架构的改进，为了区别于传统的C/S 模式，特意称为B/S模式。在这种结构下，通过W3浏览器来进入工作界面，极少部分事务逻辑在前端（Browser）实现，主要事务逻辑在服务器端（Server）实现，形成三层（3-tier）结构。这样使得客户端电脑负荷大大简化（因此被称为瘦客户端），减轻了系统维护、升级的支出成本，降低了用户的总体成本（TCO）。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">系统架构</th>
+<th style="text-align:center">C/S</th>
+<th style="text-align:center">B/S</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">配置成本</td>
+<td style="text-align:center">高，客户机和服务器都需要配置软件</td>
+<td style="text-align:center">低，只需配置服器，客户机只需安装浏览器</td>
+</tr>
+<tr>
+<td style="text-align:center">维护更新成本</td>
+<td style="text-align:center">高，服务器和客户机均要维护更新</td>
+<td style="text-align:center">低，只维护更新服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">响应速度</td>
+<td style="text-align:center">快,没有中间环节</td>
+<td style="text-align:center">慢</td>
+</tr>
+<tr>
+<td style="text-align:center">个性化定制</td>
+<td style="text-align:center">强</td>
+<td style="text-align:center">弱</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="服务的基础"><a href="#服务的基础" class="headerlink" title="服务的基础"></a>服务的基础</h1><p>linux下的服务管理有两类:</p>
+<ul>
+<li>System V 服务</li>
+<li>Transient 服务</li>
+</ul>
+<h2 id="System-V-服务"><a href="#System-V-服务" class="headerlink" title="System V 服务"></a>System V 服务</h2><p>System V， 曾经也被称为 AT&amp;T System V，是Unix操作系统众多版本中的一支。它最初由 AT&amp;T 开发，在1983年第一次发布。一共发行了4个 System V 的主要版本：版本1、2、3 和 4。System V Release 4，或者称为SVR4，是最成功的版本，成为一些UNIX共同特性的源头，例如 ”SysV 初始化脚本“ (/etc/init.d)，用来控制系统启动和关闭，System V Interface Definition (SVID) 是一个System V 如何工作的标准定义。</p>
+<blockquote>
+<ul>
+<li>通常被成为”System V” 或 “SysV”</li>
+<li>许多脚本都是用文件系统目录的格式来组织的</li>
+<li>可启用或者禁用资源服务</li>
+<li>经常使用几个配置文件</li>
+<li>大多数服务启动一个或多个进程</li>
+<li>命令被“包裹”在脚本中.</li>
+<li>服务由/etc/init.d/目录中的脚本管理<ul>
+<li>例如: /etc/init.d/sshd status</li>
+<li>service sshd status</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="chkconfig"><a href="#chkconfig" class="headerlink" title="chkconfig"></a>chkconfig</h3><blockquote>
+<ul>
+<li>管理运行级别中的服务定义</li>
+<li>在引导时启动cups服务: chkconfig cupS on</li>
+<li>不会改变System V服务的当前运行状态</li>
+<li>用于独立的和瞬时的服务</li>
+<li>被其它应用程序调用,其中包括system-config-services命令</li>
+<li>要列出服务在运行级别中的分配情况,需运行chkconfig —list 命令</li>
+</ul>
+</blockquote>
+<h3 id="etc-sysconfig文件"><a href="#etc-sysconfig文件" class="headerlink" title="/etc/sysconfig文件"></a>/etc/sysconfig文件</h3><blockquote>
+<ul>
+<li>用于配置服务的运行方式</li>
+<li>named</li>
+<li>sendmail</li>
+<li>dhcpd</li>
+<li>samba</li>
+<li>syslog</li>
+</ul>
+</blockquote>
+<h2 id="Transient-服务"><a href="#Transient-服务" class="headerlink" title="Transient 服务"></a>Transient 服务</h2><blockquote>
+<ul>
+<li>瞬时( Transient )服务被xinetd进程所管理</li>
+<li>进入的请求首先被xinetd 代理</li>
+<li>配置文件/etc/xinetd.conf , /etc/xinetd.d/service</li>
+<li>用chkconfig控制的服务:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig tftp on</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h2><blockquote>
+<ul>
+<li>一次性计划任务</li>
+<li>周期性计划认任务<ul>
+<li>系统的</li>
+<li>用户的</li>
+</ul>
+</li>
+<li>Anacron</li>
+</ul>
+</blockquote>
+<h3 id="一次性计划任务"><a href="#一次性计划任务" class="headerlink" title="一次性计划任务"></a>一次性计划任务</h3><blockquote>
+<ul>
+<li>包名: atd</li>
+<li>命令: <ul>
+<li>at</li>
+<li>batch - 当系统负载低于0.8时才运行</li>
+</ul>
+</li>
+<li>按Ctrl+D完成</li>
+</ul>
+</blockquote>
+<p><strong>at</strong>命令后需要跟上时间</p>
+<p>时间的表示方式:</p>
+<blockquote>
+<ul>
+<li>HH:MM</li>
+<li>midnight - 12:00 a.m.</li>
+<li>noon - 12:00 p.m.</li>
+<li>teatime - 4:00 p.m.</li>
+<li>MONTHDAYYEAR - 例如: January 15 2015</li>
+<li>MMDDYY - 例如: 011315</li>
+<li>now + TIME - now + 5 days</li>
+</ul>
+</blockquote>
+<h3 id="周期性的计划任务"><a href="#周期性的计划任务" class="headerlink" title="周期性的计划任务"></a>周期性的计划任务</h3><blockquote>
+<ul>
+<li>系统的- crontab</li>
+<li>用户的- crond<ul>
+<li>创建:crontab -e</li>
+<li>查看:crontab -l</li>
+<li>删除:crontab -r</li>
+</ul>
+</li>
+<li>Anacron运行那些在系统当机期间未执行的cron任务<ul>
+<li>假定计算机不是连续运行的</li>
+<li>对笔记本电脑,工作站及其它非连续运行的系统来说很重要</li>
+<li>对需要临时停机的服务器也有作用</li>
+</ul>
+</li>
+<li>配置文件: /etc/anacrontab<ul>
+<li>字段1: 如果任务在指定的天数内没有运行</li>
+<li>字段2: 重启后在执行任务之前需要等待多久</li>
+<li>字段3: 任务标识符</li>
+<li>字段4: 需要运行的任务</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="Rsyslog-服务"><a href="#Rsyslog-服务" class="headerlink" title="Rsyslog 服务"></a>Rsyslog 服务</h2><p><strong>把日志集中存储在一个安全的地方, 通过日志分析系统的运行情况. Rsyslog全称”the Rocket-fast SYStem for LOG processing”,是一种应用于UNIX和Linux计算机系统在IP网络转发日志消息开源软件实用的程序。它实现了基本的syslog协议,扩展了基于内容过滤的过滤能力,丰富灵活的配置选项,并增加了诸如使用TCP传输的特点。</strong></p>
+<blockquote>
+<ul>
+<li>格式: selector  action<ul>
+<li>selector : facility.level<ul>
+<li>facility : who or what</li>
+<li>level : when</li>
+</ul>
+</li>
+<li>action :如何处理这些信息</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<details class="folding-tag" cyan><summary> Facility </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th style="text-align:center">Facility Number</th><th style="text-align:center">Keyword</th><th style="text-align:center">Facility Description</th></tr></thead><tbody><tr><td style="text-align:center">0</td><td style="text-align:center">kern</td><td style="text-align:center">kernel messages</td></tr><tr><td style="text-align:center">1</td><td style="text-align:center">user</td><td style="text-align:center">user-level messages</td></tr><tr><td style="text-align:center">2</td><td style="text-align:center">mail</td><td style="text-align:center">mail system</td></tr><tr><td style="text-align:center">3</td><td style="text-align:center">daemon</td><td style="text-align:center">system daemons</td></tr><tr><td style="text-align:center">4</td><td style="text-align:center">auth</td><td style="text-align:center">security/authorization messages</td></tr><tr><td style="text-align:center">5</td><td style="text-align:center"></td><td style="text-align:center">syslog</td><td>messages generated internally by syslogd</td></tr><tr><td style="text-align:center">6</td><td style="text-align:center">Ipr</td><td style="text-align:center">line printer subsystem</td></tr><tr><td style="text-align:center">7</td><td style="text-align:center">news</td><td style="text-align:center">network news subsystem</td></tr><tr><td style="text-align:center">8</td><td style="text-align:center">uucp</td><td style="text-align:center">UUCP subsystem</td></tr><tr><td style="text-align:center">9</td><td style="text-align:center"></td><td style="text-align:center">clock daemon</td></tr><tr><td style="text-align:center">10</td><td style="text-align:center">authpriv</td><td style="text-align:center">security/authorization messages</td></tr><tr><td style="text-align:center">11</td><td style="text-align:center">ftp</td><td style="text-align:center">FTP daemon</td></tr><tr><td style="text-align:center">12</td><td style="text-align:center"></td><td style="text-align:center">NTP subsystem</td></tr><tr><td style="text-align:center">13</td><td style="text-align:center"></td><td style="text-align:center">log audit</td></tr><tr><td style="text-align:center">14</td><td style="text-align:center"></td><td style="text-align:center">log alert</td></tr><tr><td style="text-align:center">15</td><td style="text-align:center">cron</td><td style="text-align:center">clock daemon</td></tr><tr><td style="text-align:center">16</td><td style="text-align:center">local0</td><td style="text-align:center">local use 0 (local0)</td></tr><tr><td style="text-align:center">17</td><td style="text-align:center">local1</td><td style="text-align:center">local use 1 (local1)</td></tr><tr><td style="text-align:center">18</td><td style="text-align:center">local2</td><td style="text-align:center">local use 2 (local2)</td></tr><tr><td style="text-align:center">19</td><td style="text-align:center">local3</td><td style="text-align:center">local use 3 (local3)</td></tr><tr><td style="text-align:center">20</td><td style="text-align:center">local4</td><td style="text-align:center">local use 4 (local4)</td></tr><tr><td style="text-align:center">21</td><td style="text-align:center">local5</td><td style="text-align:center">local use 5 (local5)</td></tr><tr><td style="text-align:center">22</td><td style="text-align:center">local6</td><td style="text-align:center">local use 6 (local6)</td></tr><tr><td style="text-align:center">23</td><td style="text-align:center">local7</td><td style="text-align:center">local use 7 (local7)</td></tr></tbody></table></div>
+              </div>
+            </details>
+<details class="folding-tag" cyan><summary> Level </summary>
+              <div class='content'>
+              <div class="table-container"><table><thead><tr><th style="text-align:center">Code</th><th style="text-align:center">Severity</th><th style="text-align:center">Description</th><th style="text-align:center">General Description</th></tr></thead><tbody><tr><td style="text-align:center">0</td><td style="text-align:center">Emergency</td><td style="text-align:center">emerg(panic)</td><td style="text-align:center">System is unusable</td><td>A “panic” condition usually affecting multiple apps/servers/sites. At this level it would usually notify all tech staff on call</td></tr><tr><td style="text-align:center">1</td><td style="text-align:center">Alert</td><td style="text-align:center">alert</td><td style="text-align:center">Action must be taken immediately</td><td>Should be corrected immediately, therefore notify staff who can fx the problem. An example would be the loss of a primary ISP connection</td></tr><tr><td style="text-align:center">2</td><td style="text-align:center">Critical</td><td style="text-align:center">crit</td><td style="text-align:center">Critical conditions</td><td>Should be corrected immediately, but indicates failure in a primary system, an example is a loss of a backup ISP connection</td></tr><tr><td style="text-align:center">3</td><td style="text-align:center">Error</td><td style="text-align:center">err(error)</td><td style="text-align:center">Error conditions</td><td>Non-urgent failures, these should be relayed to developers or admins; each item must be resolved within a given time</td></tr><tr><td style="text-align:center">4</td><td style="text-align:center">Warning</td><td style="text-align:center">warning(warn)</td><td style="text-align:center">Warning conditions</td><td>Waming messages, not an error, but indication that an error will occur if action is not taken, e.g. fle system 85% full each item must be resolved within a given time</td></tr><tr><td style="text-align:center">5</td><td style="text-align:center">Notice</td><td style="text-align:center">notice</td><td style="text-align:center"></td><td>Normal but significant condition</td><td>Events that are unusual but not error conditions - might be summarized in an email to developers or admins to spot potential problems . no immediate action required</td></tr><tr><td style="text-align:center">6</td><td style="text-align:center">Informational</td><td style="text-align:center">info</td><td style="text-align:center">Informational messages</td><td>Normal operational messages - may be harvested for reporting, measuring throughput, etc. - no action required</td></tr><tr><td style="text-align:center">7</td><td style="text-align:center">Debug</td><td style="text-align:center">debug</td><td style="text-align:center">Debug-level messages</td><td>Info useful to developers for debugging the application, not useful during operations</td></tr></tbody></table></div>
+              </div>
+            </details>
+<blockquote>
+<ul>
+<li>日志文件</li>
+<li>/var/log/messages</li>
+<li>/var/log/dmesg</li>
+<li>/var/log/boot.log</li>
+<li>/var/log/maillog</li>
+<li>/var/log/secure</li>
+<li>/var/log/lastlog - 记录所有用户的最近登录信息。要用lastlog命令查看</li>
+<li>/var/log/btmp - 记录所有失败登录信息。用lastb命令查看</li>
+<li>/var/log/wtmp - 记录正常登录系统的信息。用w命令查看</li>
+</ul>
+</blockquote>
+<h2 id="Logrotate"><a href="#Logrotate" class="headerlink" title="Logrotate"></a>Logrotate</h2><blockquote>
+<ul>
+<li>/etc/logrotate.conf<ul>
+<li>weekly-每周rotate—次</li>
+<li>rotate 4 -保留四个日志文件</li>
+<li>create -创建一 个新的文件来存储日志</li>
+<li>compress -保留的日志文件是否要压缩,文件太大可以启动该参数</li>
+<li>minsize 1M-日志文件容量超过1M后才进行rotate</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="Logrotate-转发"><a href="#Logrotate-转发" class="headerlink" title="Logrotate 转发"></a>Logrotate 转发</h3><blockquote>
+<ul>
+<li>支持三种转发形式:<ul>
+<li>UDP - @IP 1.1-1.1</li>
+<li>TCP - @@IP</li>
+<li>RELP - :omrelp:(最可靠)</li>
+</ul>
+</li>
+<li>启用UDP<ul>
+<li>$ModLoad imudp</li>
+<li>$UDPServerRun 514</li>
+</ul>
+</li>
+<li>启用TCP<ul>
+<li>$ModLoad imtcp</li>
+<li>$InputTCPServerRun 514</li>
+</ul>
+</li>
+<li>$template TemplateName, “格式”, &lt; options&gt;</li>
+<li>引号模板:<ul>
+<li>? TemplateName</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="ntpl-Network-Time-Protocol"><a href="#ntpl-Network-Time-Protocol" class="headerlink" title="ntpl (Network Time Protocol)"></a>ntpl (Network Time Protocol)</h2><blockquote>
+<ul>
+<li>时间同步使系统日志便于分析</li>
+<li>许多应用需要精确的时间</li>
+<li>如果没有校正，工作站的硬件时钟会随着时间逐渐产生漂移.</li>
+<li>NTP通过控制- -秒的长度来抵消时钟漂移</li>
+<li>NTP客户端应当配置三个时钟服务器</li>
+<li>配置文件: /etc/ntp.conf</li>
+<li>配置工具: system-config-date</li>
+</ul>
+</blockquote>
+<h1 id="Tcp-warppers"><a href="#Tcp-warppers" class="headerlink" title="Tcp-warppers"></a>Tcp-warppers</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/21/b80cddb42a8548989ffa16c3175e7a1a" alt=""></p>
+<h2 id="服务和应用程序的访问控制"><a href="#服务和应用程序的访问控制" class="headerlink" title="服务和应用程序的访问控制"></a>服务和应用程序的访问控制</h2><blockquote>
+<p>服务特有的配置</p>
+<blockquote>
+<p>有些守护进程如httpd, smbd, squid等有自己的安全机制<br>通用配置<br>和libwrap.so相连接的所有程序都使用公共的配置文件<br>因为xinetd和libwrap.so相连接,所以它的服务也受此影响<br>检查主机和(或)远程用户名</p>
+</blockquote>
+</blockquote>
+<h2 id="tcp-wrappers配置"><a href="#tcp-wrappers配置" class="headerlink" title="tcp_ wrappers配置"></a>tcp_ wrappers配置</h2><blockquote>
+<ul>
+<li>检查访问权限的三三个步骤:<ul>
+<li>访问被明确允许.了 吗?</li>
+<li>或者,访问被明确拒绝了吗?</li>
+<li>或者,默认设置是允许访问!</li>
+</ul>
+</li>
+<li>配置被存放在两个文件里:<ul>
+<li>/etc/hosts.allow文件里保存允许的访问</li>
+<li>/etc/hosts.deny文件里保存拒绝的访问</li>
+</ul>
+</li>
+<li>基本语法:<ul>
+<li>daemon<em> _list: client</em> list [:options]</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="守护进程的说明"><a href="#守护进程的说明" class="headerlink" title="守护进程的说明"></a>守护进程的说明</h2><blockquote>
+<ul>
+<li>守护进程名称:<ul>
+<li>应用程序传递它们的可执行文件名称</li>
+<li>可以制定多个服务</li>
+<li>使用通配符ALL来匹配所有守护进程</li>
+</ul>
+</li>
+<li>高级语法:<ul>
+<li>daemon@host: client_list …</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h2><blockquote>
+<ul>
+<li>主机名宏定义<ul>
+<li>LOCAL</li>
+<li>KNOWN, UNKNOWN, PARANOID</li>
+</ul>
+</li>
+<li>主机和服务宏定义<ul>
+<li>ALL</li>
+</ul>
+</li>
+<li>EXCEPT<ul>
+<li>可用于客户和服务列表</li>
+<li>可嵌套</li>
+</ul>
+</li>
+<li>扩展选项<ul>
+<li>语法:<ul>
+<li>daemon_ list: client list [:opt1 :p2..]I</li>
+</ul>
+</li>
+<li>spawn:<ul>
+<li>can be used to start additional programs</li>
+<li>special expansions are available (%C, %s)</li>
+<li>例如:</li>
+<li>in.telnetd: ALL : spawn echo “login attempt from %C to %s”| mail -S warning root</li>
+</ul>
+</li>
+<li>deny:<ul>
+<li>可作为hosts.allow中的一个选项</li>
+<li>例如:</li>
+<li>ALL: ALL: DENY</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h1><h2 id="MAC-VS-DAC"><a href="#MAC-VS-DAC" class="headerlink" title="MAC VS DAC"></a>MAC VS DAC</h2><blockquote>
+<ul>
+<li>DAC- Discrentionary Access Control 自主访问控制<ul>
+<li>权限</li>
+<li>拥有者、拥有组和其它人</li>
+</ul>
+</li>
+<li>MAC - Mandatory Acess Control ( 强制访问控制)<ul>
+<li>基于角色:<ul>
+<li>一个组只代表一个或多个用户</li>
+<li>一个角色可以代表多个用户,也代表一个用户集可以执行的权限</li>
+</ul>
+</li>
+<li>使用最小特权原则</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/21/7dd55bcd388443eeb1a7b8e212cee6bb" alt=""></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/21/61a109862768471a9b20bacbf16f88dd" alt=""></p>
+<h2 id="SELinux-Secutiry-Enhanced-Linux"><a href="#SELinux-Secutiry-Enhanced-Linux" class="headerlink" title="SELinux - Secutiry-Enhanced Linux"></a>SELinux - Secutiry-Enhanced Linux</h2><p><strong>基于内核级别的MAC</strong></p>
+<ul>
+<li>SELinux是美国国家安全局( NSA= The National Security Agency )和SCC( Secure Computing Corporation )开发的Linux的一一个扩张强制访问控制安全模块。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/21/d34dc5807a5946b2bca55e836f6a0ed4" alt=""></p>
+<blockquote>
+<ul>
+<li>所有文件和进程都具备“安全环境”( security context )</li>
+<li>环境包含几个元素,根据安全的需要使用不同的元素<ul>
+<li>user.role:type:sensitivity:category</li>
+<li>user<em> _u:object</em> <em>r:tmp</em> _t:s0:cO</li>
+</ul>
+</li>
+<li>查看:<ul>
+<li>ls -Z (查看文件或目录)</li>
+<li>ps -Z (查看进程)<ul>
+<li>通常和其它选项配对使用,例如-ef</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">登录名</th>
+<th style="text-align:center">SELinux用户</th>
+<th style="text-align:center">MLS范围</th>
+<th style="text-align:center">Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>default</em></td>
+<td style="text-align:center">unconfined_u</td>
+<td style="text-align:center">s0-s0:c0.c1023</td>
+<td style="text-align:center">*</td>
+</tr>
+<tr>
+<td style="text-align:center">root</td>
+<td style="text-align:center">unconfined_u</td>
+<td style="text-align:center">s0-s0:c0.c1023</td>
+<td style="text-align:center">*</td>
+</tr>
+<tr>
+<td style="text-align:center">system_ u</td>
+<td style="text-align:center">system_u</td>
+<td style="text-align:center">s0-s0:c0.c1023</td>
+<td style="text-align:center">*</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="role"><a href="#role" class="headerlink" title="role"></a>role</h3><blockquote>
+<ul>
+<li>object<em> r -定义系统中的文件的通用的角色,必须是拥有system</em> r角色的程序才能访问</li>
+<li>system_ _r - - -般为进程的角色</li>
+</ul>
+<ul>
+<li>一组叫做”策略( policy)”的规则会决定控制的严格程度</li>
+<li>进程要么是被限制的(restricted) ,要么是无束缚的( unconfined)</li>
+<li>策略被用来定义被限制的进程能够使用哪些资源</li>
+<li>默认情况下将拒绝没有被明确允许的行为</li>
+</ul>
+</blockquote>
+<h3 id="Security-Level"><a href="#Security-Level" class="headerlink" title="Security Level"></a>Security Level</h3><blockquote>
+<ul>
+<li>MLS - Multi-Lever Security (多等级安全)</li>
+<li>MLS未启用前:<ul>
+<li>user<em> _u:role</em> <em>r:type</em> t </li>
+</ul>
+</li>
+<li>MLS启用后:<ul>
+<li>user:role:type:sensitivity[:category…]- sensitivity [:category…]</li>
+</ul>
+</li>
+<li>security level由两部分组成<ul>
+<li>sentitivity [ :category… ]</li>
+</ul>
+</li>
+<li>sentitivity:<ul>
+<li>sO</li>
+<li>s1</li>
+<li>…</li>
+</ul>
+</li>
+<li>category:<ul>
+<li>c0</li>
+<li>…</li>
+<li>c1023</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="SELinux不能做什么"><a href="#SELinux不能做什么" class="headerlink" title="SELinux不能做什么?"></a>SELinux不能做什么?</h2><blockquote>
+<p><strong>不能替代杀毒软件</strong><br><strong>不能替代认证机制、防火墙或其它安全系统</strong><br><strong>它不是集所有功能于一身的安全解决方案</strong></p>
+</blockquote>
+<h2 id="启用和关闭SELinux"><a href="#启用和关闭SELinux" class="headerlink" title="启用和关闭SELinux"></a>启用和关闭SELinux</h2><blockquote>
+<ul>
+<li>修改/etc/sysconfig/selinux</li>
+<li>三种模式:<ul>
+<li>enforcing -启动SELinux (策略生效,支持动态切换到permissive</li>
+<li>permissive-策略不生效,相当于disabled,但是支持动态切换到enforcing ,并且访问生成日志</li>
+<li>disabled -关闭SELinux</li>
+</ul>
+</li>
+<li>策略类型:<ul>
+<li>targeted :默认策略</li>
+<li>MLS</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="Booleans"><a href="#Booleans" class="headerlink" title="Booleans"></a>Booleans</h3><blockquote>
+<ul>
+<li>Booleans :<ul>
+<li>booleans允许在运行时改变SELinux策略</li>
+<li>不必重新编译SELinux策略</li>
+</ul>
+</li>
+<li>查看booleans:<ul>
+<li>getsebool -a</li>
+</ul>
+</li>
+<li>设置booleans :<ul>
+<li>setsebool -P booleans_ name on|off(‘-P’:使修改值永久生效)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1 id="DNS-服务"><a href="#DNS-服务" class="headerlink" title="DNS 服务"></a><strong>DNS 服务</strong></h1><p><strong>DNS : Domain Name System</strong></p>
+<blockquote>
+<ul>
+<li>常用的主机名称服务<ul>
+<li>文件( /etc/hosts )</li>
+<li>DNS</li>
+</ul>
+</li>
+<li>早期,使用HOSTS存储主机名到IP地址的映射,由SRI (Stanford Research Institute)斯坦福研究所的NIC (网络信息中心)负责维护，各个主机通过 FTP进行更新</li>
+</ul>
+</blockquote>
+<h2 id="Bind"><a href="#Bind" class="headerlink" title="Bind"></a>Bind</h2><blockquote>
+<ul>
+<li>类型:系统V ( System V )管理的服务</li>
+<li>软件包: bind, bind-utils,bind-chroot</li>
+<li>守护进程: /usr/sbin/named</li>
+<li>脚本: /etc/init.d/named</li>
+<li>端口: 53 (domain)</li>
+<li>配置文件: /etc/named.conf, /var/named/*</li>
+<li>相关软件包: openssl</li>
+<li>service named configtest</li>
+<li>service named start</li>
+<li>chkconfig</li>
+<li>named on</li>
+</ul>
+</blockquote>
+<h3 id="区块文件结构"><a href="#区块文件结构" class="headerlink" title="区块文件结构"></a>区块文件结构</h3><blockquote>
+<ul>
+<li>资源记录都有五个字段) :<ul>
+<li>Jomain -被查询的域或子域)</li>
+<li>ttl-记录被保存在缓存中的时间,以秒为单位</li>
+<li>class -记录类别，(通常是IN)</li>
+<li>type-记录类型,例如A或NS</li>
+<li>rdata一域映射的资源数据</li>
+<li>从概念上讲,用户会查询domain (域名) , 而domain则映射到rdata来查找答案</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="SOA查询"><a href="#SOA查询" class="headerlink" title="SOA查询"></a>SOA查询</h3><blockquote>
+<ul>
+<li>SOA ( Start Of Authority )记录将一 个服务器标记为主服务器</li>
+<li>初步观察结果<ul>
+<li>域字段叫做始发地址</li>
+<li>rdata字段被引申为支持额外数据r 下-一个演示片对此进行了解释</li>
+<li>一般来说, -一个域通常有一 个主名称服务器,它保存数据的主要副本</li>
+<li>域或区块的其它规范性名称服务器被称为“从服务器”,它们会将其数据与主服务器同步</li>
+</ul>
+</li>
+<li>SOA rdata<ul>
+<li>主名称服务器的FQDN</li>
+<li>联系邮件地址</li>
+<li>序列号码</li>
+<li>在刷新序列号码之前刷新延迟时间</li>
+<li>从服务器的重试间隔</li>
+<li>当从服务器无法连接它的主服务器时，记录会过期</li>
+<li>否定性答复(“no such host”)的TTL最小值</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">记录类型</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">主机地址记录</td>
+</tr>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">别名</td>
+</tr>
+<tr>
+<td style="text-align:center">MX</td>
+<td style="text-align:center">接收邮件的服务器主机名</td>
+</tr>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center">域名服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">PTR</td>
+<td style="text-align:center">反向查询记录</td>
+</tr>
+<tr>
+<td style="text-align:center">SOA</td>
+<td style="text-align:center">该区域数据的授权机构</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="DNS-主从"><a href="#DNS-主从" class="headerlink" title="DNS 主从"></a>DNS 主从</h3><blockquote>
+<ul>
+<li>从区块说明<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;example.com&quot;</span><br><span class="line">&#123;</span><br><span class="line">    type slave;</span><br><span class="line">    masters &#123; mymasters; &#125;;</span><br><span class="line">    file &quot;slaves/example.com.zone&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>示范性区块说明:<ul>
+<li>只想根据master选项中的主机的区块文件传送( AXFR和IXFR )</li>
+<li>将传送到的数据保存在/var/named/slaves/example.com.zone</li>
+<li>重载named自动创建文件</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="访问控制列表-ACL"><a href="#访问控制列表-ACL" class="headerlink" title="访问控制列表(ACL)"></a>访问控制列表(ACL)</h3><blockquote>
+<ul>
+<li>简单的说，ACL将一个名称分配给一个地址匹配列表</li>
+<li>一般可以用来代替匹配列表(允许嵌套! )</li>
+<li>最好的办法是在/etc/named.conf文件的开始处定义ACL</li>
+<li>声明示例<ul>
+<li>acly”trusted {192.168.1.21; }</li>
+<li>acl “classroom” { 192.168.0.0/24; trusted;};</li>
+<li>acl “cracker” { 192.168.1.0/24; };</li>
+<li>acl “mymasters” { 192.168.0.254; };</li>
+<li>acl “myaddresses” { 127.0.0.1; 192.168.0.1; };</li>
+</ul>
+</li>
+<li>内置ACL<ul>
+<li>BIND预定义了几个ACL:<ul>
+<li>none - 不匹配任何IP地址</li>
+<li>any - 匹配所有IP地址</li>
+<li>localhost - 匹配名称服务的任何IP地址</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h2 id="bind-chroot软件包"><a href="#bind-chroot软件包" class="headerlink" title="bind-chroot软件包"></a>bind-chroot软件包</h2><blockquote>
+<ul>
+<li>在/var/named/chroot中安装chroot环境</li>
+<li>将现有的配置文件转移到chroot环境</li>
+<li>更新/etc/sysconfig/named文件中named选项:<ul>
+<li>ROOTDIR=/var/named/chroot</li>
+</ul>
+</li>
+<li>提示<ul>
+<li>安装了bind-chroot软件包后查看/etc/sysconfig/named</li>
+<li>启动了named后运行ps -ef| grep named来校验启动选项</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1 id="FTP-服务"><a href="#FTP-服务" class="headerlink" title="FTP 服务"></a>FTP 服务</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/21/9a3fce5b446e40c3baf827cd6364401d" alt=""></p>
+<h2 id="FTP软件"><a href="#FTP软件" class="headerlink" title="FTP软件"></a>FTP软件</h2><blockquote>
+<ul>
+<li>Vsftpd - Very Secure FTP Daemon<ul>
+<li>非常安全</li>
+</ul>
+</li>
+<li>Pureftpd - the Pure FTP Daemon<ul>
+<li>轻量级的</li>
+<li>快速的</li>
+<li>安全的口</li>
+</ul>
+</li>
+<li>Proftpd - the Popular FTP Daemon<ul>
+<li>配置简单</li>
+<li>支持虚拟主机</li>
+</ul>
+</li>
+<li>Ncftpd<ul>
+<li>高性能的</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="文件传输协议-FTP-vsftpd"><a href="#文件传输协议-FTP-vsftpd" class="headerlink" title="文件传输协议(FTP) - vsftpd"></a>文件传输协议(FTP) - vsftpd</h3><blockquote>
+<ul>
+<li>vsftpd -红帽企业版及普华Linux的默认ftp服务器<ul>
+<li>不再由xinetd,管理，</li>
+<li>允许系统、匿名或虚拟(仅用于FTP服务)用户的访问</li>
+<li>匿名目录层次结构由vsftpd RPM提供</li>
+<li>/etc/vsftpd/vsftpd.conf是主配置文件</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><p><strong>NFS一Network File System</strong><br><strong>允许网络中的计算机之间通过TCP/IP网络共享资源</strong></p>
+<p><strong>RPC- Romote Procedure Call</strong><br><strong>该协议允许运行于一台计算机的程序调用另一台计算机的子程序</strong></p>
+<blockquote>
+<ul>
+<li>类型:系统 V(System V)</li>
+<li>软件包: nfs-utils</li>
+<li>守护进程: rpc.nfsd, rpc.lockd, rpciod, rpc.mountd, rpc.rquotad, rpc.statd</li>
+<li>脚本: /etc/init.d/nfs, /etc/init.d/nfslock</li>
+<li>端口:2049(nfsd)</li>
+<li>配置文件: /etc/exports</li>
+<li>相关软件包: tcp_ wrappers</li>
+</ul>
+</blockquote>
+<h3 id="用于防火墙的端口选项"><a href="#用于防火墙的端口选项" class="headerlink" title="用于防火墙的端口选项"></a>用于防火墙的端口选项</h3><blockquote>
+<ul>
+<li>mountd, statd和lockd可以被强制使用一个静态端口</li>
+<li>在/etc/sysconfig/nfs中设置MOUNTD<em> PORT、STATD</em> PORT LOCKD<em> TCPPORTHE和LOCKD</em> UDPPORT变量<ul>
+<li>MOUNTD_ PORT=”4002”</li>
+<li>STATD_ PORT= “4003”</li>
+<li>LOCKD_ TCPPORT= “4004”</li>
+<li>LOCKD_ UDPPORT= “4004”</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="服务侧写-httpd"><a href="#服务侧写-httpd" class="headerlink" title="服务侧写: httpd"></a>服务侧写: httpd</h2><blockquote>
+<ul>
+<li>类型:系统V(SystemV)管理服务</li>
+<li>软件包: httpd , httpd-devel , httpd-manual</li>
+<li>守护进程: /usr/sbin/httpd</li>
+<li>脚本: /etc/init.d/httpd</li>
+<li>端口: 80(http)、443 ( https )</li>
+<li>配置: /etc/httpd/<em> , /var/www/</em></li>
+<li>相关软件包: mod_ _ssI</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://atdunbg.xyz">Atdunbg</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://atdunbg.xyz/2023/04/19/cloud_linux_3/">https://atdunbg.xyz/2023/04/19/cloud_linux_3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://atdunbg.xyz" target="_blank">Atdunbg</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="post_share"><div class="social-share" data-image="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">记一次ArchLinux的安装过程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-27</div><div class="title">记一次ArchLinux的安装过程</div></div></a></div><div><a href="/2023/02/01/c-language-1/" title="C语言(1~5章(补))"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-01</div><div class="title">C语言(1~5章(补))</div></div></a></div><div><a href="/2022/12/20/c_language_10/" title="C语言(第十章--对文件的输出)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-20</div><div class="title">C语言(第十章--对文件的输出)</div></div></a></div><div><a href="/2022/11/22/c_language_6/" title="C语言(第六章-利用数组批量处理数据)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">C语言(第六章-利用数组批量处理数据)</div></div></a></div><div><a href="/2022/11/23/c_language_7/" title="C语言(第七章--函数)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-23</div><div class="title">C语言(第七章--函数)</div></div></a></div><div><a href="/2022/12/01/c_language_8/" title="C语言(第八章-善于利用指针)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">C语言(第八章-善于利用指针)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/04/04/aeb5288bfffd4876b9bd2c99b7d1933d" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Atdunbg</div><div class="author-info__description">没啥好描述的</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atdunbg"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atdunbg" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:979541498@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临一个小白的小窝,今天也是元气满满的一天!!!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="toc-text">网络基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Socket-%E9%80%9A%E8%AE%AF"><span class="toc-text">Socket 通讯</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-S-B-S%E6%9E%B6%E6%9E%84"><span class="toc-text">C&#x2F;S, B&#x2F;S架构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%9F%BA%E7%A1%80"><span class="toc-text">服务的基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#System-V-%E6%9C%8D%E5%8A%A1"><span class="toc-text">System V 服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#chkconfig"><span class="toc-text">chkconfig</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-sysconfig%E6%96%87%E4%BB%B6"><span class="toc-text">&#x2F;etc&#x2F;sysconfig文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transient-%E6%9C%8D%E5%8A%A1"><span class="toc-text">Transient 服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-text">计划任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%AC%A1%E6%80%A7%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-text">一次性计划任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%A8%E6%9C%9F%E6%80%A7%E7%9A%84%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-text">周期性的计划任务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rsyslog-%E6%9C%8D%E5%8A%A1"><span class="toc-text">Rsyslog 服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logrotate"><span class="toc-text">Logrotate</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Logrotate-%E8%BD%AC%E5%8F%91"><span class="toc-text">Logrotate 转发</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ntpl-Network-Time-Protocol"><span class="toc-text">ntpl (Network Time Protocol)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tcp-warppers"><span class="toc-text">Tcp-warppers</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%92%8C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">服务和应用程序的访问控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp-wrappers%E9%85%8D%E7%BD%AE"><span class="toc-text">tcp_ wrappers配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="toc-text">守护进程的说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="toc-text">宏定义</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SELinux"><span class="toc-text">SELinux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MAC-VS-DAC"><span class="toc-text">MAC VS DAC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SELinux-Secutiry-Enhanced-Linux"><span class="toc-text">SELinux - Secutiry-Enhanced Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#role"><span class="toc-text">role</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Security-Level"><span class="toc-text">Security Level</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SELinux%E4%B8%8D%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">SELinux不能做什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E5%92%8C%E5%85%B3%E9%97%ADSELinux"><span class="toc-text">启用和关闭SELinux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Booleans"><span class="toc-text">Booleans</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DNS-%E6%9C%8D%E5%8A%A1"><span class="toc-text">DNS 服务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bind"><span class="toc-text">Bind</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%9D%97%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-text">区块文件结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOA%E6%9F%A5%E8%AF%A2"><span class="toc-text">SOA查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS-%E4%B8%BB%E4%BB%8E"><span class="toc-text">DNS 主从</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8-ACL"><span class="toc-text">访问控制列表(ACL)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chroot"><span class="toc-text">chroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bind-chroot%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">bind-chroot软件包</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP-%E6%9C%8D%E5%8A%A1"><span class="toc-text">FTP 服务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP%E8%BD%AF%E4%BB%B6"><span class="toc-text">FTP软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE-FTP-vsftpd"><span class="toc-text">文件传输协议(FTP) - vsftpd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NFS"><span class="toc-text">NFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BA%8E%E9%98%B2%E7%81%AB%E5%A2%99%E7%9A%84%E7%AB%AF%E5%8F%A3%E9%80%89%E9%A1%B9"><span class="toc-text">用于防火墙的端口选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E4%BE%A7%E5%86%99-httpd"><span class="toc-text">服务侧写: httpd</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/04/19/cloud_linux_3/" title="云计算--Linux 服务与安全(笔记3)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 服务与安全(笔记3)"/></a><div class="content"><a class="title" href="/2023/04/19/cloud_linux_3/" title="云计算--Linux 服务与安全(笔记3)">云计算--Linux 服务与安全(笔记3)</a><time datetime="2023-04-19T02:30:07.000Z" title="发表于 2023-04-19 10:30:07">2023-04-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次ArchLinux的安装过程"/></a><div class="content"><a class="title" href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程">记一次ArchLinux的安装过程</a><time datetime="2023-03-27T02:30:08.000Z" title="发表于 2023-03-27 10:30:08">2023-03-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/27/cloud_linux_2/" title="云计算--Linux 系统管理(笔记2)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 系统管理(笔记2)"/></a><div class="content"><a class="title" href="/2023/03/27/cloud_linux_2/" title="云计算--Linux 系统管理(笔记2)">云计算--Linux 系统管理(笔记2)</a><time datetime="2023-03-27T02:30:07.000Z" title="发表于 2023-03-27 10:30:07">2023-03-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/19/cloud_linux_1/" title="云计算--Linux 用户基础(笔记1)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/28/d39abdd6d02046dfad9984691519a021" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 用户基础(笔记1)"/></a><div class="content"><a class="title" href="/2023/03/19/cloud_linux_1/" title="云计算--Linux 用户基础(笔记1)">云计算--Linux 用户基础(笔记1)</a><time datetime="2023-03-19T02:12:00.000Z" title="发表于 2023-03-19 10:12:00">2023-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/27/Debian/" title="关于小白不会玩linux服务器然后被入侵挖矿这件事"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/03/01/674f53410eed41378c049124e2ef0fef" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于小白不会玩linux服务器然后被入侵挖矿这件事"/></a><div class="content"><a class="title" href="/2023/02/27/Debian/" title="关于小白不会玩linux服务器然后被入侵挖矿这件事">关于小白不会玩linux服务器然后被入侵挖矿这件事</a><time datetime="2023-02-27T04:44:00.000Z" title="发表于 2023-02-27 12:44:00">2023-02-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Atdunbg</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button><button class="share" type="button" title="右键模式" onclick="changeMouseMode()"><i class="fas fa-mouse"></i></button><button type="button" title="切换背景" onclick="toggleWinbox()"><i class="fas fa-display"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div class="js-pjax" id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa fa-arrow-right"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa fa-refresh"></i></a><a class="rightMenu-item" href="javascript:rmf.scrollToTop();"><i class="fa fa-arrow-up"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa fa-copy"></i><span>复制</span></a><a class="rightMenu-item" href="javascript:window.open(&quot;https://www.baidu.com/s?wd=&quot;+window.getSelection().toString());window.location.reload();"><i class="fa fa-search"></i><span>百度搜索</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-too"><a class="rightMenu-item" href="javascript:window.open(window.getSelection().toString());window.location.reload();"><i class="fa fa-link"></i><span>转到链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-paste"><a class="rightMenu-item" href="javascript:rmf.paste()"><i class="fa fa-copy"></i><span>粘贴</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-post"><a class="rightMenu-item" href="#post-comment"><i class="fas fa-comment"></i><span>空降评论</span></a><a class="rightMenu-item" href="javascript:rmf.copyWordsLink()"><i class="fa fa-link"></i><span>复制本文地址</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-to"><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>新窗口打开</span></a><a class="rightMenu-item" id="menu-too" href="javascript:rmf.open()"><i class="fa fa-link"></i><span>转到链接</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-img"><a class="rightMenu-item" href="javascript:rmf.saveAs()"><i class="fa fa-download"></i><span>保存图片</span></a><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>在新窗口打开</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制图片链接</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:switchNightMode();"><i class="fa fa-moon"></i><span>昼夜切换</span></a><a class="rightMenu-item" href="/about/"><i class="fa fa-info-circle"></i><span>关于博客</span></a><a class="rightMenu-item" href="javascript:toggleWinbox();"><i class="fas fa-cog"></i><span>美化设置</span></a><a class="rightMenu-item" href="javascript:rmf.fullScreen();"><i class="fas fa-expand"></i><span>切换全屏</span></a><a class="rightMenu-item" href="javascript:window.print();"><i class="fa-solid fa-print"></i><span>打印页面</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1MfOjJuDKfEx8tmbhFKUEr4I-gzGzoHsz',
+      appKey: 'Dgp2DWfdohOSLaIYc0dBdRud',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, {"enableQQ":true,"placeholder":"昵称框输入QQ号试试～"}))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/gh/nextapps-de/winbox/dist/winbox.bundle.min.js"></script><script async src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script><script src="/js/sun_moon.js" async></script><div class="aplayer no-destroy" data-id="7708342577" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="/js/title.js"></script><script type="text/javascript" src="https://cdn1.tianli0.top/npm/jquery@latest/dist/jquery.min.js"></script><script type="text/javascript" src="/js/rightmenu.js"></script><script async src="/js/announce.js"></script><script async src="/js/fps.js"></script><script defer src="https://cdn1.tianli0.top/gh/nextapps-de/winbox/dist/winbox.bundle.min.js"></script><script defer data-pjax src="/js/meihua.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="/categories/你好世界/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 hexo 开山文章 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/butterfly/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🦋 butterfly (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 努力,再努力~ (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/其他/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">undefined 杂七拉八 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://atdunbg.xyz/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #3ecdf1}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style>undefined</style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-13</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt="">Hello World</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2022/12/19/4dc36943bf674fbd87bfd5233eaa6065" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-18</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt="">Manjaro Linux 美化日记</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt="">C语言(第十章--对文件的输出)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt="">C语言(第八章-善于利用指针)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/11/23/c_language_7/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-23</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/11/23/c_language_7/&quot;);" href="javascript:void(0);" alt="">C语言(第七章--函数)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/11/23/c_language_7/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-22</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt="">C语言(第六章-利用数组批量处理数据)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/02/23/a19ac63693b74305a61f556b5ad4df0f" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-21</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt="">Minecraft服务端，但是部署在手机上...</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt="">C语言(1~5章(补))</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__backInUp');
+    arr[i].setAttribute('data-wow-duration', '0.67s');
+    arr[i].setAttribute('data-wow-delay', '0s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInUp');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
