@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>云计算--Linux 开源虚拟化KVM(笔记4)</title>
+      <link href="/2023/04/27/cloud_linux_4/"/>
+      <url>/2023/04/27/cloud_linux_4/</url>
+      
+        <content type="html"><![CDATA[<h1 id="虚拟化概述"><a href="#虚拟化概述" class="headerlink" title="虚拟化概述"></a>虚拟化概述</h1><h2 id="虚拟化的定义"><a href="#虚拟化的定义" class="headerlink" title="虚拟化的定义"></a>虚拟化的定义</h2><blockquote><ul><li>在计算技术中, 虚拟化意味着创建设备或资源的虚拟版本,如服务器、存储设备、网络或者操作系统等等..</li><li>虚拟化技术<ul><li>系统虚拟化<ul><li>这种虚拟化通常表现为在单一系统上运行多个操作系统</li><li>这些虚拟操作系统同时运行,每个操作系统又是相互独立</li></ul></li><li>存储虚拟化</li><li>网络虚拟化</li><li>GPU虚拟化</li><li>软件虚拟化</li><li>硬件支持虚拟化</li></ul></li><li>纯软件仿真<ul><li>通过模拟完整的硬件环境来虚拟化来宾平台。</li><li>模拟X86、ARM、PowerPC等多种CPU</li><li>效率比较低</li><li>产品或方案<ul><li>QEMU、Bochs、 PearPC</li></ul></li></ul></li></ul></blockquote><h2 id="虚拟化层翻译"><a href="#虚拟化层翻译" class="headerlink" title="虚拟化层翻译"></a>虚拟化层翻译</h2><blockquote><ul><li>多数的虚拟化而采用虚拟机管理程序Hypervisor</li><li>Hypervisor是一个软件层或子系统<ul><li>也称为VMM ( Virtual Machine Monitor ,虚拟机监控器)</li></ul></li><li>允许多种操作系统在相同的物理系统中运行</li><li>控制硬件并向来宾操作系统提供访问底层硬件的途径</li><li>向来宾操作系统提供虚拟化的硬件</li></ul></blockquote><p><img src="https://s1.vika.cn/space/2023/05/05/886244eea6b940a185ac22acb1f2e96b" alt=""></p><h3 id="无硬件辅助的全虚拟化"><a href="#无硬件辅助的全虚拟化" class="headerlink" title="无硬件辅助的全虚拟化"></a>无硬件辅助的全虚拟化</h3><blockquote><ul><li>Full Virtualization without Hardware Assist</li><li>基于二进制翻译的全虚拟化</li><li>Full Virtualization with Binary Translation</li><li>Hypervisor运行在Ring 0</li><li>Guest OS运行在Ring 1</li><li>机制:异常、捕获、翻译</li><li>示例:<ul><li>VMware Workstation</li><li>QEMU</li><li>VirtualPC</li></ul></li></ul></blockquote><h3 id="半虚拟化Para-virtualization"><a href="#半虚拟化Para-virtualization" class="headerlink" title="半虚拟化Para virtualization"></a>半虚拟化Para virtualization</h3><blockquote><ul><li>也称为:超虚拟化、操作系统辅助虚拟化</li><li>Hypervisor运行Ring 0</li><li>Guest OS不能直接运行在Ring 0 , 需要对Kernel进行修改,将运行在Ring 0上的,指令转为调用Hypervisor</li><li>Guest OS.上的APP运行在Ring 3</li><li>示例:Xen</li></ul></blockquote><h3 id="硬件辅助的全虚拟化"><a href="#硬件辅助的全虚拟化" class="headerlink" title="硬件辅助的全虚拟化"></a>硬件辅助的全虚拟化</h3><blockquote><ul><li>Full Virtualization with Hardware Assist</li><li>Intel VT和AMD-V创建一个 新的Ring -1单独给Hypervisor使用</li><li>Guest OS可以直接使用Ring 0而无需修改</li><li>示例:<ul><li>VMware ESXi</li><li>Microsoft Hyper-V</li><li>Xen3.0</li><li>KVM</li></ul></li></ul></blockquote><h3 id="LXC和Docker"><a href="#LXC和Docker" class="headerlink" title="LXC和Docker"></a>LXC和Docker</h3><blockquote><ul><li>一种轻量级/操作系统虚拟化方式，由Linux内核支持</li><li>起源: chroot系统调用,对当前程序及其子进程改变根目录</li><li>优势:<ul><li>更快速的交付和部署</li><li>更高效的虚拟化</li><li>更轻松的迁移和扩展</li><li>更简单的管理</li></ul></li></ul></blockquote><div class="table-container"><table><thead><tr><th style="text-align:center">特性</th><th style="text-align:center">容器</th><th style="text-align:center">虚拟机</th></tr></thead><tbody><tr><td style="text-align:center">启动</td><td style="text-align:center">秒级</td><td style="text-align:center">分钟级</td></tr><tr><td style="text-align:center">硬盘使用</td><td style="text-align:center">般为MB</td><td style="text-align:center">般为GB</td></tr><tr><td style="text-align:center">性能</td><td style="text-align:center">接近原生</td><td style="text-align:center">弱于</td></tr><tr><td style="text-align:center">系统支持量</td><td style="text-align:center">单机支持上千个容器</td><td style="text-align:center">一般几十个</td></tr></tbody></table></div><h1 id="KVM安装"><a href="#KVM安装" class="headerlink" title="KVM安装"></a>KVM安装</h1><blockquote><ul><li>CPU必须支持虚拟化技术,在BIOS设置为启动</li><li>目前,多数服务器基础桌面计算机均处理启用状态.</li></ul><ul><li>“嵌套”式实验环境<ul><li>在虚拟机中再做虚拟化</li></ul></li><li>VMware嵌套虚拟化<ul><li>产品: Workstation、 Player、 ESXi</li><li>支持: ESXi、 Hyper-V、 KVM、Xen</li></ul></li><li>KVM嵌套虚拟化<ul><li>支持: ESXi、Hyper-V、 KVM、Xen</li></ul></li></ul></blockquote><p><img src="https://s1.vika.cn/space/2023/05/05/cbbf6a1b2c394cd6a1558cec6a82fa57" alt=""></p><h2 id="实验环境准备"><a href="#实验环境准备" class="headerlink" title="实验环境准备"></a>实验环境准备</h2><blockquote><ul><li>“嵌套” 式实验环境<ul><li>VMware Workstation Player或VMware Workstation</li><li>创建虚拟机,在此虚拟机上安装KVM</li></ul></li></ul></blockquote><h2 id="KVM的安装"><a href="#KVM的安装" class="headerlink" title="KVM的安装"></a>KVM的安装</h2><h2 id="KVM的远程管理"><a href="#KVM的远程管理" class="headerlink" title="KVM的远程管理"></a>KVM的远程管理</h2><blockquote><ul><li>ssh</li><li>VNC</li><li>X-Windows</li></ul></blockquote><h2 id="KVM三种网络模式"><a href="#KVM三种网络模式" class="headerlink" title="KVM三种网络模式"></a>KVM三种网络模式</h2><blockquote><p>Bridged（桥接模式）、NAT（网络地址转换模式）、Host-Only（仅主机模式）。</p></blockquote><h3 id="Bridged（桥接模式）"><a href="#Bridged（桥接模式）" class="headerlink" title="Bridged（桥接模式）"></a>Bridged（桥接模式）</h3><p><strong>什么是桥接模式？桥接模式就是将主机网卡与虚拟机虚拟的网卡利用虚拟网桥进行通信。在桥接的作用下，类似于把物理主机虚拟为一个交换机，所有桥接设置的虚拟机连接到这个交换机的一个接口上，物理主机也同样插在这个交换机当中，所以所有桥接下的网卡与网卡都是交换模式的，相互可以访问而不干扰。在桥接模式下，虚拟机ip地址需要与主机在同一个网段，如果需要联网，则网关与DNS需要与主机网卡一致。</strong></p><h3 id="NAT（地址转换模式）"><a href="#NAT（地址转换模式）" class="headerlink" title="NAT（地址转换模式）"></a>NAT（地址转换模式）</h3><p><strong>刚刚我们说到，如果你的网络ip资源紧缺，但是你又希望你的虚拟机能够联网，这时候NAT模式是最好的选择。NAT模式借助虚拟NAT设备和虚拟DHCP服务器，使得虚拟机可以联网。在NAT模式中，主机网卡直接与虚拟NAT设备相连，然后虚拟NAT设备与虚拟DHCP服务器一起连接在虚拟交换机VMnet8上，这样就实现了虚拟机联网。</strong></p><h3 id="Host-Only（仅主机模式）"><a href="#Host-Only（仅主机模式）" class="headerlink" title="Host-Only（仅主机模式）"></a>Host-Only（仅主机模式）</h3><p><strong>Host-Only模式其实就是NAT模式去除了虚拟NAT设备，然后使用VMware Network Adapter VMnet1虚拟网卡连接VMnet1虚拟交换机来与虚拟机通信的，Host-Only模式将虚拟机与外网隔开，使得虚拟机成为一个独立的系统，只与主机相互通讯</strong></p><blockquote><ul><li>桥接模式：自动生成的IP地址会随着主机的IP随时变化。</li><li>NAT模式：下虚拟机的IP地址一旦生成，就不会改变了。</li></ul></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 云计算 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>云计算--Linux 服务与安全(笔记3)</title>
       <link href="/2023/04/19/cloud_linux_3/"/>
       <url>/2023/04/19/cloud_linux_3/</url>
