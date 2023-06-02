@@ -95,33 +95,33 @@ function clearItem() {
 }
 
 
-// 设置字体
-if (localStorage.getItem("font") == undefined) {
-  localStorage.setItem("font", "xxx");
-}
-setFont(localStorage.getItem("font"));
-function setFont(n) {
-  localStorage.setItem("font", n)
-  if (n == "default") {
-    document.documentElement.style.setProperty('--global-font', '-apple-system');
-    document.body.style.fontFamily = "-apple-system, Consolas_1, BlinkMacSystemFont, 'Segoe UI' , 'Helvetica Neue' , Lato, Roboto, 'PingFang SC' , 'Microsoft JhengHei' , 'Microsoft YaHei' , sans-serif";
-  }
-  else {
-    document.documentElement.style.setProperty('--global-font', n);
-    document.body.style.fontFamily = "var(--global-font),-apple-system, IBM Plex Mono ,monosapce,'微软雅黑', sans-serif";
-  }
-  try { setFontBorder(); } catch (err) { };
-}
+// // 设置字体
+// if (localStorage.getItem("font") == undefined) {
+//   localStorage.setItem("font", "YSHST");
+// }
+// setFont(localStorage.getItem("font"));
+// function setFont(n) {
+//   localStorage.setItem("font", n)
+//   if (n == "default") {
+//     document.documentElement.style.setProperty('--global-font', '-apple-system');
+//     document.body.style.fontFamily = "-apple-system, Consolas_1, BlinkMacSystemFont, 'Segoe UI' , 'Helvetica Neue' , Lato, Roboto, 'PingFang SC' , 'Microsoft JhengHei' , 'Microsoft YaHei' , sans-serif";
+//   }
+//   else {
+//     document.documentElement.style.setProperty('--global-font', n);
+//     document.body.style.fontFamily = "var(--global-font),-apple-system, IBM Plex Mono ,monosapce,'微软雅黑', sans-serif";
+//   }
+//   try { setFontBorder(); } catch (err) { };
+// }
 
-// 设置字体选择框边界
-function setFontBorder() {
-  var curFont = localStorage.getItem("font");
-  var swfId = "swf_" + curFont;
-  document.getElementById(swfId).style.border = "2px solid var(--theme-color)";
-  Array.prototype.forEach.call(document.getElementsByClassName("swf"), function (ee) {
-    if (ee.id != swfId) ee.style.border = "2px solid var(--border-color)";
-  });
-}
+// // 设置字体选择框边界
+// function setFontBorder() {
+//   var curFont = localStorage.getItem("font");
+//   var swfId = "swf_" + curFont;
+//   document.getElementById(swfId).style.border = "2px solid var(--theme-color)";
+//   Array.prototype.forEach.call(document.getElementsByClassName("swf"), function (ee) {
+//     if (ee.id != swfId) ee.style.border = "2px solid var(--border-color)";
+//   });
+// }
 
 
 // 设置主题色
