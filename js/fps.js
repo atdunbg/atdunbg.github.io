@@ -68,3 +68,5 @@ function percent() {
         up.childNodes[0].style.display = 'block'
     }
 }
+
+
