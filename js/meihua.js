@@ -278,10 +278,10 @@ if (localStorage.getItem("blogbg") != undefined) {
 } else {
     // 替换你自己的默认背景
   document.getElementById("defineBg").innerText = `:root{
-    --default-bg: url(https://s1.vika.cn/space/2022/11/20/dfd7d6199462427c8227dbb870ddf6c7);
-    --darkmode-bg:url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5);
-    --mobileday-bg: url(https://s1.vika.cn/space/2022/11/20/dfd7d6199462427c8227dbb870ddf6c7);
-    --mobilenight-bg: url(https://s1.vika.cn/space/2023/02/13/ce6881848daf4cc68a6751774b77d6d5);
+    --default-bg: url(http://rz9ih6j96.hn-bkt.clouddn.com/home-bg.jpg);
+    --darkmode-bg:url(http://rz9ih6j96.hn-bkt.clouddn.com/home-bg.jpg);
+    --mobileday-bg: url(http://rz9ih6j96.hn-bkt.clouddn.com/home-bg.jpg);
+    --mobilenight-bg: url(http://rz9ih6j96.hn-bkt.clouddn.com/home-bg.jpg);
   }`;
 }
 function changeBg(s) {

