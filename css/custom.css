@@ -9,6 +9,16 @@
 }
 
 
+/* 推荐文章圆角和 */
+.relatedPosts-list div {
+  border-radius: 1.25rem;
+}
+
+
+/* 右侧文章圆角 */
+.thumbnail {
+  border-radius: 0.5rem;
+}
 
 @font-face {
   /* 为载入的字体取名字(随意) */
@@ -441,8 +451,13 @@ details.folding-tag[cyan] {
 
 .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
   left: -66px !important;
+  border-radius: 0 0.7rem 0.7rem 0 !important;
   transition: all 0.3s;
   /* 默认情况下缩进左侧66px，只留一点箭头部分 */
+}
+
+.aplayer-miniswitcher{
+  border-radius: 0 0.5rem 0.5rem 0 !important;
 }
 
 .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
