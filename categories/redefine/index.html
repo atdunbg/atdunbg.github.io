@@ -13,26 +13,18 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2023/04/27/cloud_linux_4/"/>
+    <link rel="canonical" href="http://example.com/categories/redefine/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="虚拟化概述虚拟化的定义  在计算技术中, 虚拟化意味着创建设备或资源的虚拟版本,如服务器、存储设备、网络或者操作系统等等..    虚拟化技术 系统虚拟化 这种虚拟化通常表现为在单一系统上运行多个操作系统 这些虚拟操作系统同时运行,每个操作系统又是相互独立   存储虚拟化 网络虚拟化 GPU虚拟化 软件虚拟化 硬件支持虚拟化   纯软件仿真 通过模拟完整的硬件环境来虚拟化来宾平台。 模拟X8">
-<meta property="og:type" content="article">
-<meta property="og:title" content="云计算--Linux 开源虚拟化KVM(笔记4)">
-<meta property="og:url" content="http://example.com/2023/04/27/cloud_linux_4/index.html">
+        <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/categories/redefine/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="虚拟化概述虚拟化的定义  在计算技术中, 虚拟化意味着创建设备或资源的虚拟版本,如服务器、存储设备、网络或者操作系统等等..    虚拟化技术 系统虚拟化 这种虚拟化通常表现为在单一系统上运行多个操作系统 这些虚拟操作系统同时运行,每个操作系统又是相互独立   存储虚拟化 网络虚拟化 GPU虚拟化 软件虚拟化 硬件支持虚拟化   纯软件仿真 通过模拟完整的硬件环境来虚拟化来宾平台。 模拟X8">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://s1.vika.cn/space/2023/05/05/886244eea6b940a185ac22acb1f2e96b">
-<meta property="og:image" content="https://s1.vika.cn/space/2023/05/05/cbbf6a1b2c394cd6a1558cec6a82fa57">
-<meta property="article:published_time" content="2023-04-27T04:56:07.000Z">
-<meta property="article:modified_time" content="2024-06-12T05:43:20.000Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.vika.cn/space/2023/05/05/886244eea6b940a185ac22acb1f2e96b">
     
     
     <!--- Icon Part-->
@@ -44,7 +36,7 @@
     
     <title>
         
-            云计算--Linux 开源虚拟化KVM(笔记4) -
+            Category: redefine -
         
         Atdunbg&#39;s Blog
     </title>
@@ -488,458 +480,45 @@
             <div class="main-content">
 
                 
-                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
-    <div class="article-content-container">
-
-        <div class="article-title relative w-full">
-            
-                
-                
-                <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算--Linux 开源虚拟化KVM(笔记4)" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
-                
-                <div class="w-full flex items-center absolute bottom-0 justify-start">
-                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">云计算--Linux 开源虚拟化KVM(笔记4)</h1>
-                </div>
-            
-            </div>
-
-        
-            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
-                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
-                    <img src="/images/redefine-avatar.png">
-                </div>
-                <div class="info flex flex-col justify-between">
-                    <div class="author flex items-center">
-                        <span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
-                        
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
-                        
-                    </div>
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2023-04-27 12:56:07</span>
-        <span class="mobile">2023-04-27 12:56:07</span>
-        <span class="hover-info">Created</span>
-    </span>
-    
-        <span class="article-date article-meta-item">
-            <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-06-12 13:43:20</span>
-            <span class="mobile">2024-06-12 13:43:20</span>
-            <span class="hover-info">Updated</span>
-        </span>
-    
-
-    
-        <span class="article-categories article-meta-item">
-            <i class="fa-regular fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fa-regular fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-
-    
-    
-        <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.2k Words</span>
-        </span>
-    
-    
-        <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>4 Mins</span>
-        </span>
-    
-    
-        <span class="article-pv article-meta-item">
-            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
-        </span>
-    
-</div>
-
-                    </div>
-                </div>
-            </div>
-        
-
-        
-
-
-        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <meta name="referrer" content="no-referrer"/>
-
-
-<h1 id="虚拟化概述"><a href="#虚拟化概述" class="headerlink" title="虚拟化概述"></a>虚拟化概述</h1><h2 id="虚拟化的定义"><a href="#虚拟化的定义" class="headerlink" title="虚拟化的定义"></a>虚拟化的定义</h2><blockquote>
-<ul>
-<li>在计算技术中, 虚拟化意味着创建设备或资源的虚拟版本,如服务器、存储设备、网络或者操作系统等等..</li>
-</ul>
-</blockquote>
-<ul>
-<li>虚拟化技术<ul>
-<li>系统虚拟化<ul>
-<li>这种虚拟化通常表现为在单一系统上运行多个操作系统</li>
-<li>这些虚拟操作系统同时运行,每个操作系统又是相互独立</li>
-</ul>
-</li>
-<li>存储虚拟化</li>
-<li>网络虚拟化</li>
-<li>GPU虚拟化</li>
-<li>软件虚拟化</li>
-<li>硬件支持虚拟化</li>
-</ul>
-</li>
-<li>纯软件仿真<ul>
-<li>通过模拟完整的硬件环境来虚拟化来宾平台。</li>
-<li>模拟X86、ARM、PowerPC等多种CPU</li>
-<li>效率比较低</li>
-<li>产品或方案<ul>
-<li>QEMU、Bochs、 PearPC</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="虚拟化层翻译"><a href="#虚拟化层翻译" class="headerlink" title="虚拟化层翻译"></a>虚拟化层翻译</h2><blockquote>
-<ul>
-<li>多数的虚拟化而采用虚拟机管理程序Hypervisor</li>
-</ul>
-</blockquote>
-<ul>
-<li>Hypervisor是一个软件层或子系统<ul>
-<li>也称为VMM ( Virtual Machine Monitor ,虚拟机监控器)</li>
-</ul>
-</li>
-<li>允许多种操作系统在相同的物理系统中运行</li>
-<li>控制硬件并向来宾操作系统提供访问底层硬件的途径</li>
-<li>向来宾操作系统提供虚拟化的硬件</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s1.vika.cn/space/2023/05/05/886244eea6b940a185ac22acb1f2e96b"
-                     
-                ></p>
-<h3 id="无硬件辅助的全虚拟化"><a href="#无硬件辅助的全虚拟化" class="headerlink" title="无硬件辅助的全虚拟化"></a>无硬件辅助的全虚拟化</h3><blockquote>
-<ul>
-<li>Full Virtualization without Hardware Assist</li>
-</ul>
-</blockquote>
-<ul>
-<li>基于二进制翻译的全虚拟化</li>
-<li>Full Virtualization with Binary Translation</li>
-<li>Hypervisor运行在Ring 0</li>
-<li>Guest OS运行在Ring 1</li>
-<li>机制:异常、捕获、翻译</li>
-<li>示例:<ul>
-<li>VMware Workstation</li>
-<li>QEMU</li>
-<li>VirtualPC</li>
-</ul>
-</li>
-</ul>
-<h3 id="半虚拟化Para-virtualization"><a href="#半虚拟化Para-virtualization" class="headerlink" title="半虚拟化Para virtualization"></a>半虚拟化Para virtualization</h3><blockquote>
-<ul>
-<li>也称为:超虚拟化、操作系统辅助虚拟化</li>
-</ul>
-</blockquote>
-<ul>
-<li>Hypervisor运行Ring 0</li>
-<li>Guest OS不能直接运行在Ring 0 , 需要对Kernel进行修改,将运行在Ring 0上的,指令转为调用Hypervisor</li>
-<li>Guest OS.上的APP运行在Ring 3</li>
-<li>示例:Xen</li>
-</ul>
-<h3 id="硬件辅助的全虚拟化"><a href="#硬件辅助的全虚拟化" class="headerlink" title="硬件辅助的全虚拟化"></a>硬件辅助的全虚拟化</h3><blockquote>
-<ul>
-<li>Full Virtualization with Hardware Assist</li>
-</ul>
-</blockquote>
-<ul>
-<li>Intel VT和AMD-V创建一个 新的Ring -1单独给Hypervisor使用</li>
-<li>Guest OS可以直接使用Ring 0而无需修改</li>
-<li>示例:<ul>
-<li>VMware ESXi</li>
-<li>Microsoft Hyper-V</li>
-<li>Xen3.0</li>
-<li>KVM</li>
-</ul>
-</li>
-</ul>
-<h3 id="LXC和Docker"><a href="#LXC和Docker" class="headerlink" title="LXC和Docker"></a>LXC和Docker</h3><blockquote>
-<ul>
-<li>一种轻量级&#x2F;操作系统虚拟化方式，由Linux内核支持</li>
-</ul>
-</blockquote>
-<ul>
-<li>起源: chroot系统调用,对当前程序及其子进程改变根目录</li>
-<li>优势:<ul>
-<li>更快速的交付和部署</li>
-<li>更高效的虚拟化</li>
-<li>更轻松的迁移和扩展</li>
-<li>更简单的管理</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">特性</th>
-<th align="center">容器</th>
-<th align="center">虚拟机</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">启动</td>
-<td align="center">秒级</td>
-<td align="center">分钟级</td>
-</tr>
-<tr>
-<td align="center">硬盘使用</td>
-<td align="center">般为MB</td>
-<td align="center">般为GB</td>
-</tr>
-<tr>
-<td align="center">性能</td>
-<td align="center">接近原生</td>
-<td align="center">弱于</td>
-</tr>
-<tr>
-<td align="center">系统支持量</td>
-<td align="center">单机支持上千个容器</td>
-<td align="center">一般几十个</td>
-</tr>
-</tbody></table>
-<h1 id="KVM安装"><a href="#KVM安装" class="headerlink" title="KVM安装"></a>KVM安装</h1><blockquote>
-<ul>
-<li>CPU必须支持虚拟化技术,在BIOS设置为启动</li>
-</ul>
-</blockquote>
-<ul>
-<li>目前,多数服务器基础桌面计算机均处理启用状态.</li>
-</ul>
-<blockquote>
-<ul>
-<li>“嵌套”式实验环境<ul>
-<li>在虚拟机中再做虚拟化</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<ul>
-<li>VMware嵌套虚拟化<ul>
-<li>产品: Workstation、 Player、 ESXi</li>
-<li>支持: ESXi、 Hyper-V、 KVM、Xen</li>
-</ul>
-</li>
-<li>KVM嵌套虚拟化<ul>
-<li>支持: ESXi、Hyper-V、 KVM、Xen</li>
-</ul>
-</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s1.vika.cn/space/2023/05/05/cbbf6a1b2c394cd6a1558cec6a82fa57"
-                     
-                ></p>
-<h2 id="实验环境准备"><a href="#实验环境准备" class="headerlink" title="实验环境准备"></a>实验环境准备</h2><blockquote>
-<ul>
-<li>“嵌套” 式实验环境<ul>
-<li>VMware Workstation Player或VMware Workstation</li>
-<li>创建虚拟机,在此虚拟机上安装KVM</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h2 id="KVM的安装"><a href="#KVM的安装" class="headerlink" title="KVM的安装"></a>KVM的安装</h2><h2 id="KVM的远程管理"><a href="#KVM的远程管理" class="headerlink" title="KVM的远程管理"></a>KVM的远程管理</h2><blockquote>
-<ul>
-<li>ssh</li>
-</ul>
-</blockquote>
-<ul>
-<li>VNC</li>
-<li>X-Windows</li>
-</ul>
-<h2 id="KVM三种网络模式"><a href="#KVM三种网络模式" class="headerlink" title="KVM三种网络模式"></a>KVM三种网络模式</h2><blockquote>
-<p>Bridged（桥接模式）、NAT（网络地址转换模式）、Host-Only（仅主机模式）。</p>
-</blockquote>
-<h3 id="Bridged（桥接模式）"><a href="#Bridged（桥接模式）" class="headerlink" title="Bridged（桥接模式）"></a>Bridged（桥接模式）</h3><p><strong>什么是桥接模式？桥接模式就是将主机网卡与虚拟机虚拟的网卡利用虚拟网桥进行通信。在桥接的作用下，类似于把物理主机虚拟为一个交换机，所有桥接设置的虚拟机连接到这个交换机的一个接口上，物理主机也同样插在这个交换机当中，所以所有桥接下的网卡与网卡都是交换模式的，相互可以访问而不干扰。在桥接模式下，虚拟机ip地址需要与主机在同一个网段，如果需要联网，则网关与DNS需要与主机网卡一致。</strong></p>
-<h3 id="NAT（地址转换模式）"><a href="#NAT（地址转换模式）" class="headerlink" title="NAT（地址转换模式）"></a>NAT（地址转换模式）</h3><p><strong>刚刚我们说到，如果你的网络ip资源紧缺，但是你又希望你的虚拟机能够联网，这时候NAT模式是最好的选择。NAT模式借助虚拟NAT设备和虚拟DHCP服务器，使得虚拟机可以联网。在NAT模式中，主机网卡直接与虚拟NAT设备相连，然后虚拟NAT设备与虚拟DHCP服务器一起连接在虚拟交换机VMnet8上，这样就实现了虚拟机联网。</strong></p>
-<h3 id="Host-Only（仅主机模式）"><a href="#Host-Only（仅主机模式）" class="headerlink" title="Host-Only（仅主机模式）"></a>Host-Only（仅主机模式）</h3><p><strong>Host-Only模式其实就是NAT模式去除了虚拟NAT设备，然后使用VMware Network Adapter VMnet1虚拟网卡连接VMnet1虚拟交换机来与虚拟机通信的，Host-Only模式将虚拟机与外网隔开，使得虚拟机成为一个独立的系统，只与主机相互通讯</strong></p>
-<blockquote>
-<ul>
-<li>桥接模式：自动生成的IP地址会随着主机的IP随时变化。</li>
-</ul>
-</blockquote>
-<ul>
-<li>NAT模式：下虚拟机的IP地址一旦生成，就不会改变了。</li>
-</ul>
-
-        </div>
-
-        
-            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
-                <div class="article-copyright-info-container">
-    <ul>
-        <li><strong>Title:</strong> 云计算--Linux 开源虚拟化KVM(笔记4)</li>
-        <li><strong>Author:</strong> atdunbg</li>
-        <li><strong>Created at
-                :</strong> 2023-04-27 12:56:07</li>
-        
-            <li>
-                <strong>Updated at
-                    :</strong> 2024-06-12 13:43:20
-            </li>
-        
-        <li>
-            <strong>Link:</strong> https://atdunbg.xyz/2023/04/27/cloud_linux_4/
-        </li>
-        <li>
-            <strong>
-                License:
-            </strong>
-            
-
-            
-                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
-            
-        </li>
-    </ul>
-</div>
-
-            </div>
-        
-
-        
-            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
-                
-                    <li class="tag-item mx-0.5">
-                        <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
-                    </li>
-                
-            </ul>
-        
-
-        
-
-        
-            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
-                
-                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-                        <a class="prev"
-                        rel="prev"
-                        href="/2023/05/18/cloud_linux_5/"
-                        >
-                            <span class="left arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">云计算--Linux 集群原理(笔记5)</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-                        <a class="next"
-                        rel="next"
-                        href="/2023/04/19/cloud_linux_3/"
-                        >
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">云计算--Linux 服务与安全(笔记3)</span>
-                                <span class="post-nav-item">Next posts</span>
-                            </span>
-                            <span class="right arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
-
-
-        
-            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
-                <div class="comments-container mt-10 w-full ">
-    <div id="comment-anchor" class="w-full h-2.5"></div>
-    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
-        Comments
+                    <div class="category-container">
+    <div class="category-name">
+        <i class="fa-solid fa-folder"></i>&nbsp;redefine
     </div>
+    <div class="category-post-list">
+        
+<div class="archive-list-container">
     
-
-        
+        <section class="archive-item mb-spacing-unit last:mb-0">
+            <div class="archive-item-header flex flex-row items-center mb-2">
+                <span class="archive-year font-semibold text-3xl mr-2">2024</span>
+                <span class="archive-year-post-count text-xs md:text-sm font-bold rounded-small bg-third-background-color py-[2px] px-[10px] border border-border-color">1</span>
+            </div>
             
-    <div id="waline"></div>
-    <script type="module" data-swup-reload-script>
-      import { init } from '/js/libs/waline.mjs';
-
-      function loadWaline() {
-        init({
-          el: '#waline',
-          serverURL: 'https://example.example.com',
-          lang: 'zh-CN',
-          dark: 'body[class~="dark-mode"]',
-          reaction: false,
-          requiredMeta: ['nick', 'mail'],
-          emoji: [],
-          recaptchaV3Key: "wasd",
-          
-        });
-      }
-
-      if (typeof swup !== 'undefined') {
-        loadWaline();
-      } else {
-        window.addEventListener('DOMContentLoaded', loadWaline);
-      }
-    </script>
-
-
-
-        
+            <ul class="article-list pl-0 md:pl-8 text-lg leading-[1.5]">
+                
+                    
+                    
+                         <!-- Close the previous LI if not the first item -->
+                        <li class="article-item space-y-2 px-6 pt-10 pb-2 text-xl relative border-l-2 border-border-color" date-is='07-05'>
+                    
+                    <a href="/2024/07/05/hexo_redefine/" class="block overflow-hidden w-fit">
+                        <span class="article-title my-0.5 text-2xl">Hexo主题--Redefine</span>
+                    </a>
+                    
+                
+                </li> <!-- Ensure the last item is properly closed -->
+            </ul>
+        </section>
     
 </div>
-
-            </div>
-        
-    </div>
-
-    
-        <div class="toc-content-container">
-            <div class="post-toc-wrap">
-    <div class="post-toc">
-        <div class="toc-title">On this page</div>
-        <div class="page-title">云计算--Linux 开源虚拟化KVM(笔记4)</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%A6%82%E8%BF%B0"><span class="nav-text">虚拟化概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">虚拟化的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E5%B1%82%E7%BF%BB%E8%AF%91"><span class="nav-text">虚拟化层翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E7%A1%AC%E4%BB%B6%E8%BE%85%E5%8A%A9%E7%9A%84%E5%85%A8%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-text">无硬件辅助的全虚拟化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8A%E8%99%9A%E6%8B%9F%E5%8C%96Para-virtualization"><span class="nav-text">半虚拟化Para virtualization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E8%BE%85%E5%8A%A9%E7%9A%84%E5%85%A8%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-text">硬件辅助的全虚拟化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LXC%E5%92%8CDocker"><span class="nav-text">LXC和Docker</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KVM%E5%AE%89%E8%A3%85"><span class="nav-text">KVM安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-text">实验环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVM%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-text">KVM的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVM%E7%9A%84%E8%BF%9C%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-text">KVM的远程管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVM%E4%B8%89%E7%A7%8D%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">KVM三种网络模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bridged%EF%BC%88%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-text">Bridged（桥接模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NAT%EF%BC%88%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-text">NAT（地址转换模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host-Only%EF%BC%88%E4%BB%85%E4%B8%BB%E6%9C%BA%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-text">Host-Only（仅主机模式）</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
-        </div>
-    
+<div class="category-paginator">
+    <div class="paginator">
+    <span class="page-number current">1</span>
+</div>
+
 </div>
 
 
@@ -1028,27 +607,6 @@
         </div>
     </div>
 
-    
-        <div class="post-tools">
-            <div class="post-tools-container">
-    <ul class="article-tools-list">
-        <!-- TOC aside toggle -->
-        
-            <li class="right-bottom-tools page-aside-toggle">
-                <i class="fa-regular fa-outdent"></i>
-            </li>
-        
-
-        <!-- go comment -->
-        
-            <li class="go-comment">
-                <i class="fa-regular fa-comments"></i>
-            </li>
-        
-    </ul>
-</div>
-
-        </div>
     
 
     <div class="right-side-tools-container">
