@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2022/11/18/notes/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="本篇文档是为了方便查看部分语法写的 tip 本blog引入了Akilar 大佬的tag plugins plus,更多https:&#x2F;&#x2F;akilar.top&#x2F;posts&#x2F;615e2dec&#x2F;  endtip  以下内容均来自butterfly 如需查看更多，请点此链接：https:&#x2F;&#x2F;butterfly.js.org&#x2F;posts&#x2F;4aa8abbe&#x2F;   label 注意 red ：以下内容摘抄于h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MARKDOWN笔记">
+<meta property="og:url" content="http://example.com/2022/11/18/notes/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇文档是为了方便查看部分语法写的 tip 本blog引入了Akilar 大佬的tag plugins plus,更多https:&#x2F;&#x2F;akilar.top&#x2F;posts&#x2F;615e2dec&#x2F;  endtip  以下内容均来自butterfly 如需查看更多，请点此链接：https:&#x2F;&#x2F;butterfly.js.org&#x2F;posts&#x2F;4aa8abbe&#x2F;   label 注意 red ：以下内容摘抄于h">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/atdunbg/myblog/blob/master/-71349bb7a323320e.jpg">
+<meta property="article:published_time" content="2022-11-18T03:28:00.000Z">
+<meta property="article:modified_time" content="2024-07-04T12:24:23.645Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/atdunbg/myblog/blob/master/-71349bb7a323320e.jpg">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            MARKDOWN笔记 -
+        
+        Atdunbg&#39;s Blog
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["404 ERROR"],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"A Moment Apart","artist":"ODESZA","url":"https://m704.music.126.net/20240705151726/237aaff5c1c4c8a69d3b19d9832c8778/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/28481981069/6b5d/44e9/0ecb/a1bbb8ac4c8fe32e666ddf8d2141d967.mp3?authSecret=0000019081aa670f13320a3b182b067d","cover":"http://p1.music.126.net/njCU7D_y3hRqQQSQmIW1lg==/109951163695044017.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.4","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Links":{"path":"/links/","icon":"fa-regular fa-link"},"Tags":{"path":"/tags/","icon":"fa-solid fa-tags"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 1:1:1"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [40,0],
+                translateZ: 0,
+                opacity: [0,1],
+                filter: ['blur(5px)', 'blur(0px)'], // Starting from blurred to unblurred
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i,
+            }).add({
+                targets: '.ml13 .letter',
+                translateY: [0,-40],
+                opacity: [1,0],
+                filter: ['blur(0px)', 'blur(5px)'], // Ending from unblurred to blurred
+                easing: "easeInExpo",
+                duration: 1200,
+                delay: (el, i) => 100 + 30 * i,
+                complete: function() {
+                    hidePreloader(); // Call hidePreloader after the animation completes
+                }
+            });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives"
+                        >
+                            <span>Archives</span>
+                            <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">19</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">MARKDOWN笔记</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2022-11-18 11:28</span>
+        <span class="mobile">2022-11-18 11:28</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-07-04 20:24:23</span>
+            <span class="mobile">2024-07-04 20:24:23</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>11 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <meta name="referrer" content="no-referrer"/>
+
+<p>本篇文档是为了方便查看部分语法写的<br> tip 本blog引入了<a class="link"   target="_blank" rel="noopener" href="https://akilar.top/" >Akilar <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>大佬的tag plugins plus,更多<a class="link"   target="_blank" rel="noopener" href="https://akilar.top/posts/615e2dec/" >https://akilar.top/posts/615e2dec/ <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> endtip </p>
+<p>以下内容均来自<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/" >butterfly <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>如需查看更多，请点此链接：<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/" >https://butterfly.js.org/posts/4aa8abbe/ <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p> label 注意 red ：以下内容摘抄于hexo框架butterfly主题，其他框架或主题请自行百度</p>
+<h1 id="标签外挂"><a href="#标签外挂" class="headerlink" title="标签外挂"></a>标签外挂</h1><h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><p> tabs note </p>
+<!-- tab 用法1 -->
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> note [class] [no-icon] [style] </span><br><span class="line">Any content (support inline tags too.io).</span><br><span class="line"> endnote </span><br></pre></td></tr></table></figure></div>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>class</td>
+<td>【可选】标识，不同的标识有不同的配色（ default &#x2F; primary &#x2F; success &#x2F; info &#x2F; warning &#x2F; danger ）</td>
+</tr>
+<tr>
+<td>no-icon</td>
+<td>【可选】不显示icon</td>
+</tr>
+<tr>
+<td>style</td>
+<td>【可选】可以覆盖配置中的 style（simple&#x2F;modern&#x2F;flat&#x2F;disabled）</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong></p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> note info simple </span><br><span class="line">提示块标签</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note info modern </span><br><span class="line">提示块标签</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note info flat </span><br><span class="line">提示块标签</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note info disabled </span><br><span class="line">提示块标签</span><br><span class="line"> endnote </span><br></pre></td></tr></table></figure></div>
+
+<p> note info simple<br>提示块标签<br> endnote </p>
+<p> note info modern<br>提示块标签<br> endnote </p>
+<p> note info flat<br>提示块标签<br> endnote </p>
+<p> note info disabled<br>提示块标签<br> endnote </p>
+<!-- endtab -->
+
+<!-- tab 用法2（自定义icon） -->
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>【可选】顔色(default &#x2F; blue &#x2F; pink &#x2F; red &#x2F; purple &#x2F; orange &#x2F; green)</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>【可选】可配置自定义 icon (只支持 fontawesome 图标,也可以配置 no-icon )</td>
+</tr>
+<tr>
+<td>style</td>
+<td>【可选】可以覆盖配置中的 style（simple&#x2F;modern&#x2F;flat&#x2F;disabled）</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong></p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> note pink &#x27;fas fa-car-crash&#x27; simple </span><br><span class="line">小心开车 安全至上</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note red &#x27;fas fa-fan&#x27; modern</span><br><span class="line">这是三片呢？还是四片？</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note green &#x27;fab fa-internet-explorer&#x27; flat </span><br><span class="line">前端最讨厌的浏览器</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note orange &#x27;fas fa-battery-half&#x27; disabled </span><br><span class="line">你是刷 Visa 还是 UnionPay</span><br><span class="line"> endnote </span><br><span class="line"></span><br><span class="line"> note blue no-icon </span><br><span class="line">2023年快到了....</span><br><span class="line"> endnote </span><br></pre></td></tr></table></figure></div>
+
+<p> note pink ‘fas fa-car-crash’ simple<br>小心开车 安全至上<br> endnote </p>
+<p> note red ‘fas fa-fan’ modern<br>这是三片呢？还是四片？<br> endnote </p>
+<p> note green ‘fab fa-internet-explorer’ flat<br>前端最讨厌的浏览器<br> endnote </p>
+<p> note orange ‘fas fa-battery-half’ disabled<br>你是刷 Visa 还是 UnionPay<br> endnote </p>
+<p> note blue no-icon<br>2023年快到了….<br> endnote </p>
+<!-- endtab -->
+<p> endtabs </p>
+<h2 id="tag-hide"><a href="#tag-hide" class="headerlink" title="tag-hide"></a>tag-hide</h2><p> tabs tag-hide </p>
+<!-- tab inline -->
+
+<p>用法</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hideInline content,display,bg,color </span><br></pre></td></tr></table></figure></div>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>content</td>
+<td>文本内容</td>
+</tr>
+<tr>
+<td>display</td>
+<td>按钮显示的文字（可选）</td>
+</tr>
+<tr>
+<td>bg</td>
+<td>按钮的背景颜色（可选）</td>
+</tr>
+<tr>
+<td>color</td>
+<td>按钮文字颜色（可选）</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong><br>哪个英文字母最酷？  hideInline 因为西装裤(C装酷),查看答案,#FF7242,#fff </p>
+<p>门里站着一个人?  hideInline 闪 </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">哪个英文字母最酷？  hideInline 因为西装裤(C装酷),查看答案,#FF7242,#fff </span><br><span class="line"></span><br><span class="line">门里站着一个人?  hideInline 闪 </span><br></pre></td></tr></table></figure></div>
+<!-- endtab -->
+
+<!-- tab block -->
+
+<p>用法</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> hideBlock display,bg,color </span><br><span class="line">content</span><br><span class="line"> endhideBlock </span><br></pre></td></tr></table></figure></div>
+
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>content</td>
+<td>文本内容</td>
+</tr>
+<tr>
+<td>display</td>
+<td>按钮显示的文字（可选）</td>
+</tr>
+<tr>
+<td>bg</td>
+<td>按钮的背景颜色（可选）</td>
+</tr>
+<tr>
+<td>color</td>
+<td>按钮文字颜色（可选）</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong></p>
+<p>查看答案<br> hideBlock 查看答案<br>傻子，怎么可能有答案<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://gitee.com/atdunbg/myblog/blob/master/-71349bb7a323320e.jpg"
+                     
+                ><br> endhideBlock </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查看答案</span><br><span class="line"> hideBlock 查看答案 </span><br><span class="line">傻子，怎么可能有答案</span><br><span class="line">![](<span class="link">https://gitee.com/atdunbg/myblog/blob/master/-71349bb7a323320e.jpg</span>)</span><br><span class="line"> endhideBlock </span><br></pre></td></tr></table></figure></div>
+<!-- endtab -->
+
+<!-- tab toggle -->
+<p>用法</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> hideToggle display,bg,color </span><br><span class="line">content</span><br><span class="line"> endhideToggle </span><br></pre></td></tr></table></figure></div>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>content</td>
+<td>文本内容</td>
+</tr>
+<tr>
+<td>display</td>
+<td>按钮显示的文字（可选）</td>
+</tr>
+<tr>
+<td>bg</td>
+<td>按钮的背景颜色（可选）</td>
+</tr>
+<tr>
+<td>color</td>
+<td>按钮文字颜色（可选）</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong></p>
+<p> hideToggle Butterfly安装方法<br>在你的博客根目录里</p>
+<p>git clone -b master <a class="link"   target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly.git" >https://github.com/jerryc127/hexo-theme-butterfly.git <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> themes&#x2F;Butterfly</p>
+<p>如果想要安装比较新的dev分支，可以</p>
+<p>git clone -b dev <a class="link"   target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly.git" >https://github.com/jerryc127/hexo-theme-butterfly.git <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> themes&#x2F;Butterfly</p>
+<p> endhideToggle </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> hideToggle Butterfly安装方法 </span><br><span class="line">在你的博客根目录里</span><br><span class="line"></span><br><span class="line">git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br><span class="line"></span><br><span class="line">如果想要安装比较新的dev分支，可以</span><br><span class="line"></span><br><span class="line">git clone -b dev https://github.com/jerryc127/hexo-theme-butterfly.git themes/Butterfly</span><br><span class="line"></span><br><span class="line"> endhideToggle </span><br></pre></td></tr></table></figure></div>
+
+<!-- endtab -->
+
+<p> endtabs </p>
+<h2 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h2><p>使用mermaid标签可以绘制Flowchart（流程图）、Sequence diagram（时序图 ）、Class Diagram（类别图）、State Diagram（状态图）、Gantt（甘特图）和Pie Chart（圆形图），具体可以查看<a class="link"   target="_blank" rel="noopener" href="https://mermaid-js.github.io/mermaid/#/" >mermaid文档 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>配置</p>
+<div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mermaid</span></span><br><span class="line"><span class="comment"># see https://github.com/mermaid-js/mermaid</span></span><br><span class="line"><span class="attr">mermaid:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># built-in themes: default/forest/dark/neutral</span></span><br><span class="line">  <span class="attr">theme:</span></span><br><span class="line">    <span class="attr">light:</span> <span class="string">default</span></span><br><span class="line">    <span class="attr">dark:</span> <span class="string">dark</span></span><br></pre></td></tr></table></figure></div>
+
+
+
+<p>写法：</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> mermaid </span><br><span class="line">内容</span><br><span class="line"> endmermaid </span><br></pre></td></tr></table></figure></div>
+<p><strong>实例</strong></p>
+<p> mermaid<br>pie<br>    title Key elements in Product X<br>    “Calcium” : 42.96<br>    “Potassium” : 50.05<br>    “Magnesium” : 10.01<br>    “Iron” :  5<br> endmermaid </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> mermaid </span><br><span class="line">pie</span><br><span class="line"><span class="code">    title Key elements in Product X</span></span><br><span class="line"><span class="code">    &quot;Calcium&quot; : 42.96</span></span><br><span class="line"><span class="code">    &quot;Potassium&quot; : 50.05</span></span><br><span class="line"><span class="code">    &quot;Magnesium&quot; : 10.01</span></span><br><span class="line"><span class="code">    &quot;Iron&quot; :  5</span></span><br><span class="line"><span class="code"> endmermaid </span></span><br></pre></td></tr></table></figure></div>
+<h2 id="Tabs"><a href="#Tabs" class="headerlink" title="Tabs"></a>Tabs</h2><p>移植于next主题（作者Jerry说的）</p>
+<p>使用方法：</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> tabs Unique name, [index] </span><br><span class="line">&lt;!-- tab [Tab caption] [@icon] --&gt;</span><br><span class="line">Any content (support inline tags too).</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"> endtabs </span><br><span class="line"></span><br><span class="line">Unique name   : Unique name of tabs block tag without comma.</span><br><span class="line"><span class="code">                Will be used in #id&#x27;s as prefix for each tab with their index numbers.</span></span><br><span class="line"><span class="code">                If there are whitespaces in name, for generate #id all whitespaces will replaced by dashes.</span></span><br><span class="line"><span class="code">                Only for current url of post/page must be unique!</span></span><br><span class="line"><span class="code">[index]       : Index number of active tab.</span></span><br><span class="line"><span class="code">                If not specified, first tab (1) will be selected.</span></span><br><span class="line"><span class="code">                If index is -1, no tab will be selected. It&#x27;s will be something like spoiler.</span></span><br><span class="line"><span class="code">                Optional parameter.</span></span><br><span class="line"><span class="code">[Tab caption] : Caption of current tab.</span></span><br><span class="line"><span class="code">                If not caption specified, unique name with tab index suffix will be used as caption of tab.</span></span><br><span class="line"><span class="code">                If not caption specified, but specified icon, caption will empty.</span></span><br><span class="line"><span class="code">                Optional parameter.</span></span><br><span class="line"><span class="code">[@icon]       : FontAwesome icon name (full-name, look like &#x27;fas fa-font&#x27;)</span></span><br><span class="line"><span class="code">                Can be specified with or without space; e.g. &#x27;Tab caption @icon&#x27; similar to &#x27;Tab caption@icon&#x27;.</span></span><br><span class="line"><span class="code">                Optional parameter.</span></span><br></pre></td></tr></table></figure></div>
+
+<p>实例：</p>
+<p> tabs test1 </p>
+<!-- tab -->
+<p><strong>This is Tab 1.</strong></p>
+<!-- endtab -->
+
+<!-- tab -->
+<p><strong>This is Tab 2.</strong></p>
+<!-- endtab -->
+
+<!-- tab -->
+<p><strong>This is Tab 3.</strong></p>
+<!-- endtab -->
+<p> endtabs </p>
+<p>可以添加自定义图标</p>
+<p> tabs test4 </p>
+<!-- tab 第一個Tab -->
+<p><strong>tab名字為第一個Tab</strong></p>
+<!-- endtab -->
+
+<!-- tab @fab fa-apple-pay -->
+<p><strong>只有圖標 沒有Tab名字</strong></p>
+<!-- endtab -->
+
+<!-- tab 炸彈@fas fa-bomb -->
+<p><strong>名字+icon</strong></p>
+<!-- endtab -->
+<p> endtabs </p>
+<h2 id="Button"><a href="#Button" class="headerlink" title="Button"></a>Button</h2><p>使用方法：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>url</td>
+<td>链接</td>
+</tr>
+<tr>
+<td>text</td>
+<td>按钮文字</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>[可选] 图标</td>
+</tr>
+<tr>
+<td>color</td>
+<td>[可选] 按钮背景顔色(默认style时），按钮字体和边框顔色(outline时)default&#x2F;blue&#x2F;pink&#x2F;red&#x2F;purple&#x2F;orange&#x2F;green</td>
+</tr>
+<tr>
+<td>style</td>
+<td>[可选] 按钮样式 默认实心    outline&#x2F;留空</td>
+</tr>
+<tr>
+<td>layout</td>
+<td>[可选] 按钮布局 默认line    block&#x2F;留空</td>
+</tr>
+<tr>
+<td>position</td>
+<td>[可选] 按钮位置 默认最左边（前提设置了layout为block） 默认最左边    center&#x2F;right&#x2F;留空</td>
+</tr>
+<tr>
+<td>size</td>
+<td>[可选] 按钮大小   large&#x2F;留空</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong><br> tabs button </p>
+<!-- tab 大小实心 -->
+<p>This is my website, click the button  btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly" >https://butterfly.js.org/&#39;,Butterfly <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>This is my website, click the button  btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right<br>This is my website, click the button  btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,,outline" >https://butterfly.js.org/&#39;,Butterfly,,outline <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>This is my website, click the button  btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,outline<br>This is my website, click the button  btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,larger </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">This is my website, click the button  btn &#x27;https://butterfly.js.org/&#x27;,Butterfly </span><br><span class="line">This is my website, click the button  btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right </span><br><span class="line">This is my website, click the button  btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,,outline </span><br><span class="line">This is my website, click the button  btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline </span><br><span class="line">This is my website, click the button  btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,larger </span><br></pre></td></tr></table></figure></div>
+
+<!-- endtab -->
+<!-- tab 位置 -->
+<p> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,block<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,block center larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,block right outline larger </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,block </span><br><span class="line">btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,block center larger </span><br><span class="line">btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,block right outline larger </span><br></pre></td></tr></table></figure></div>
+<!-- endtab -->
+<!-- tab 颜色 -->
+<p> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,blue larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,pink larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,red larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,purple larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,orange larger<br> btn ‘<a class="link"   target="_blank" rel="noopener" href="https://butterfly.js.org/',Butterfly,far" >https://butterfly.js.org/&#39;,Butterfly,far <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> fa-hand-point-right,green larger </p>
+<div class="btn-center">
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline blue larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline pink larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline red larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline purple larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline orange larger 
+ btn 'https://butterfly.js.org/',Butterfly,far fa-hand-point-right,outline green larger 
+</div>
+
+
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,blue larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,pink larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,red larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,purple larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,orange larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,green larger </span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;btn-center&quot;</span>&gt;</span></span></span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline blue larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline pink larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline red larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline purple larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline orange larger </span><br><span class="line"> btn &#x27;https://butterfly.js.org/&#x27;,Butterfly,far fa-hand-point-right,outline green larger </span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure></div>
+
+<!-- endtab -->
+<p> endtabs </p>
+<h2 id="Label"><a href="#Label" class="headerlink" title="Label"></a>Label</h2><p><strong>高亮文字</strong></p>
+<p>语法</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label text color </span><br></pre></td></tr></table></figure></div>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>text</td>
+<td>文字</td>
+</tr>
+<tr>
+<td>color</td>
+<td>【可选】背景颜色，默认为 default  default&#x2F;blue&#x2F;pink&#x2F;red&#x2F;purple&#x2F;orange&#x2F;green</td>
+</tr>
+</tbody></table>
+<p> hideToggle 例子<br> label markdown orange<br> label hello purple world<br>你好 label 世界 green<br>这是一个 label 简单的网站 blue<br>这是 label 一篇 小笔记文章</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> hideToggle 例子 </span><br><span class="line"> label markdown orange </span><br><span class="line"> label hello purple world</span><br><span class="line">你好 label 世界 green </span><br><span class="line">这是一个 label 简单的网站 blue </span><br><span class="line">这是 label 一篇 小笔记文章</span><br></pre></td></tr></table></figure></div>
+
+<p> endhideToggle </p>
+<h2 id="Timeline"><a href="#Timeline" class="headerlink" title="Timeline"></a>Timeline</h2><p>语法：</p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> timeline title,color </span><br><span class="line">&lt;!-- timeline title --&gt;</span><br><span class="line">xxxxx</span><br><span class="line">&lt;!-- endtimeline --&gt;</span><br><span class="line">&lt;!-- timeline title --&gt;</span><br><span class="line">xxxxx</span><br><span class="line">&lt;!-- endtimeline --&gt;</span><br><span class="line"> endtimeline </span><br></pre></td></tr></table></figure></div>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>title</td>
+<td>时间线</td>
+</tr>
+<tr>
+<td>color</td>
+<td>timeline 颜色default(留空) &#x2F; blue &#x2F; pink &#x2F; red &#x2F; purple &#x2F; orange &#x2F; green</td>
+</tr>
+</tbody></table>
+<p><strong>实例</strong></p>
+<p> timeline 2022 </p>
+<!-- timeline 11-18 -->
+<p>这是测试页面</p>
+<!-- endtimeline -->
+<p> endtimeline </p>
+<div class="highlight-container" data-rel="Markdown"><figure class="iseeu highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> timeline 2022 </span><br><span class="line">&lt;!-- timeline 01-02 --&gt;</span><br><span class="line">这是测试页面</span><br><span class="line">&lt;!-- endtimeline --&gt;</span><br><span class="line"> endtimeline </span><br></pre></td></tr></table></figure></div>
+<p>本人如blog名字一样，纯小白<br>不过也正在努力学习中….</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> MARKDOWN笔记</li>
+        <li><strong>Author:</strong> atdunbg</li>
+        <li><strong>Created at
+                :</strong> 2022-11-18 11:28:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-07-04 20:24:23
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://atdunbg.xyz/2022/11/18/notes/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2022/11/22/c_language_6/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">C语言(第六章-利用数组批量处理数据)</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2022/11/18/test/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">测试</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">MARKDOWN笔记</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E5%A4%96%E6%8C%82"><span class="nav-text">标签外挂</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tag-hide"><span class="nav-text">tag-hide</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mermaid"><span class="nav-text">mermaid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tabs"><span class="nav-text">Tabs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Button"><span class="nav-text">Button</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label"><span class="nav-text">Label</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Timeline"><span class="nav-text">Timeline</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        19 posts in total
+                    </span>
+                    
+                        <span>
+                            51.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+    <div id="aplayer"></div>
+
+<script src="/js/libs/APlayer.min.js"></script>
+
+
+<script src="/js/plugins/aplayer.js"></script>
+
+
+</body>
+</html>

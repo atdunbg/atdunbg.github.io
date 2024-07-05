@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2022/12/20/c_language_10/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="根据数据的数组形式，数据文件可以分为ASCII文件(文本文件)和二进制文件。  10.2 打开与关闭文件1、用fopen打开文件 fopen(文件名，使用文件方式) 12fopen(&quot;D:\\date\\Mystudio\\demo.txt&quot;,&quot;r+&quot;);fopen(&quot;D:&#x2F;date&#x2F;Mystudio&#x2F;demo.txt&quot;,&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言(第十章--对文件的输出)">
+<meta property="og:url" content="http://example.com/2022/12/20/c_language_10/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据数据的数组形式，数据文件可以分为ASCII文件(文本文件)和二进制文件。  10.2 打开与关闭文件1、用fopen打开文件 fopen(文件名，使用文件方式) 12fopen(&quot;D:\\date\\Mystudio\\demo.txt&quot;,&quot;r+&quot;);fopen(&quot;D:&#x2F;date&#x2F;Mystudio&#x2F;demo.txt&quot;,&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s1.vika.cn/space/2022/12/20/bfa97de49a3740b6a081389f21b9425d">
+<meta property="article:published_time" content="2022-12-20T12:02:00.000Z">
+<meta property="article:modified_time" content="2024-06-12T05:43:20.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.vika.cn/space/2022/12/20/bfa97de49a3740b6a081389f21b9425d">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            C语言(第十章--对文件的输出) -
+        
+        Atdunbg&#39;s Blog
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["404 ERROR"],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"A Moment Apart","artist":"ODESZA","url":"https://m704.music.126.net/20240705151726/237aaff5c1c4c8a69d3b19d9832c8778/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/28481981069/6b5d/44e9/0ecb/a1bbb8ac4c8fe32e666ddf8d2141d967.mp3?authSecret=0000019081aa670f13320a3b182b067d","cover":"http://p1.music.126.net/njCU7D_y3hRqQQSQmIW1lg==/109951163695044017.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.4","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Links":{"path":"/links/","icon":"fa-regular fa-link"},"Tags":{"path":"/tags/","icon":"fa-solid fa-tags"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 1:1:1"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [40,0],
+                translateZ: 0,
+                opacity: [0,1],
+                filter: ['blur(5px)', 'blur(0px)'], // Starting from blurred to unblurred
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i,
+            }).add({
+                targets: '.ml13 .letter',
+                translateY: [0,-40],
+                opacity: [1,0],
+                filter: ['blur(0px)', 'blur(5px)'], // Ending from unblurred to blurred
+                easing: "easeInExpo",
+                duration: 1200,
+                delay: (el, i) => 100 + 30 * i,
+                complete: function() {
+                    hidePreloader(); // Call hidePreloader after the animation completes
+                }
+            });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives"
+                        >
+                            <span>Archives</span>
+                            <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">19</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">C语言(第十章--对文件的输出)</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2022-12-20 20:02</span>
+        <span class="mobile">2022-12-20 20:02</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-06-12 13:43:20</span>
+            <span class="mobile">2024-06-12 13:43:20</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>5 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <meta name="referrer" content="no-referrer"/>
+
+<ul>
+<li>根据数据的数组形式，数据文件可以分为<strong>ASCII文件(文本文件)<strong>和</strong>二进制文件</strong>。</li>
+</ul>
+<h2 id="10-2-打开与关闭文件"><a href="#10-2-打开与关闭文件" class="headerlink" title="10.2 打开与关闭文件"></a>10.2 打开与关闭文件</h2><h3 id="1、用fopen打开文件"><a href="#1、用fopen打开文件" class="headerlink" title="1、用fopen打开文件"></a>1、用fopen打开文件</h3><ul>
+<li><p>fopen(文件名，使用文件方式)</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fopen(<span class="string">&quot;D:\\date\\Mystudio\\demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line">fopen(<span class="string">&quot;D:/date/Mystudio/demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);		<span class="comment">//绝对路径</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>fopen函数的返回值是只要操作文件(demo.txt)的指针，若出错，将返回一个空指针(NULL)。</p>
+</li>
+<li><p>因此，一般是将fopen函数返回值赋给一个指向文件的指针变量。</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;		<span class="comment">//定义一个文件指针</span></span><br><span class="line"><span class="comment">//打开一个文件，&quot;r+&quot;表示可读可写的模式打开</span></span><br><span class="line">fp = fopen(<span class="string">&quot;D\\date\Mystudio\\demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(fp==<span class="literal">NULL</span>)</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;文件demo打开失败&quot;</span>);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;文件demo打开成功&quot;</span>);</span><br><span class="line">fclose(fp);		<span class="comment">//关闭文件</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="2、用fclose关闭文件"><a href="#2、用fclose关闭文件" class="headerlink" title="2、用fclose关闭文件"></a>2、用fclose关闭文件</h3><ul>
+<li>fclose(文件指针);<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fclose(fp);</span><br></pre></td></tr></table></figure></div></li>
+<li>如不关闭文件就结束程序可能会丢失数据。</li>
+<li>fclose函数也会返回一个值，当成功执行了关闭为文件操做，返回值为0，否则返回EOF(-1);</li>
+</ul>
+<h2 id="10-3-顺序读写数据文件"><a href="#10-3-顺序读写数据文件" class="headerlink" title="10.3 顺序读写数据文件"></a>10.3 顺序读写数据文件</h2><h3 id="一、向文件读写字符"><a href="#一、向文件读写字符" class="headerlink" title="一、向文件读写字符"></a>一、向文件读写字符</h3><h4 id="1、fgetc-fp-从fp指向的文件读入一个字符"><a href="#1、fgetc-fp-从fp指向的文件读入一个字符" class="headerlink" title="1、fgetc(fp) 从fp指向的文件读入一个字符"></a>1、fgetc(fp) 从fp指向的文件读入一个字符</h4><ul>
+<li>读成功则返回所读的字符，失败则返回u文件结束标志EOF(-1);<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c=fgetc(fc);</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h4 id="2、fputc-ch-fp-把字符ch写道文件指针变量fp所指向的文件中"><a href="#2、fputc-ch-fp-把字符ch写道文件指针变量fp所指向的文件中" class="headerlink" title="2、fputc(ch.fp); 把字符ch写道文件指针变量fp所指向的文件中"></a>2、fputc(ch.fp); 把字符ch写道文件指针变量fp所指向的文件中</h4><ul>
+<li>输出成功，则返回值就是输出的字符，失败就会返回EOF(-1);</li>
+</ul>
+<h4 id="3、feof-fp-函数用来判断文件是否结束"><a href="#3、feof-fp-函数用来判断文件是否结束" class="headerlink" title="3、feof(fp)函数用来判断文件是否结束"></a>3、feof(fp)函数用来判断文件是否结束</h4><ul>
+<li>如果遇到文件结束，函数feo(fp)的值为非零值，否则为0</li>
+</ul>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> c;</span><br><span class="line">c = fuputc(ch.fp)</span><br><span class="line"><span class="keyword">while</span>(!feof(fp))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,c);</span><br><span class="line">	c = fputc(ch,fp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出文件中的所有字符</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="二、向文件读写字符串"><a href="#二、向文件读写字符串" class="headerlink" title="二、向文件读写字符串"></a>二、向文件读写字符串</h3><h4 id="1、fgets-str-n-fp-从fp指向的文件读如一个长度为-n-1-的字符串"><a href="#1、fgets-str-n-fp-从fp指向的文件读如一个长度为-n-1-的字符串" class="headerlink" title="1、fgets(str,n,fp)从fp指向的文件读如一个长度为(n-1)的字符串"></a>1、fgets(str,n,fp)从fp指向的文件读如一个长度为(n-1)的字符串</h4><ul>
+<li>读成功则返回地址str，否则返回NULL;</li>
+</ul>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;</span><br><span class="line"><span class="type">char</span> c[<span class="number">15</span>];</span><br><span class="line">fp = fopen(<span class="string">&quot;D:/date/Mystudio/demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line">fgets(c,<span class="number">15</span>,fp);</span><br><span class="line">print(<span class="string">&quot;%s&quot;</span>,c);</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2、fputs-str-fp-把str指向的字符串写道文件指针变量fp所指向的文件中"><a href="#2、fputs-str-fp-把str指向的字符串写道文件指针变量fp所指向的文件中" class="headerlink" title="2、fputs(str,fp)把str指向的字符串写道文件指针变量fp所指向的文件中"></a>2、fputs(str,fp)把str指向的字符串写道文件指针变量fp所指向的文件中</h4><ul>
+<li><p>输出成功则返回 0 ，否则返回非0值</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;</span><br><span class="line"><span class="type">char</span> c[<span class="number">15</span>]=&#123;<span class="string">&quot;Hello Linux.&quot;</span>&#125;;</span><br><span class="line">fp = fopen(<span class="string">&quot;d/date/Mystdio/demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line"><span class="built_in">fputs</span>(c,fp);</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="三、用格式化方式读写文本"><a href="#三、用格式化方式读写文本" class="headerlink" title="三、用格式化方式读写文本"></a>三、用格式化方式读写文本</h3><h4 id="fprint-文件指针，格式字符串，输出列表-格式化输出字符"><a href="#fprint-文件指针，格式字符串，输出列表-格式化输出字符" class="headerlink" title="fprint(文件指针，格式字符串，输出列表)格式化输出字符"></a>fprint(文件指针，格式字符串，输出列表)格式化输出字符</h4><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;</span><br><span class="line">fp = fopen(<span class="string">&quot;D;/date/Mystudio/demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line"><span class="type">int</span> i =<span class="number">5</span>;</span><br><span class="line"><span class="type">float</span> f = <span class="number">6.5</span>;</span><br><span class="line">fprint(fp,<span class="string">&quot;i = %d,f = %6.2f&quot;</span>,i,f);</span><br></pre></td></tr></table></figure></div>
+<h4 id="2、fcanf-文件指针，格式字符串，输出列表-格式化读入字符"><a href="#2、fcanf-文件指针，格式字符串，输出列表-格式化读入字符" class="headerlink" title="2、fcanf(文件指针，格式字符串，输出列表)格式化读入字符"></a>2、fcanf(文件指针，格式字符串，输出列表)格式化读入字符</h4><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;</span><br><span class="line">fp - fopen(<span class="string">&quot;D:/dete/Mystudio/demo.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line"><span class="type">int</span> i;</span><br><span class="line"><span class="type">float</span> f;</span><br><span class="line"><span class="built_in">fscanf</span>(fp,<span class="string">&quot;%d%f&quot;</span>,&amp;i,&amp;f);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%6.2f&quot;</span>,i+f);</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h3 id="四、用二进制方式向文件读写一组数据"><a href="#四、用二进制方式向文件读写一组数据" class="headerlink" title="四、用二进制方式向文件读写一组数据"></a>四、用二进制方式向文件读写一组数据</h3><h4 id="1、fwrite-butter-size-count-fp-向文件写数据块"><a href="#1、fwrite-butter-size-count-fp-向文件写数据块" class="headerlink" title="1、fwrite(butter,size,count,fp);向文件写数据块"></a>1、fwrite(butter,size,count,fp);向文件写数据块</h4><table>
+<thead>
+<tr>
+<th align="center">名字</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">butter</td>
+<td align="center">地址</td>
+</tr>
+<tr>
+<td align="center">size</td>
+<td align="center">字节数</td>
+</tr>
+<tr>
+<td align="center">count</td>
+<td align="center">要写多少数据块</td>
+</tr>
+<tr>
+<td align="center">fp</td>
+<td align="center">FILE类型指针</td>
+</tr>
+</tbody></table>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">char</span> name[<span class="number">20</span>];</span><br><span class="line">	<span class="type">char</span> addr[<span class="number">20</span>];</span><br><span class="line">&#125;s1[<span class="number">3</span>]=&#123;</span><br><span class="line">	&#123;<span class="string">&quot;lingren&quot;</span>,<span class="string">&quot;Daoqi120&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;zhongli&quot;</span>,<span class="string">&quot;liyue100&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;baerzebu&quot;</span>,<span class="string">&quot;Daoqi100&quot;</span>&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	fp = fopen(<span class="string">&quot;E:/USERS/桌面文件/test.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">		fwrite(&amp;s1[i],<span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student),<span class="number">1</span>,fp);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	</span><br><span class="line">    wreturn <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2022/12/20/bfa97de49a3740b6a081389f21b9425d"
+                     
+                ></p>
+<h4 id="2、fread-buffer-size-count-fp-从文件中读数据块"><a href="#2、fread-buffer-size-count-fp-从文件中读数据块" class="headerlink" title="2、fread(buffer,size,count,fp); 从文件中读数据块"></a>2、fread(buffer,size,count,fp); 从文件中读数据块</h4><h3 id="五、随机读写数据文件"><a href="#五、随机读写数据文件" class="headerlink" title="五、随机读写数据文件"></a>五、随机读写数据文件</h3><h4 id="1、rewind函数-使文件位置标记指向文件开头"><a href="#1、rewind函数-使文件位置标记指向文件开头" class="headerlink" title="1、rewind函数 使文件位置标记指向文件开头"></a>1、rewind函数 使文件位置标记指向文件开头</h4><h4 id="2、fseek-文件类型指针，位移量，起始点-改变文件位置标记"><a href="#2、fseek-文件类型指针，位移量，起始点-改变文件位置标记" class="headerlink" title="2、fseek(文件类型指针，位移量，起始点) 改变文件位置标记"></a>2、fseek(文件类型指针，位移量，起始点) 改变文件位置标记</h4><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fseek(fp,<span class="number">0</span>,SEEK_SET);		<span class="comment">//光标移动到文件开头后往后偏移0个字节的位置</span></span><br></pre></td></tr></table></figure></div>
+
+
+
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">char</span> name[<span class="number">10</span>];</span><br><span class="line">	<span class="type">char</span> addr[<span class="number">10</span>];</span><br><span class="line">&#125;s1[<span class="number">4</span>]=&#123;</span><br><span class="line">	&#123;<span class="string">&quot;lingren&quot;</span>,<span class="string">&quot;Daoqi120&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;zhongli&quot;</span>,<span class="string">&quot;liyue100&quot;</span>&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;baerzebu&quot;</span>,<span class="string">&quot;Daoqi100&quot;</span>&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	fp = fopen(<span class="string">&quot;E:/USERS/桌面文件/test.txt&quot;</span>,<span class="string">&quot;r+&quot;</span>);</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">		fwrite(&amp;s1[i],<span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student),<span class="number">1</span>,fp);</span><br><span class="line">	fseek(fp,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student),SEEK_SET);</span><br><span class="line">	fread(&amp;s1[<span class="number">3</span>],<span class="keyword">sizeof</span>(<span class="keyword">struct</span> Student),<span class="number">1</span>,fp);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s,%s&quot;</span>,s1[<span class="number">3</span>].name,s1[<span class="number">3</span>].addr);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+
+
+
+
+<h3 id="六、文件读写出错检测"><a href="#六、文件读写出错检测" class="headerlink" title="六、文件读写出错检测"></a>六、文件读写出错检测</h3><h4 id="1、ferror-fp-检测是否出错"><a href="#1、ferror-fp-检测是否出错" class="headerlink" title="1、ferror(fp) 检测是否出错"></a>1、ferror(fp) 检测是否出错</h4><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE* fp;</span><br><span class="line">	fp = fopen(<span class="string">&quot;demo.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">	fgetc(fp);</span><br><span class="line">	<span class="keyword">if</span> (ferror(fp))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;读取出错\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ferror(fp));</span><br><span class="line">		clearerr(fp);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,ferror(fp));</span><br><span class="line">	&#125;</span><br><span class="line">    fclose(fp);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+
+
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> C语言(第十章--对文件的输出)</li>
+        <li><strong>Author:</strong> atdunbg</li>
+        <li><strong>Created at
+                :</strong> 2022-12-20 20:02:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-06-12 13:43:20
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://atdunbg.xyz/2022/12/20/c_language_10/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2022/12/22/vscode_install/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">关于vscode如何运行C代码</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2022/12/18/manjaroedit/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Manjaro Linux 美化日记</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">C语言(第十章--对文件的输出)</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-%E6%89%93%E5%BC%80%E4%B8%8E%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="nav-text">10.2 打开与关闭文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E7%94%A8fopen%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="nav-text">1、用fopen打开文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E7%94%A8fclose%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="nav-text">2、用fclose关闭文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3-%E9%A1%BA%E5%BA%8F%E8%AF%BB%E5%86%99%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="nav-text">10.3 顺序读写数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%90%91%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%AD%97%E7%AC%A6"><span class="nav-text">一、向文件读写字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%91%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-text">二、向文件读写字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%94%A8%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%96%B9%E5%BC%8F%E8%AF%BB%E5%86%99%E6%96%87%E6%9C%AC"><span class="nav-text">三、用格式化方式读写文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E5%90%91%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E4%B8%80%E7%BB%84%E6%95%B0%E6%8D%AE"><span class="nav-text">四、用二进制方式向文件读写一组数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%86%99%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="nav-text">五、随机读写数据文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%87%BA%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-text">六、文件读写出错检测</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        19 posts in total
+                    </span>
+                    
+                        <span>
+                            51.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+    <div id="aplayer"></div>
+
+<script src="/js/libs/APlayer.min.js"></script>
+
+
+<script src="/js/plugins/aplayer.js"></script>
+
+
+</body>
+</html>

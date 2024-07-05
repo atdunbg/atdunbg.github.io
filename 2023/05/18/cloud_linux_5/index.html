@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://example.com/2023/05/18/cloud_linux_5/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="概述  群集基础    Linux群集概述 pacemaker+ corosync+ pcS 演示:无共享存储的Web群集构建 演示:基于NFS共享存储的Web群集构建   使用Linux-IO构建iSCSI存储 演示:基于SAN共享存储的MySQL群集构建   DRBD 演示:基于DRBD的MySQL群集构建   GFS2 演示:基于DRBD+ GFS2的Active&#x2F;Activ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云计算--Linux 集群原理(笔记5)">
+<meta property="og:url" content="http://example.com/2023/05/18/cloud_linux_5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述  群集基础    Linux群集概述 pacemaker+ corosync+ pcS 演示:无共享存储的Web群集构建 演示:基于NFS共享存储的Web群集构建   使用Linux-IO构建iSCSI存储 演示:基于SAN共享存储的MySQL群集构建   DRBD 演示:基于DRBD的MySQL群集构建   GFS2 演示:基于DRBD+ GFS2的Active&#x2F;Activ">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s1.vika.cn/space/2023/05/18/298bd8f921fd456faf3872592767d38c">
+<meta property="og:image" content="https://s1.vika.cn/space/2023/05/18/a788cc241cf24b1593966835dd442fee">
+<meta property="og:image" content="https://s1.vika.cn/space/2023/05/18/e8479b027112405a99d62344a30e90c1">
+<meta property="article:published_time" content="2023-05-18T04:56:07.000Z">
+<meta property="article:modified_time" content="2024-06-12T05:43:20.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.vika.cn/space/2023/05/18/298bd8f921fd456faf3872592767d38c">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            云计算--Linux 集群原理(笔记5) -
+        
+        Atdunbg&#39;s Blog
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["404 ERROR"],"hitokoto":{"enable":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"A Moment Apart","artist":"ODESZA","url":"https://m704.music.126.net/20240705151726/237aaff5c1c4c8a69d3b19d9832c8778/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/28481981069/6b5d/44e9/0ecb/a1bbb8ac4c8fe32e666ddf8d2141d967.mp3?authSecret=0000019081aa670f13320a3b182b067d","cover":"http://p1.music.126.net/njCU7D_y3hRqQQSQmIW1lg==/109951163695044017.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.4","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Links":{"path":"/links/","icon":"fa-regular fa-link"},"Tags":{"path":"/tags/","icon":"fa-solid fa-tags"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 1:1:1"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+    <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [40,0],
+                translateZ: 0,
+                opacity: [0,1],
+                filter: ['blur(5px)', 'blur(0px)'], // Starting from blurred to unblurred
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i,
+            }).add({
+                targets: '.ml13 .letter',
+                translateY: [0,-40],
+                opacity: [1,0],
+                filter: ['blur(0px)', 'blur(5px)'], // Ending from unblurred to blurred
+                easing: "easeInExpo",
+                duration: 1200,
+                delay: (el, i) => 100 + 30 * i,
+                complete: function() {
+                    hidePreloader(); // Call hidePreloader after the animation completes
+                }
+            });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+
+    <div class="navbar-content ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-solid fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-solid fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives"
+                        >
+                            <span>Archives</span>
+                            <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">19</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                
+                
+                <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算--Linux 集群原理(笔记5)" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75"/>
+                
+                <div class="w-full flex items-center absolute bottom-0 justify-start">
+                    <h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">云计算--Linux 集群原理(笔记5)</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-05-18 12:56:07</span>
+        <span class="mobile">2023-05-18 12:56:07</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-06-12 13:43:20</span>
+            <span class="mobile">2024-06-12 13:43:20</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.5k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>5 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <meta name="referrer" content="no-referrer"/>
+
+
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><blockquote>
+<ul>
+<li>群集基础</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href="#jump0">Linux群集概述</a></li>
+<li>pacemaker+ corosync+ pcS<ul>
+<li>演示:无共享存储的Web群集构建</li>
+<li>演示:基于NFS共享存储的Web群集构建</li>
+</ul>
+</li>
+<li>使用Linux-IO构建iSCSI存储<ul>
+<li>演示:基于SAN共享存储的MySQL群集构建</li>
+</ul>
+</li>
+<li>DRBD<ul>
+<li>演示:基于DRBD的MySQL群集构建</li>
+</ul>
+</li>
+<li>GFS2<ul>
+<li>演示:基于DRBD+ GFS2的Active&#x2F;Active的Web群集构建</li>
+</ul>
+</li>
+</ul>
+<h2 id="Linux群集概述"><a href="#Linux群集概述" class="headerlink" title="Linux群集概述"></a><span id="jump0">Linux群集概述</span></h2><h3 id="什么是群集"><a href="#什么是群集" class="headerlink" title="什么是群集?"></a>什么是群集?</h3><blockquote>
+<p>集群是将-组计算机和存储设备组成在一起,作为一个整体系统来提供用户访问<br>集群中计算机共同来提供:<br>    * 分担进程的负载<br>    * 自动恢复集群中的一个或多个组件的失败</p>
+</blockquote>
+<h3 id="群集术语"><a href="#群集术语" class="headerlink" title="群集术语"></a>群集术语</h3><table>
+<thead>
+<tr>
+<th align="center">术语</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">节点</td>
+<td align="center">参与群集的服务器</td>
+</tr>
+<tr>
+<td align="center">资源</td>
+<td align="center">托管在集群中设备或服务,被应用程序或最终用户直接或间接地访问</td>
+</tr>
+<tr>
+<td align="center">故障转移群集</td>
+<td align="center">一种高可用性集群类型。 在一一个时刻 ,资源只能单个服务器所拥有</td>
+</tr>
+<tr>
+<td align="center">负载平衡</td>
+<td align="center">负荷由由多个节点分担处理的集群类型</td>
+</tr>
+<tr>
+<td align="center">容错</td>
+<td align="center">集群的一个关键组件,能够在硬件或软件出现问题时还能继续运作</td>
+</tr>
+<tr>
+<td align="center">计划停机时间</td>
+<td align="center">由于更新或其他维护操作,应用程序不可用的时间</td>
+</tr>
+<tr>
+<td align="center">非计划停机时间</td>
+<td align="center">由于组件失败,关键应用程序不可用的时间</td>
+</tr>
+</tbody></table>
+<h3 id="群集类型"><a href="#群集类型" class="headerlink" title="群集类型"></a>群集类型</h3><table>
+<thead>
+<tr>
+<th align="center">群集类型</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">高可用(HA)群集</td>
+<td align="center">如果正在运行服务器遭遇失败,由其他的节点提供备份</td>
+</tr>
+<tr>
+<td align="center">负载平衡群集</td>
+<td align="center">将传入的网络请求分布到各个节点进行处理</td>
+</tr>
+<tr>
+<td align="center">高性能计算(HPC)群集</td>
+<td align="center">计算任务分布在多个节点</td>
+</tr>
+<tr>
+<td align="center">网格计算群集</td>
+<td align="center">独立的节点完成的被分派来任务或集群中其余部分分解的来工作</td>
+</tr>
+</tbody></table>
+<h3 id="群集实现"><a href="#群集实现" class="headerlink" title="群集实现"></a>群集实现</h3><table>
+<thead>
+<tr>
+<th align="center">群集分类</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">共享设备群集</td>
+<td align="left">在节点之间共享数据和其他资源<br>如果两个系统必须访问相同的数据,这些数据必须从磁盘读两次或从一个系统复制到另外一系统</td>
+</tr>
+<tr>
+<td align="center">无共享群集</td>
+<td align="left">无共享群集在每个节点有单独的资源<br>一个时刻仅有一个节点访问特定的资源<br>失败时,其他节点会取得对象的所有权</td>
+</tr>
+</tbody></table>
+<h3 id="群集优势"><a href="#群集优势" class="headerlink" title="群集优势"></a>群集优势</h3><blockquote>
+<ul>
+<li><a href="#jump1">可用性</a>(Availability)<ul>
+<li>集群增加的处于可操作状态的时间百分比<br>可伸缩性(Scalability) </li>
+<li>群集通过根据需要逐步增加资源,来满足所有处理能力或可用性要求<br><a href="#jump2">可管理性</a>(Manageability)</li>
+<li>集群使配置、更新和添加等管理更加容易</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="什么是可用性"><a href="#什么是可用性" class="headerlink" title="什么是可用性?"></a><span id="jump1">什么是可用性?</span></h3><blockquote>
+<p>通过以下方式提高系统的可用性百分比:<br>    * 增加平均失效到达时间(MTTF mean time to failure)<br>    * 减少平均恢复时间(MTTR mean time to recover)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">可用性等级</th>
+<th align="center">每年宕机时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2个9(99%)</td>
+<td align="center">3.7天</td>
+</tr>
+<tr>
+<td align="center">3个9(99.9%)</td>
+<td align="center">8.8小时</td>
+</tr>
+<tr>
+<td align="center">4个9(99.99%)</td>
+<td align="center">53分钟</td>
+</tr>
+<tr>
+<td align="center">5个9(99.999%)</td>
+<td align="center">5.3分钟</td>
+</tr>
+</tbody></table>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/05/18/298bd8f921fd456faf3872592767d38c"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/05/18/a788cc241cf24b1593966835dd442fee"
+                     
+                ></p>
+<h3 id="什么是可扩展性"><a href="#什么是可扩展性" class="headerlink" title="什么是可扩展性?"></a>什么是可扩展性?</h3><blockquote>
+<p>提高可扩展性的方式有:</p>
+</blockquote>
+<ul>
+<li>Scaling up<ul>
+<li>向一个节点添加更多的资源,如内存、CPU和磁盘</li>
+</ul>
+</li>
+<li>Scaling out<ul>
+<li>添加更多的节点以分担负荷</li>
+</ul>
+</li>
+<li>Consolidation<ul>
+<li>通过将多个服务器负载迁移到一个服务器或少量的高配置的计算机,让少量的服务器承担更多的负荷。</li>
+</ul>
+</li>
+</ul>
+<h3 id="什么是集群的可管理性"><a href="#什么是集群的可管理性" class="headerlink" title="什么是集群的可管理性?"></a><span id="jump2">什么是集群的可管理性?</span></h3><blockquote>
+<ul>
+<li>群集通过以下方式来提高和可管理性:</li>
+</ul>
+</blockquote>
+<ul>
+<li>灾难恢复<ul>
+<li>集群帮助应用程序的从灾难中进行恢复</li>
+</ul>
+</li>
+<li>更新管理<ul>
+<li>集群使应用程序、操作系统在升级更新时,仍然可用</li>
+</ul>
+</li>
+</ul>
+<h3 id="微软SQL-Server故障转移群集工作原理"><a href="#微软SQL-Server故障转移群集工作原理" class="headerlink" title="微软SQL Server故障转移群集工作原理"></a>微软SQL Server故障转移群集工作原理</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/05/18/e8479b027112405a99d62344a30e90c1"
+                     
+                ></p>
+<h3 id="网络负载平衡-NLB-群集"><a href="#网络负载平衡-NLB-群集" class="headerlink" title="网络负载平衡( NLB)群集"></a>网络负载平衡( NLB)群集</h3><blockquote>
+<ul>
+<li>为网络服务提供可扩展性</li>
+<li>增强接收TCP和UDP流量的网络相关应用程序的可用性</li>
+<li>包含所有活动节点</li>
+<li>运行需要实现负荷平衡的基于IP的应用程序或服务副本,在每个节点保存所需的数据</li>
+</ul>
+</blockquote>
+<h3 id="什么是群集化的服务和资源"><a href="#什么是群集化的服务和资源" class="headerlink" title="什么是群集化的服务和资源?"></a>什么是群集化的服务和资源?</h3><blockquote>
+<ul>
+<li>群集化的服务<ul>
+<li>安装在故障转移群集以实现高可用的服务或应用程序</li>
+<li>在一个活动节点上,也可被移动到其它节点</li>
+</ul>
+</li>
+<li>资源<ul>
+<li>组成群集化服务的组件</li>
+<li>在一个时间,只能运行在一个节点之 上</li>
+<li>当一个节点失效时,可以被移动到别个一个节点</li>
+<li>包含的组件有共享磁盘,主机名和IP地址等</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="故障转移群集和网络"><a href="#故障转移群集和网络" class="headerlink" title="故障转移群集和网络"></a>故障转移群集和网络</h3><blockquote>
+<ul>
+<li>故障转移群集使用以下网络:<ul>
+<li>公共网络:用于客户与群集服务之间的通信</li>
+<li>私有网络:用于节点之间的通信</li>
+<li>存储网络:与外部存储系统通信</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>一个网络可同时支持客户与节点间通信</li>
+<li>推荐使用多网以提供增强的性能和冗余</li>
+</ul>
+<h3 id="什么是仲裁-Quorum"><a href="#什么是仲裁-Quorum" class="headerlink" title="什么是仲裁(Quorum)?"></a>什么是仲裁(Quorum)?</h3><blockquote>
+<p>在故障转移集群,仲裁定义足够的可用集群成员提供服务</p>
+<ul>
+<li>仲裁(Quorum):<ul>
+<li>基于投票(vote)的</li>
+<li>根据不同仲裁模式，可使用节点,文件共享或共享磁盘用来投票</li>
+<li>当有足够的票数时,允许故障转移群集保持在线</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>合法:<ul>
+<li>total nodes &lt; 2 * active_ nodes</li>
+</ul>
+</li>
+</ul>
+<h3 id="微软群集仲裁模式类型"><a href="#微软群集仲裁模式类型" class="headerlink" title="微软群集仲裁模式类型"></a>微软群集仲裁模式类型</h3><table>
+<thead>
+<tr>
+<th align="center">仲裁模式</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">节点多数模式</td>
+<td align="left">仅有群集中的节点有vote<br>当超过半数的节点在线时,才满足Quorum要求</td>
+</tr>
+<tr>
+<td align="center">节点和磁盘多数模式</td>
+<td align="left">群集中的节点和见证(witness)磁盘有vote<br>当超过半数的vote在线时,才满足Quorum要求</td>
+</tr>
+<tr>
+<td align="center">节点和文件共享多数模式</td>
+<td align="left">群集中的节点和见证(witness)文件共享有vote<br>当超过半数的vote在线时,才满足Quorum要求</td>
+</tr>
+<tr>
+<td align="center">非多数:仅磁盘模式</td>
+<td align="left">仅quorum共享磁盘有vote<br>当共享磁盘在线时,才满足Quorum要求</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 云计算--Linux 集群原理(笔记5)</li>
+        <li><strong>Author:</strong> atdunbg</li>
+        <li><strong>Created at
+                :</strong> 2023-05-18 12:56:07</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-06-12 13:43:20
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://atdunbg.xyz/2023/05/18/cloud_linux_5/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                    <div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/08/10/Pikachu_practice/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Pikachu练习记录</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/04/27/cloud_linux_4/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">云计算--Linux 开源虚拟化KVM(笔记4)</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          recaptchaV3Key: "wasd",
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">云计算--Linux 集群原理(笔记5)</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E7%BE%A4%E9%9B%86%E6%A6%82%E8%BF%B0"><span class="nav-text">Linux群集概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BE%A4%E9%9B%86"><span class="nav-text">什么是群集?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4%E9%9B%86%E6%9C%AF%E8%AF%AD"><span class="nav-text">群集术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4%E9%9B%86%E7%B1%BB%E5%9E%8B"><span class="nav-text">群集类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4%E9%9B%86%E5%AE%9E%E7%8E%B0"><span class="nav-text">群集实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4%E9%9B%86%E4%BC%98%E5%8A%BF"><span class="nav-text">群集优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="nav-text">什么是可用性?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7"><span class="nav-text">什么是可扩展性?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9B%86%E7%BE%A4%E7%9A%84%E5%8F%AF%E7%AE%A1%E7%90%86%E6%80%A7"><span class="nav-text">什么是集群的可管理性?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E8%BD%AFSQL-Server%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E7%BE%A4%E9%9B%86%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">微软SQL Server故障转移群集工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%B4%9F%E8%BD%BD%E5%B9%B3%E8%A1%A1-NLB-%E7%BE%A4%E9%9B%86"><span class="nav-text">网络负载平衡( NLB)群集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BE%A4%E9%9B%86%E5%8C%96%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%92%8C%E8%B5%84%E6%BA%90"><span class="nav-text">什么是群集化的服务和资源?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E7%BE%A4%E9%9B%86%E5%92%8C%E7%BD%91%E7%BB%9C"><span class="nav-text">故障转移群集和网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BB%B2%E8%A3%81-Quorum"><span class="nav-text">什么是仲裁(Quorum)?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E8%BD%AF%E7%BE%A4%E9%9B%86%E4%BB%B2%E8%A3%81%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9E%8B"><span class="nav-text">微软群集仲裁模式类型</span></a></li></ol></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        19 posts in total
+                    </span>
+                    
+                        <span>
+                            51.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+    <div id="aplayer"></div>
+
+<script src="/js/libs/APlayer.min.js"></script>
+
+
+<script src="/js/plugins/aplayer.js"></script>
+
+
+</body>
+</html>
