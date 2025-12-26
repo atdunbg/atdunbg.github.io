@@ -1,0 +1,2815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://atdunbg.xyz/2023/04/27/cloud_linux_3/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云计算 - Linux服务与安全">
+<meta property="og:url" content="http://atdunbg.xyz/2023/04/27/cloud_linux_3/index.html">
+<meta property="og:site_name" content="Atdunbg&#39;s Blog">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-04-27T12:56:00.000Z">
+<meta property="article:modified_time" content="2025-12-26T03:22:59.067Z">
+<meta property="article:author" content="atdunbg">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            云计算 - Linux服务与安全 | Atdunbg&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <meta name="referrer" content="no-referrer" />
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"atdunbg.xyz","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":true,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":5,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["..."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":"atdunbg@qq.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Daisy Crown","artist":"Empty old City/Wuthering Waves","url":"https://music.163.com/song/media/outer/url?id=2676687608.mp3","cover":"https://p2.music.126.net/J0ZfqWmqX3zGJLzTubJ7vg==/109951170498554226.jpg","lrc":null},{"name":"Destiny【BlackYearning】[RWBY Doujin remix]","artist":"Cre-sc3NT","url":"https://music.163.com/song/media/outer/url?id=463311509.mp3","cover":"https://p1.music.126.net/_M3lkuYe93Fdo8kBLDBQlA==/109951162870251332.jpg"}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"书签":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Google":{"path":"https://www.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"BookMarks":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 12:00:00"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/bookmarks"
+                                        >
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                    书签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://www.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/bookmarks"
+                        >
+                            <span>
+                                书签
+                            </span>
+                            
+                                <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://www.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/bookmarks"
+                        >
+                            <span>BookMarks</span>
+                            <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux服务与安全" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">云计算 - Linux服务与安全</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-04-27 12:56</span>
+        <span class="mobile">2023-04-27 12:56</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-12-26 03:22:59</span>
+            <span class="mobile">2025-12-26 03:22:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.8k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>27 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h2><h3 id="Socket-通讯"><a href="#Socket-通讯" class="headerlink" title="Socket 通讯"></a>Socket 通讯</h3><ul>
+<li>所谓socket通常也称作”套接字” ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/19/c3c2efcc5f0840f4bb365212449401c1"
+                      alt="img"
+                ></p>
+<h3 id="C-S-B-S架构"><a href="#C-S-B-S架构" class="headerlink" title="C&#x2F;S, B&#x2F;S架构"></a>C&#x2F;S, B&#x2F;S架构</h3><p><strong>C&#x2F;S（Client&#x2F;Server）：客户端-服务器结构</strong></p>
+<ul>
+<li>C&#x2F;S结构在技术上很成熟，它的主要特点是交互性强、具有安全的存取模式、网络通信量低、响应速度快、利于处理大量数据。因为客户端要负责绝大多数的业务逻辑和UI展示，又称为胖客户端。它充分利用两端硬件，将任务分配到Client 和Server两端，降低了系统的通讯开销。C&#x2F;S结构的软件需要针对不同的操作系统系统开发不同版本的软件，加之产品的更新换代十分快，已经很难适应百台电脑以上局域网用户同时使用。</li>
+</ul>
+<p><strong>B&#x2F;S（Browser&#x2F;Server）：浏览器-服务器结构，是目前应用系统的发展方向</strong></p>
+<ul>
+<li>BS是伴随着Internet技术的兴起，对C&#x2F;S架构的改进，为了区别于传统的C&#x2F;S 模式，特意称为B&#x2F;S模式。在这种结构下，通过W3浏览器来进入工作界面，极少部分事务逻辑在前端（Browser）实现，主要事务逻辑在服务器端（Server）实现，形成三层（3-tier）结构。这样使得客户端电脑负荷大大简化（因此被称为瘦客户端），减轻了系统维护、升级的支出成本，降低了用户的总体成本（TCO）。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>系统架构</th>
+<th>C&#x2F;S</th>
+<th>B&#x2F;S</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>配置成本</td>
+<td>高，客户机和服务器都需要配置软件</td>
+<td>低，只需配置服器，客户机只需安装浏览器</td>
+</tr>
+<tr>
+<td>维护更新成本</td>
+<td>高，服务器和客户机均要维护更新</td>
+<td>低，只维护更新服务器</td>
+</tr>
+<tr>
+<td>响应速度</td>
+<td>快,没有中间环节</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>个性化定制</td>
+<td>强</td>
+<td>弱</td>
+</tr>
+</tbody></table>
+<h2 id="服务的基础"><a href="#服务的基础" class="headerlink" title="服务的基础"></a>服务的基础</h2><p>linux下的服务管理有两类:</p>
+<ul>
+<li>System V 服务</li>
+<li>Transient 服务</li>
+</ul>
+<h3 id="System-V-服务"><a href="#System-V-服务" class="headerlink" title="System V 服务"></a>System V 服务</h3><p>System V， 曾经也被称为 AT&amp;T System V，是Unix操作系统众多版本中的一支。它最初由 AT&amp;T 开发，在1983年第一次发布。一共发行了4个 System V 的主要版本：版本1、2、3 和 4。System V Release 4，或者称为SVR4，是最成功的版本，成为一些UNIX共同特性的源头，例如 ”SysV 初始化脚本“ (&#x2F;etc&#x2F;init.d)，用来控制系统启动和关闭，System V Interface Definition (SVID) 是一个System V 如何工作的标准定义。</p>
+<blockquote>
+<ul>
+<li>通常被成为”System V” 或 “SysV”</li>
+</ul>
+</blockquote>
+<ul>
+<li>许多脚本都是用文件系统目录的格式来组织的</li>
+<li>可启用或者禁用资源服务</li>
+<li>经常使用几个配置文件</li>
+<li>大多数服务启动一个或多个进程</li>
+<li>命令被“包裹”在脚本中.</li>
+<li>服务由&#x2F;etc&#x2F;init.d&#x2F;目录中的脚本管理<ul>
+<li>例如: &#x2F;etc&#x2F;init.d&#x2F;sshd status</li>
+<li>service sshd status</li>
+</ul>
+</li>
+</ul>
+<h4 id="chkconfig"><a href="#chkconfig" class="headerlink" title="chkconfig"></a>chkconfig</h4><blockquote>
+<ul>
+<li>管理运行级别中的服务定义</li>
+</ul>
+</blockquote>
+<ul>
+<li>在引导时启动cups服务: chkconfig cupS on</li>
+<li>不会改变System V服务的当前运行状态</li>
+<li>用于独立的和瞬时的服务</li>
+<li>被其它应用程序调用,其中包括system-config-services命令</li>
+<li>要列出服务在运行级别中的分配情况,需运行chkconfig –list 命令</li>
+</ul>
+<h4 id="etc-sysconfig文件"><a href="#etc-sysconfig文件" class="headerlink" title="&#x2F;etc&#x2F;sysconfig文件"></a>&#x2F;etc&#x2F;sysconfig文件</h4><blockquote>
+<ul>
+<li>用于配置服务的运行方式</li>
+</ul>
+</blockquote>
+<ul>
+<li>named</li>
+<li>sendmail</li>
+<li>dhcpd</li>
+<li>samba</li>
+<li>syslog</li>
+</ul>
+<h3 id="Transient-服务"><a href="#Transient-服务" class="headerlink" title="Transient 服务"></a>Transient 服务</h3><blockquote>
+<ul>
+<li>瞬时( Transient )服务被xinetd进程所管理</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>进入的请求首先被xinetd 代理</p>
+</li>
+<li><p>配置文件&#x2F;etc&#x2F;xinetd.conf , &#x2F;etc&#x2F;xinetd.d&#x2F;service</p>
+</li>
+<li><p>用chkconfig控制的服务:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig tftp on</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h3><blockquote>
+<ul>
+<li>一次性计划任务</li>
+</ul>
+</blockquote>
+<ul>
+<li>周期性计划认任务<ul>
+<li>系统的</li>
+<li>用户的</li>
+</ul>
+</li>
+<li>Anacron</li>
+</ul>
+<h3 id="一次性计划任务"><a href="#一次性计划任务" class="headerlink" title="一次性计划任务"></a>一次性计划任务</h3><blockquote>
+<ul>
+<li>包名: atd</li>
+</ul>
+</blockquote>
+<ul>
+<li>命令:<ul>
+<li>at</li>
+<li>batch - 当系统负载低于0.8时才运行</li>
+</ul>
+</li>
+<li>按Ctrl+D完成</li>
+</ul>
+<p><strong>at</strong>命令后需要跟上时间</p>
+<p>时间的表示方式:</p>
+<blockquote>
+<ul>
+<li>HH:MM</li>
+</ul>
+</blockquote>
+<ul>
+<li>midnight - 12:00 a.m.</li>
+<li>noon - 12:00 p.m.</li>
+<li>teatime - 4:00 p.m.</li>
+<li>MONTHDAYYEAR - 例如: January 15 2015</li>
+<li>MMDDYY - 例如: 011315</li>
+<li>now + TIME - now + 5 days</li>
+</ul>
+<h3 id="周期性的计划任务"><a href="#周期性的计划任务" class="headerlink" title="周期性的计划任务"></a>周期性的计划任务</h3><blockquote>
+<ul>
+<li>系统的- crontab</li>
+</ul>
+</blockquote>
+<ul>
+<li>用户的- crond<ul>
+<li>创建:crontab -e</li>
+<li>查看:crontab -l</li>
+<li>删除:crontab -r</li>
+</ul>
+</li>
+<li>Anacron运行那些在系统当机期间未执行的cron任务<ul>
+<li>假定计算机不是连续运行的</li>
+<li>对笔记本电脑,工作站及其它非连续运行的系统来说很重要</li>
+<li>对需要临时停机的服务器也有作用</li>
+</ul>
+</li>
+<li>配置文件: &#x2F;etc&#x2F;anacrontab<ul>
+<li>字段1: 如果任务在指定的天数内没有运行</li>
+<li>字段2: 重启后在执行任务之前需要等待多久</li>
+<li>字段3: 任务标识符</li>
+<li>字段4: 需要运行的任务</li>
+</ul>
+</li>
+</ul>
+<h3 id="Rsyslog-服务"><a href="#Rsyslog-服务" class="headerlink" title="Rsyslog 服务"></a>Rsyslog 服务</h3><p><strong>把日志集中存储在一个安全的地方, 通过日志分析系统的运行情况. Rsyslog全称”the Rocket-fast SYStem for LOG processing”,是一种应用于UNIX和Linux计算机系统在IP网络转发日志消息开源软件实用的程序。它实现了基本的syslog协议,扩展了基于内容过滤的过滤能力,丰富灵活的配置选项,并增加了诸如使用TCP传输的特点。</strong></p>
+<blockquote>
+<ul>
+<li>格式: selector action<ul>
+<li>selector : facility.level<ul>
+<li>facility : who or what</li>
+<li>level : when</li>
+</ul>
+</li>
+<li>action :如何处理这些信息</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>folding cyan, Facility</p>
+<table>
+<thead>
+<tr>
+<th>Facility Number</th>
+<th>Keyword</th>
+<th>Facility Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>kern</td>
+<td>kernel messages</td>
+</tr>
+<tr>
+<td>1</td>
+<td>user</td>
+<td>user-level messages</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mail</td>
+<td>mail system</td>
+</tr>
+<tr>
+<td>3</td>
+<td>daemon</td>
+<td>system daemons</td>
+</tr>
+<tr>
+<td>4</td>
+<td>auth</td>
+<td>security&#x2F;authorization messages</td>
+</tr>
+<tr>
+<td>5</td>
+<td>syslog</td>
+<td>messages generated internally by syslogd</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ipr</td>
+<td>line printer subsystem</td>
+</tr>
+<tr>
+<td>7</td>
+<td>news</td>
+<td>network news subsystem</td>
+</tr>
+<tr>
+<td>8</td>
+<td>uucp</td>
+<td>UUCP subsystem</td>
+</tr>
+<tr>
+<td>9</td>
+<td></td>
+<td>clock daemon</td>
+</tr>
+<tr>
+<td>10</td>
+<td>authpriv</td>
+<td>security&#x2F;authorization messages</td>
+</tr>
+<tr>
+<td>11</td>
+<td>ftp</td>
+<td>FTP daemon</td>
+</tr>
+<tr>
+<td>12</td>
+<td></td>
+<td>NTP subsystem</td>
+</tr>
+<tr>
+<td>13</td>
+<td></td>
+<td>log audit</td>
+</tr>
+<tr>
+<td>14</td>
+<td></td>
+<td>log alert</td>
+</tr>
+<tr>
+<td>15</td>
+<td>cron</td>
+<td>clock daemon</td>
+</tr>
+<tr>
+<td>16</td>
+<td>local0</td>
+<td>local use 0 (local0)</td>
+</tr>
+<tr>
+<td>17</td>
+<td>local1</td>
+<td>local use 1 (local1)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>local2</td>
+<td>local use 2 (local2)</td>
+</tr>
+<tr>
+<td>19</td>
+<td>local3</td>
+<td>local use 3 (local3)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>local4</td>
+<td>local use 4 (local4)</td>
+</tr>
+<tr>
+<td>21</td>
+<td>local5</td>
+<td>local use 5 (local5)</td>
+</tr>
+<tr>
+<td>22</td>
+<td>local6</td>
+<td>local use 6 (local6)</td>
+</tr>
+<tr>
+<td>23</td>
+<td>local7</td>
+<td>local use 7 (local7)</td>
+</tr>
+</tbody></table>
+<p>endfolding</p>
+<p>folding cyan, Level</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Severity</th>
+<th>Description</th>
+<th>General Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Emergency</td>
+<td>emerg(panic)</td>
+<td>System is unusable</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Alert</td>
+<td>alert</td>
+<td>Action must be taken immediately</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Critical</td>
+<td>crit</td>
+<td>Critical conditions</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Error</td>
+<td>err(error)</td>
+<td>Error conditions</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Warning</td>
+<td>warning(warn)</td>
+<td>Warning conditions</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Notice</td>
+<td>notice</td>
+<td>Normal but significant condition</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Informational</td>
+<td>info</td>
+<td>Informational messages</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Debug</td>
+<td>debug</td>
+<td>Debug-level messages</td>
+</tr>
+</tbody></table>
+<p>endfolding</p>
+<blockquote>
+<ul>
+<li>日志文件</li>
+</ul>
+</blockquote>
+<ul>
+<li>&#x2F;var&#x2F;log&#x2F;messages</li>
+<li>&#x2F;var&#x2F;log&#x2F;dmesg</li>
+<li>&#x2F;var&#x2F;log&#x2F;boot.log</li>
+<li>&#x2F;var&#x2F;log&#x2F;maillog</li>
+<li>&#x2F;var&#x2F;log&#x2F;secure</li>
+<li>&#x2F;var&#x2F;log&#x2F;lastlog - 记录所有用户的最近登录信息。要用lastlog命令查看</li>
+<li>&#x2F;var&#x2F;log&#x2F;btmp - 记录所有失败登录信息。用lastb命令查看</li>
+<li>&#x2F;var&#x2F;log&#x2F;wtmp - 记录正常登录系统的信息。用w命令查看</li>
+</ul>
+<h3 id="Logrotate"><a href="#Logrotate" class="headerlink" title="Logrotate"></a>Logrotate</h3><blockquote>
+<ul>
+<li>&#x2F;etc&#x2F;logrotate.conf<ul>
+<li>weekly-每周rotate–次</li>
+<li>rotate 4 -保留四个日志文件</li>
+<li>create -创建一 个新的文件来存储日志</li>
+<li>compress -保留的日志文件是否要压缩,文件太大可以启动该参数</li>
+<li>minsize 1M-日志文件容量超过1M后才进行rotate</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="Logrotate-转发"><a href="#Logrotate-转发" class="headerlink" title="Logrotate 转发"></a>Logrotate 转发</h4><blockquote>
+<ul>
+<li>支持三种转发形式:<ul>
+<li>UDP - @IP 1.1-1.1</li>
+<li>TCP - @@IP</li>
+<li>RELP - :omrelp:(最可靠)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>启用UDP<ul>
+<li>$ModLoad imudp</li>
+<li>$UDPServerRun 514</li>
+</ul>
+</li>
+<li>启用TCP<ul>
+<li>$ModLoad imtcp</li>
+<li>$InputTCPServerRun 514</li>
+</ul>
+</li>
+<li>$template TemplateName, “格式”, &lt; options&gt;</li>
+<li>引号模板:<ul>
+<li>? TemplateName</li>
+</ul>
+</li>
+</ul>
+<h3 id="ntpl-Network-Time-Protocol"><a href="#ntpl-Network-Time-Protocol" class="headerlink" title="ntpl (Network Time Protocol)"></a>ntpl (Network Time Protocol)</h3><blockquote>
+<ul>
+<li>时间同步使系统日志便于分析</li>
+</ul>
+</blockquote>
+<ul>
+<li>许多应用需要精确的时间</li>
+<li>如果没有校正，工作站的硬件时钟会随着时间逐渐产生漂移.</li>
+<li>NTP通过控制- -秒的长度来抵消时钟漂移</li>
+<li>NTP客户端应当配置三个时钟服务器</li>
+<li>配置文件: &#x2F;etc&#x2F;ntp.conf</li>
+<li>配置工具: system-config-date</li>
+</ul>
+<h2 id="Tcp-warppers"><a href="#Tcp-warppers" class="headerlink" title="Tcp-warppers"></a>Tcp-warppers</h2><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/21/b80cddb42a8548989ffa16c3175e7a1a"
+                      alt="img"
+                ></p>
+<h3 id="服务和应用程序的访问控制"><a href="#服务和应用程序的访问控制" class="headerlink" title="服务和应用程序的访问控制"></a>服务和应用程序的访问控制</h3><blockquote>
+<p>服务特有的配置</p>
+<blockquote>
+<p>有些守护进程如httpd, smbd, squid等有自己的安全机制<br>通用配置<br>和libwrap.so相连接的所有程序都使用公共的配置文件<br>因为xinetd和libwrap.so相连接,所以它的服务也受此影响<br>检查主机和(或)远程用户名</p>
+</blockquote>
+</blockquote>
+<h3 id="tcp-wrappers配置"><a href="#tcp-wrappers配置" class="headerlink" title="tcp_ wrappers配置"></a>tcp_ wrappers配置</h3><blockquote>
+<ul>
+<li>检查访问权限的三三个步骤:<ul>
+<li>访问被明确允许.了 吗?</li>
+<li>或者,访问被明确拒绝了吗?</li>
+<li>或者,默认设置是允许访问!</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>配置被存放在两个文件里:<ul>
+<li>&#x2F;etc&#x2F;hosts.allow文件里保存允许的访问</li>
+<li>&#x2F;etc&#x2F;hosts.deny文件里保存拒绝的访问</li>
+</ul>
+</li>
+<li>基本语法:<ul>
+<li>daemon_ <em>list: client</em> list [:options]</li>
+</ul>
+</li>
+</ul>
+<h3 id="守护进程的说明"><a href="#守护进程的说明" class="headerlink" title="守护进程的说明"></a>守护进程的说明</h3><blockquote>
+<ul>
+<li>守护进程名称:<ul>
+<li>应用程序传递它们的可执行文件名称</li>
+<li>可以制定多个服务</li>
+<li>使用通配符ALL来匹配所有守护进程</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>高级语法:<ul>
+<li>daemon@host: client_list …</li>
+</ul>
+</li>
+</ul>
+<h3 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h3><blockquote>
+<ul>
+<li>主机名宏定义<ul>
+<li>LOCAL</li>
+<li>KNOWN, UNKNOWN, PARANOID</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>主机和服务宏定义<ul>
+<li>ALL</li>
+</ul>
+</li>
+<li>EXCEPT<ul>
+<li>可用于客户和服务列表</li>
+<li>可嵌套</li>
+</ul>
+</li>
+<li>扩展选项<ul>
+<li>语法:<ul>
+<li>daemon_ list: client list [:opt1 :p2..]I</li>
+</ul>
+</li>
+<li>spawn:<ul>
+<li>can be used to start additional programs</li>
+<li>special expansions are available (%C, %s)</li>
+<li>例如:</li>
+<li>in.telnetd: ALL : spawn echo “login attempt from %C to %s”| mail -S warning root</li>
+</ul>
+</li>
+<li>deny:<ul>
+<li>可作为hosts.allow中的一个选项</li>
+<li>例如:</li>
+<li>ALL: ALL: DENY</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h2><h3 id="MAC-VS-DAC"><a href="#MAC-VS-DAC" class="headerlink" title="MAC VS DAC"></a>MAC VS DAC</h3><blockquote>
+<ul>
+<li>DAC- Discrentionary Access Control 自主访问控制<ul>
+<li>权限</li>
+<li>拥有者、拥有组和其它人</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>MAC - Mandatory Acess Control ( 强制访问控制)<ul>
+<li>基于角色:<ul>
+<li>一个组只代表一个或多个用户</li>
+<li>一个角色可以代表多个用户,也代表一个用户集可以执行的权限</li>
+</ul>
+</li>
+<li>使用最小特权原则</li>
+</ul>
+</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/21/7dd55bcd388443eeb1a7b8e212cee6bb"
+                      alt="img"
+                ><br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/21/61a109862768471a9b20bacbf16f88dd"
+                      alt="img"
+                ></p>
+<h3 id="SELinux-Secutiry-Enhanced-Linux"><a href="#SELinux-Secutiry-Enhanced-Linux" class="headerlink" title="SELinux - Secutiry-Enhanced Linux"></a>SELinux - Secutiry-Enhanced Linux</h3><p><strong>基于内核级别的MAC</strong></p>
+<ul>
+<li>SELinux是美国国家安全局( NSA&#x3D; The National Security Agency )和SCC( Secure Computing Corporation )开发的Linux的一一个扩张强制访问控制安全模块。</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/21/d34dc5807a5946b2bca55e836f6a0ed4"
+                      alt="img"
+                ></p>
+<blockquote>
+<ul>
+<li>所有文件和进程都具备“安全环境”( security context )</li>
+</ul>
+</blockquote>
+<ul>
+<li>环境包含几个元素,根据安全的需要使用不同的元素<ul>
+<li>user.role:type:sensitivity:category</li>
+<li>user_ <em>u:object</em> <em>r:tmp</em> _t:s0:cO</li>
+</ul>
+</li>
+<li>查看:<ul>
+<li>ls -Z (查看文件或目录)</li>
+<li>ps -Z (查看进程)<ul>
+<li>通常和其它选项配对使用,例如-ef</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>登录名</th>
+<th>SELinux用户</th>
+<th>MLS范围</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>default</em></td>
+<td>unconfined_u</td>
+<td>s0-s0:c0.c1023</td>
+<td>*</td>
+</tr>
+<tr>
+<td>root</td>
+<td>unconfined_u</td>
+<td>s0-s0:c0.c1023</td>
+<td>*</td>
+</tr>
+<tr>
+<td>system_ u</td>
+<td>system_u</td>
+<td>s0-s0:c0.c1023</td>
+<td>*</td>
+</tr>
+</tbody></table>
+<h4 id="role"><a href="#role" class="headerlink" title="role"></a>role</h4><blockquote>
+<ul>
+<li>object_ r -定义系统中的文件的通用的角色,必须是拥有system_ r角色的程序才能访问</li>
+</ul>
+</blockquote>
+<ul>
+<li>system_ _r - - -般为进程的角色</li>
+</ul>
+<blockquote>
+<ul>
+<li>一组叫做”策略( policy)”的规则会决定控制的严格程度</li>
+</ul>
+</blockquote>
+<ul>
+<li>进程要么是被限制的(restricted) ,要么是无束缚的( unconfined)</li>
+<li>策略被用来定义被限制的进程能够使用哪些资源</li>
+<li>默认情况下将拒绝没有被明确允许的行为</li>
+</ul>
+<h4 id="Security-Level"><a href="#Security-Level" class="headerlink" title="Security Level"></a>Security Level</h4><blockquote>
+<ul>
+<li>MLS - Multi-Lever Security (多等级安全)</li>
+</ul>
+</blockquote>
+<ul>
+<li>MLS未启用前:<ul>
+<li>user_ <em>u:role</em> <em>r:type</em> t</li>
+</ul>
+</li>
+<li>MLS启用后:<ul>
+<li>user:role:type:sensitivity[:category…]- sensitivity [:category…]</li>
+</ul>
+</li>
+<li>security level由两部分组成<ul>
+<li>sentitivity [ :category… ]</li>
+</ul>
+</li>
+<li>sentitivity:<ul>
+<li>sO</li>
+<li>s1</li>
+<li>…</li>
+</ul>
+</li>
+<li>category:<ul>
+<li>c0</li>
+<li>…</li>
+<li>c1023</li>
+</ul>
+</li>
+</ul>
+<h3 id="SELinux不能做什么"><a href="#SELinux不能做什么" class="headerlink" title="SELinux不能做什么?"></a>SELinux不能做什么?</h3><blockquote>
+<p><strong>不能替代杀毒软件</strong><br><strong>不能替代认证机制、防火墙或其它安全系统</strong><br><strong>它不是集所有功能于一身的安全解决方案</strong></p>
+</blockquote>
+<h3 id="启用和关闭SELinux"><a href="#启用和关闭SELinux" class="headerlink" title="启用和关闭SELinux"></a>启用和关闭SELinux</h3><blockquote>
+<ul>
+<li>修改&#x2F;etc&#x2F;sysconfig&#x2F;selinux</li>
+</ul>
+</blockquote>
+<ul>
+<li>三种模式:<ul>
+<li>enforcing -启动SELinux (策略生效,支持动态切换到permissive</li>
+<li>permissive-策略不生效,相当于disabled,但是支持动态切换到enforcing ,并且访问生成日志</li>
+<li>disabled -关闭SELinux</li>
+</ul>
+</li>
+<li>策略类型:<ul>
+<li>targeted :默认策略</li>
+<li>MLS</li>
+</ul>
+</li>
+</ul>
+<h3 id="Booleans"><a href="#Booleans" class="headerlink" title="Booleans"></a>Booleans</h3><blockquote>
+<ul>
+<li>Booleans :<ul>
+<li>booleans允许在运行时改变SELinux策略</li>
+<li>不必重新编译SELinux策略</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>查看booleans:<ul>
+<li>getsebool -a</li>
+</ul>
+</li>
+<li>设置booleans :<ul>
+<li>setsebool -P booleans_ name on|off(‘-P’:使修改值永久生效)</li>
+</ul>
+</li>
+</ul>
+<h2 id="DNS-服务"><a href="#DNS-服务" class="headerlink" title="DNS 服务"></a><strong>DNS 服务</strong></h2><p><strong>DNS : Domain Name System</strong></p>
+<blockquote>
+<ul>
+<li>常用的主机名称服务<ul>
+<li>文件( &#x2F;etc&#x2F;hosts )</li>
+<li>DNS</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>早期,使用HOSTS存储主机名到IP地址的映射,由SRI (Stanford Research Institute)斯坦福研究所的NIC (网络信息中心)负责维护，各个主机通过 FTP进行更新</li>
+</ul>
+<h2 id="Bind"><a href="#Bind" class="headerlink" title="Bind"></a>Bind</h2><blockquote>
+<ul>
+<li>类型:系统V ( System V )管理的服务</li>
+</ul>
+</blockquote>
+<ul>
+<li>软件包: bind, bind-utils,bind-chroot</li>
+<li>守护进程: &#x2F;usr&#x2F;sbin&#x2F;named</li>
+<li>脚本: &#x2F;etc&#x2F;init.d&#x2F;named</li>
+<li>端口: 53 (domain)</li>
+<li>配置文件: &#x2F;etc&#x2F;named.conf, &#x2F;var&#x2F;named&#x2F;*</li>
+<li>相关软件包: openssl</li>
+<li>service named configtest</li>
+<li>service named start</li>
+<li>chkconfig</li>
+<li>named on</li>
+</ul>
+<h3 id="区块文件结构"><a href="#区块文件结构" class="headerlink" title="区块文件结构"></a>区块文件结构</h3><blockquote>
+<ul>
+<li>资源记录都有五个字段) :<ul>
+<li>Jomain -被查询的域或子域)</li>
+<li>ttl-记录被保存在缓存中的时间,以秒为单位</li>
+<li>class -记录类别，(通常是IN)</li>
+<li>type-记录类型,例如A或NS</li>
+<li>rdata一域映射的资源数据</li>
+<li>从概念上讲,用户会查询domain (域名) , 而domain则映射到rdata来查找答案</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="SOA查询"><a href="#SOA查询" class="headerlink" title="SOA查询"></a>SOA查询</h3><blockquote>
+<ul>
+<li>SOA ( Start Of Authority )记录将一 个服务器标记为主服务器</li>
+</ul>
+</blockquote>
+<ul>
+<li>初步观察结果<ul>
+<li>域字段叫做始发地址</li>
+<li>rdata字段被引申为支持额外数据r 下-一个演示片对此进行了解释</li>
+<li>一般来说, -一个域通常有一 个主名称服务器,它保存数据的主要副本</li>
+<li>域或区块的其它规范性名称服务器被称为“从服务器”,它们会将其数据与主服务器同步</li>
+</ul>
+</li>
+<li>SOA rdata<ul>
+<li>主名称服务器的FQDN</li>
+<li>联系邮件地址</li>
+<li>序列号码</li>
+<li>在刷新序列号码之前刷新延迟时间</li>
+<li>从服务器的重试间隔</li>
+<li>当从服务器无法连接它的主服务器时，记录会过期</li>
+<li>否定性答复(“no such host”)的TTL最小值</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>主机地址记录</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>别名</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>接收邮件的服务器主机名</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>域名服务器</td>
+</tr>
+<tr>
+<td>PTR</td>
+<td>反向查询记录</td>
+</tr>
+<tr>
+<td>SOA</td>
+<td>该区域数据的授权机构</td>
+</tr>
+</tbody></table>
+<h3 id="DNS-主从"><a href="#DNS-主从" class="headerlink" title="DNS 主从"></a>DNS 主从</h3><blockquote>
+<ul>
+<li>从区块说明</li>
+</ul>
+</blockquote>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;example.com&quot;</span><br><span class="line">&#123;</span><br><span class="line">    type slave;</span><br><span class="line">    masters &#123; mymasters; &#125;;</span><br><span class="line">    file &quot;slaves/example.com.zone&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>示范性区块说明:<ul>
+<li>只想根据master选项中的主机的区块文件传送( AXFR和IXFR )</li>
+<li>将传送到的数据保存在&#x2F;var&#x2F;named&#x2F;slaves&#x2F;example.com.zone</li>
+<li>重载named自动创建文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="访问控制列表-ACL"><a href="#访问控制列表-ACL" class="headerlink" title="访问控制列表(ACL)"></a>访问控制列表(ACL)</h3><blockquote>
+<ul>
+<li>简单的说，ACL将一个名称分配给一个地址匹配列表</li>
+</ul>
+</blockquote>
+<ul>
+<li>一般可以用来代替匹配列表(允许嵌套! )</li>
+<li>最好的办法是在&#x2F;etc&#x2F;named.conf文件的开始处定义ACL</li>
+<li>声明示例<ul>
+<li>acly”trusted {192.168.1.21; }</li>
+<li>acl “classroom” { 192.168.0.0&#x2F;24; trusted;};</li>
+<li>acl “cracker” { 192.168.1.0&#x2F;24; };</li>
+<li>acl “mymasters” { 192.168.0.254; };</li>
+<li>acl “myaddresses” { 127.0.0.1; 192.168.0.1; };</li>
+</ul>
+</li>
+<li>内置ACL<ul>
+<li>BIND预定义了几个ACL:<ul>
+<li>none - 不匹配任何IP地址</li>
+<li>any - 匹配所有IP地址</li>
+<li>localhost - 匹配名称服务的任何IP地址</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h2><h2 id="bind-chroot软件包"><a href="#bind-chroot软件包" class="headerlink" title="bind-chroot软件包"></a>bind-chroot软件包</h2><blockquote>
+<ul>
+<li>在&#x2F;var&#x2F;named&#x2F;chroot中安装chroot环境</li>
+</ul>
+</blockquote>
+<ul>
+<li>将现有的配置文件转移到chroot环境</li>
+<li>更新&#x2F;etc&#x2F;sysconfig&#x2F;named文件中named选项:<ul>
+<li>ROOTDIR&#x3D;&#x2F;var&#x2F;named&#x2F;chroot</li>
+</ul>
+</li>
+<li>提示<ul>
+<li>安装了bind-chroot软件包后查看&#x2F;etc&#x2F;sysconfig&#x2F;named</li>
+<li>启动了named后运行ps -ef| grep named来校验启动选项</li>
+</ul>
+</li>
+</ul>
+<h2 id="FTP-服务"><a href="#FTP-服务" class="headerlink" title="FTP 服务"></a>FTP 服务</h2><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/21/9a3fce5b446e40c3baf827cd6364401d"
+                      alt="img"
+                ></p>
+<h3 id="FTP软件"><a href="#FTP软件" class="headerlink" title="FTP软件"></a>FTP软件</h3><blockquote>
+<ul>
+<li>Vsftpd - Very Secure FTP Daemon<ul>
+<li>非常安全</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>Pureftpd - the Pure FTP Daemon<ul>
+<li>轻量级的</li>
+<li>快速的</li>
+<li>安全的口</li>
+</ul>
+</li>
+<li>Proftpd - the Popular FTP Daemon<ul>
+<li>配置简单</li>
+<li>支持虚拟主机</li>
+</ul>
+</li>
+<li>Ncftpd<ul>
+<li>高性能的</li>
+</ul>
+</li>
+</ul>
+<h3 id="文件传输协议-FTP-vsftpd"><a href="#文件传输协议-FTP-vsftpd" class="headerlink" title="文件传输协议(FTP) - vsftpd"></a>文件传输协议(FTP) - vsftpd</h3><blockquote>
+<ul>
+<li>vsftpd -红帽企业版及普华Linux的默认ftp服务器<ul>
+<li>不再由xinetd,管理，</li>
+<li>允许系统、匿名或虚拟(仅用于FTP服务)用户的访问</li>
+<li>匿名目录层次结构由vsftpd RPM提供</li>
+<li>&#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf是主配置文件</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><p><strong>NFS一Network File System</strong><br><strong>允许网络中的计算机之间通过TCP&#x2F;IP网络共享资源</strong></p>
+<p><strong>RPC- Romote Procedure Call</strong><br><strong>该协议允许运行于一台计算机的程序调用另一台计算机的子程序</strong></p>
+<blockquote>
+<ul>
+<li>类型:系统 V(System V)</li>
+</ul>
+</blockquote>
+<ul>
+<li>软件包: nfs-utils</li>
+<li>守护进程: rpc.nfsd, rpc.lockd, rpciod, rpc.mountd, rpc.rquotad, rpc.statd</li>
+<li>脚本: &#x2F;etc&#x2F;init.d&#x2F;nfs, &#x2F;etc&#x2F;init.d&#x2F;nfslock</li>
+<li>端口:2049(nfsd)</li>
+<li>配置文件: &#x2F;etc&#x2F;exports</li>
+<li>相关软件包: tcp_ wrappers</li>
+</ul>
+<h3 id="用于防火墙的端口选项"><a href="#用于防火墙的端口选项" class="headerlink" title="用于防火墙的端口选项"></a>用于防火墙的端口选项</h3><blockquote>
+<ul>
+<li>mountd, statd和lockd可以被强制使用一个静态端口</li>
+</ul>
+</blockquote>
+<ul>
+<li>在&#x2F;etc&#x2F;sysconfig&#x2F;nfs中设置MOUNTD_ PORT、STATD_ PORT LOCKD_ TCPPORTHE和LOCKD_ UDPPORT变量<ul>
+<li>MOUNTD_ PORT&#x3D;”4002”</li>
+<li>STATD_ PORT&#x3D; “4003”</li>
+<li>LOCKD_ TCPPORT&#x3D; “4004”</li>
+<li>LOCKD_ UDPPORT&#x3D; “4004”</li>
+</ul>
+</li>
+</ul>
+<h2 id="WEB-服务"><a href="#WEB-服务" class="headerlink" title="WEB 服务"></a>WEB 服务</h2><p><strong>Aparch</strong></p>
+<h3 id="服务侧写-httpd"><a href="#服务侧写-httpd" class="headerlink" title="服务侧写: httpd"></a>服务侧写: httpd</h3><blockquote>
+<ul>
+<li>类型:系统V(SystemV)管理服务</li>
+</ul>
+</blockquote>
+<ul>
+<li>软件包: httpd , httpd-devel , httpd-manual</li>
+<li>守护进程: &#x2F;usr&#x2F;sbin&#x2F;httpd</li>
+<li>脚本: &#x2F;etc&#x2F;init.d&#x2F;httpd</li>
+<li>端口: 80(http)、443 ( https )</li>
+<li>配置: &#x2F;etc&#x2F;httpd&#x2F;* , &#x2F;var&#x2F;www&#x2F;*</li>
+<li>相关软件包: mod_ _ssl</li>
+</ul>
+<h3 id="邮件服务"><a href="#邮件服务" class="headerlink" title="邮件服务"></a>邮件服务</h3><blockquote>
+<ul>
+<li>MTA - Mail Transfer Agent</li>
+</ul>
+</blockquote>
+<ul>
+<li>MDA - Mail Delivery Agent</li>
+<li>MUA一Mail User Agent</li>
+<li>MRA一Mail Retiveral Agent</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/70a968c6417346fba7159232e6adc2a6"
+                      alt="img"
+                ></p>
+<blockquote>
+<ul>
+<li>安装:<ul>
+<li>Sendmail</li>
+<li>Postfix</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>基本配置</li>
+<li>监听的接口</li>
+<li>测试</li>
+</ul>
+<h3 id="SMTP命令"><a href="#SMTP命令" class="headerlink" title="SMTP命令"></a>SMTP命令</h3><blockquote>
+<ul>
+<li>HELO连接者的主机名</li>
+</ul>
+</blockquote>
+<ul>
+<li>EHLO连接者的主机名( 使用ESMTP )</li>
+<li>MAIL FROM:</li>
+<li>RCPT TO:</li>
+<li>SIZE&#x3D;bytes (指定发送邮件的大小)</li>
+<li>DATA</li>
+<li>QUIT</li>
+<li>VRFY username</li>
+</ul>
+<h3 id="SMTP限制"><a href="#SMTP限制" class="headerlink" title="SMTP限制"></a>SMTP限制</h3><blockquote>
+<ul>
+<li><p>在&#x2F;etc&#x2F;mail&#x2F;sendmail.mc中启用,使用</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FEATURE(blacklist recipients&#x27;)dnl</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>在&#x2F;etc&#x2F;mail&#x2F;access中添加限制</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">From:90trialspammer@aol.com     REJECT</span><br><span class="line">Connect:spamRus.net             REJECT</span><br><span class="line">Connect:204.168.23              REJECT</span><br><span class="line">Connect:10.3                    OK</span><br><span class="line">From:virtualdomain1.com         RELAY</span><br><span class="line">To:user@dom9.com                ERROR:550 mail discarded</span><br><span class="line">To:nobody@                      ERROR:550 bad name</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="服务侧写-dovecot"><a href="#服务侧写-dovecot" class="headerlink" title="服务侧写: dovecot"></a>服务侧写: dovecot</h3><blockquote>
+<ul>
+<li>类型:系统V管理的服务</li>
+</ul>
+</blockquote>
+<ul>
+<li>软件包: dovecot</li>
+<li>守护进程: &#x2F;usr&#x2F;sbin&#x2F;dovecot口</li>
+<li>脚本: &#x2F;etc&#x2F;init.d&#x2F;dovecot 0</li>
+<li>端口: 110 (pop), 995 (pop3s), 143 (imap), 993 (imaps)</li>
+<li>配置: &#x2F;etc&#x2F;dovecot&#x2F;dovecot.conf, &#x2F;etc&#x2F;dovecot&#x2F;conf.d&#x2F;</li>
+<li>相关软件包: procmail, fetchmail, openssl</li>
+</ul>
+<h2 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h2><h3 id="防火墙功能"><a href="#防火墙功能" class="headerlink" title="防火墙功能"></a>防火墙功能</h3><blockquote>
+<ul>
+<li>内容过滤(元数据的过滤,内容过滤)</li>
+</ul>
+</blockquote>
+<ul>
+<li>NAT</li>
+<li>状态检测</li>
+<li>Qos</li>
+<li>一体化:<ul>
+<li>VPN</li>
+<li>IPS(入侵检测)</li>
+<li>AV (防毒墙)</li>
+</ul>
+</li>
+</ul>
+<h3 id="Iptable"><a href="#Iptable" class="headerlink" title="Iptable"></a>Iptable</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/9ff63d7b61af4a5284f29d52d3b39bd6"
+                      alt="img"
+                ></p>
+<h3 id="Netfilter"><a href="#Netfilter" class="headerlink" title="Netfilter"></a>Netfilter</h3><blockquote>
+<p>在内核中过滤:无守护进程<br>在OSr参考模型(OSIReferenceModel)的第2、3、4层插入策略<br>只查看数据包标题<br>由内核中的netfilter 模块和iptables用户空间软件<br>mangle: 用于对数据包相关字段的修改,如设置TOS、TTL<br>nat: 只用于NAT转换时的访问控制<br>filter: 默认表,用于一般的过滤</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/6a93d3347db147be80059866d679f6bc"
+                      alt="img"
+                ></p>
+<h3 id="Netfilter-1"><a href="#Netfilter-1" class="headerlink" title="Netfilter"></a>Netfilter</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/96b00e25733d485d893d321274bdf70b"
+                      alt="img"
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iptable -t filter -A INPUT -s 192.168.0.1 -j DROP</span><br><span class="line"># -t: 指定表</span><br><span class="line"># -A: 添加策略</span><br><span class="line"># -s: 指定源地址</span><br><span class="line"># -j: 跳转</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="规则目标"><a href="#规则目标" class="headerlink" title="规则目标"></a>规则目标</h4><blockquote>
+<ul>
+<li>内置自标: DROP, ACCEPT</li>
+</ul>
+</blockquote>
+<ul>
+<li>扩展目标: LOG, REJECT,定制链( custom chain )</li>
+<li>REJECT给发送者返回-个通知</li>
+<li>LOG连接系统日志内核工具</li>
+<li>LOG匹配不会从链中退出</li>
+<li>目标是可选的,但是每条规则最多只能有一个目标,如没有目标,就默认使用链的策略</li>
+</ul>
+<h4 id="匹配规则"><a href="#匹配规则" class="headerlink" title="匹配规则"></a>匹配规则</h4><blockquote>
+<ul>
+<li>按顺序配列的规则</li>
+</ul>
+</blockquote>
+<ul>
+<li>按规则顺序测试数据包</li>
+<li>首次匹配后会评估目标:通常退出链</li>
+<li>规则可以指定多个匹配条件</li>
+<li>必须满足规则说明中的每个条件才算是匹配(逻辑AND )</li>
+<li>如果无匹配规则应用链策略</li>
+</ul>
+<h3 id="SNAT"><a href="#SNAT" class="headerlink" title="SNAT"></a>SNAT</h3><blockquote>
+<ul>
+<li>MASQUERADE<ul>
+<li>iptables -t nat -A POSTROUTING -0 eth0 -j MASQUERADE</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>SNAT<ul>
+<li>iptables -t nat -A POSTROUTING j SNAT –to-source 1.2.3.45</li>
+</ul>
+</li>
+</ul>
+<h3 id="etc-passwd"><a href="#etc-passwd" class="headerlink" title="&#x2F;etc&#x2F;passwd"></a>&#x2F;etc&#x2F;passwd</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>用户名</td>
+<td>是uid的字符串标记方式</td>
+</tr>
+<tr>
+<td>2</td>
+<td>密码</td>
+<td>在旧的unix系统中，该字段是用户加密后的密码，现在已经不再使用，而是将密码放在&#x2F;etc&#x2F;shadow中，所以此处都只是一个字母X</td>
+</tr>
+<tr>
+<td>3</td>
+<td>UID</td>
+<td>系统用来区分不同用户的整数</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GID</td>
+<td>系统用来区分不同用户组的整数</td>
+</tr>
+<tr>
+<td>5</td>
+<td>说明栏</td>
+<td>类似于“注释”</td>
+</tr>
+<tr>
+<td>6</td>
+<td>家目录</td>
+<td>用户登录后，默认所处的目录，即家目录</td>
+</tr>
+<tr>
+<td>7</td>
+<td>登录SHELL</td>
+<td>用户登录后，所使用的SHELL</td>
+</tr>
+</tbody></table>
+<h3 id="etc-shadow"><a href="#etc-shadow" class="headerlink" title="&#x2F;etc&#x2F;shadow"></a>&#x2F;etc&#x2F;shadow</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>用户名</td>
+<td>是VID的字符串标记方式</td>
+</tr>
+<tr>
+<td>2</td>
+<td>密码</td>
+<td>经过如密后的密码</td>
+</tr>
+<tr>
+<td>3</td>
+<td>密码的最近修改日</td>
+<td>这个数字是从1970年1月1号至密码修改日的天数</td>
+</tr>
+<tr>
+<td>4</td>
+<td>密码不可修改的天数</td>
+<td>修改密码后，几天后不可修改密码，如果是0，意味着随时可以修改</td>
+</tr>
+<tr>
+<td>5</td>
+<td>密码重新修改的天数</td>
+<td>密码什么时候过期</td>
+</tr>
+<tr>
+<td>6</td>
+<td>密码失效前提前警告的天数</td>
+<td>设定密码过期前提前几天开始提醒</td>
+</tr>
+<tr>
+<td>7</td>
+<td>密码失效宽限天数</td>
+<td>密码过期后多少天，密码将失效</td>
+</tr>
+<tr>
+<td>8</td>
+<td>账号失效日期</td>
+<td>这个数字是从1970年1月1号至账号失效日的天数</td>
+</tr>
+<tr>
+<td>9</td>
+<td>保留字段</td>
+<td>预留</td>
+</tr>
+</tbody></table>
+<h2 id="集中认证"><a href="#集中认证" class="headerlink" title="集中认证"></a>集中认证</h2><blockquote>
+<ul>
+<li>集中认证产品<ul>
+<li>LDAP - AD , IPA, Oracle&#x2F;IBM Directory Server</li>
+<li>NIS</li>
+<li>SAMBA</li>
+<li>LDAP + kerberos</li>
+<li>radius</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h3><p><strong>Lightweight Directory Access Protocol (轻量型目录访问协议)</strong></p>
+<blockquote>
+<ul>
+<li>目录是一-个特殊的数据摩,通常存储一-些小的信息</li>
+</ul>
+</blockquote>
+<ul>
+<li>例子:<ul>
+<li>电话簿是- -个存储名字和电话的目录</li>
+<li>DNS是一个存储主机名与IP的目录</li>
+<li>NIS是- -个存储了系统信息,用户名和密码,还有email地址等的目录</li>
+</ul>
+</li>
+<li>使用目录服务<ul>
+<li>查寻email地址和联系人信息</li>
+<li>管理和同步用户信息</li>
+<li>可以被其它网络服务使用</li>
+<li>存储和查找其它相关的信息</li>
+</ul>
+</li>
+<li>LDIF<ul>
+<li>一个标准的基于文本格式的文件,描述目录条目</li>
+<li>一个条目由一-列属性组成，每一行一个属性</li>
+<li>dn,是一个条目独一的名字，必须位于第一行</li>
+<li>条目与条目之间用空行来分隔</li>
+</ul>
+</li>
+</ul>
+<h3 id="Sample-Entry-in-LDIF-Form"><a href="#Sample-Entry-in-LDIF-Form" class="headerlink" title="Sample Entry in LDIF Form"></a>Sample Entry in LDIF Form</h3><blockquote>
+<ul>
+<li>dn: uid&#x3D;bjensen, ou&#x3D;people, dc&#x3D;example, dc&#x3D;com</li>
+</ul>
+</blockquote>
+<ul>
+<li>objectclass: top</li>
+<li>objectclass: person</li>
+<li>objectclass: organi zationalPerson</li>
+<li>objectclass: inetOrgPerson</li>
+<li>cn:Barbara Jensen</li>
+<li>cn: Barb Jensen</li>
+<li>sn: Jensen</li>
+<li>uid: bjensen</li>
+<li>mail: bj ensen@example . com</li>
+<li>telephoneNumber: +1 919 754 3700</li>
+<li>postalAddress: Example， Inc.$123 Main</li>
+<li>Street$Any Town, NC 12345$USA</li>
+<li>title: Account Manager</li>
+</ul>
+<h4 id="目录Schema"><a href="#目录Schema" class="headerlink" title="目录Schema"></a>目录Schema</h4><blockquote>
+<ul>
+<li>attribute types :规定属性的值的格式化,以及怎么比较相同类型的两个属性</li>
+</ul>
+</blockquote>
+<ul>
+<li>object classes :代表的一类相似的对象,规定哪些属性是必须的,哪些是可选的</li>
+</ul>
+<h4 id="Objects-Classes"><a href="#Objects-Classes" class="headerlink" title="Objects Classes"></a>Objects Classes</h4><blockquote>
+<ul>
+<li>一个object class组织相关的信息<ul>
+<li>定义了哪些属性是强制的,必须的</li>
+<li>objectclass属性定义了一个条目属于哪些object classes</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>有两种类型的object classes<ul>
+<li>一个条目必须有一个structural object class</li>
+<li>一个条目可以有一 个或多个auxiliary object classes</li>
+</ul>
+</li>
+</ul>
+<h2 id="Kerberos"><a href="#Kerberos" class="headerlink" title="Kerberos"></a>Kerberos</h2><h3 id="安全网络认证系统"><a href="#安全网络认证系统" class="headerlink" title="安全网络认证系统"></a>安全网络认证系统</h3><blockquote>
+<ul>
+<li>有三个参与者:<ul>
+<li>Key Distribution Centor ( KDC )</li>
+<li>网络服务</li>
+<li>客户端用户</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="初始化认证"><a href="#初始化认证" class="headerlink" title="初始化认证"></a>初始化认证</h3><blockquote>
+<ul>
+<li>用户输入用户名和密码</li>
+</ul>
+</blockquote>
+<ul>
+<li>登录程序向KDC请求TGT</li>
+<li>KDC发送给登录程序-一个用用户的密码加密的TGT</li>
+<li>如果登录程序能用用户输入的密码解密TGT ,用户就被成功认证</li>
+</ul>
+<h3 id="票据认证"><a href="#票据认证" class="headerlink" title="票据认证"></a>票据认证</h3><blockquote>
+<ul>
+<li>客户端向KDC发送访问服务所需要的票据的请求</li>
+</ul>
+</blockquote>
+<ul>
+<li>KDC发送给客户端两个相同的副本<ul>
+<li>一个是用TGT加密的副本</li>
+<li>一个是用服务的密码加密的副本</li>
+</ul>
+</li>
+<li>客户端发送给网络服务<ul>
+<li>一个是用服务的密码加密的副本</li>
+<li>一个是用票据加密的时间戳</li>
+</ul>
+</li>
+</ul>
+<h3 id="标识参与者"><a href="#标识参与者" class="headerlink" title="标识参与者"></a>标识参与者</h3><blockquote>
+<ul>
+<li>标识用户和网络服务<ul>
+<li>使用primary , instance和realm</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>格式: primary&#x2F;instance@realm</li>
+<li>例子:<ul>
+<li>student@ABC. COM</li>
+<li>user1&#x2F;admin@ ABC.COM</li>
+<li>host&#x2F;server1.abc.com@ ABC.COM</li>
+<li>nfs&#x2F;<a class="link"   href="mailto:&#x68;&#111;&#115;&#116;&#x2e;&#x61;&#98;&#x63;&#46;&#x63;&#x6f;&#x6d;&#64;&#65;&#x42;&#67;&#46;&#x43;&#x4f;&#x4d;" >host.abc.com@ABC.COM <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+</li>
+</ul>
+<h2 id="目录服务-IPA"><a href="#目录服务-IPA" class="headerlink" title="目录服务 IPA"></a>目录服务 IPA</h2><blockquote>
+<ul>
+<li>IPA:是一个集成解决方案<ul>
+<li>Identity , Policy yand Audit</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>IPA使用以下组件:<ul>
+<li>Red HatIDirectory Server</li>
+<li>MIT kerberos</li>
+<li>NTP</li>
+<li>BIND</li>
+<li>Web Management Tools</li>
+<li>IPA command-line Tools</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h2><h3 id="随机数发生器"><a href="#随机数发生器" class="headerlink" title="随机数发生器"></a>随机数发生器</h3><h3 id="熵"><a href="#熵" class="headerlink" title="熵"></a>熵</h3><blockquote>
+<ul>
+<li>熵-用于描述系统混乱无序程序的物理量<ul>
+<li><strong>熵越大,不确定性越大</strong></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>内核维护了一个熵池用来收集来自设备驱动程序和其它来源的环境噪音</li>
+<li>内核提供来源:<ul>
+<li>&#x2F;dev&#x2F;random - 会阻塞,耗时长,但安全</li>
+<li>&#x2F;dev&#x2F;urandom - 不会阻塞,需要借助键盘或鼠标等事件,随机程度不高,适合生成较低强度的密码</li>
+</ul>
+</li>
+</ul>
+<h3 id="单向散列"><a href="#单向散列" class="headerlink" title="单向散列"></a>单向散列</h3><p><strong>单项散列函数,又叫hash函数, 是一种将任意长度的数据缩小成固定长度指纹的一种方法</strong></p>
+<h4 id="特性-确定性"><a href="#特性-确定性" class="headerlink" title="特性 - 确定性"></a>特性 - 确定性</h4><p>如果两个散列值是不相同的(根据同- -函数) ,那么这两个散列值所对应的原始输入也是不同的</p>
+<h3 id="常见算法"><a href="#常见算法" class="headerlink" title="常见算法"></a>常见算法</h3><p>MD2，MD5，MDC2,RMD160,SHA,SHA1</p>
+<h4 id="常见工具"><a href="#常见工具" class="headerlink" title="常见工具"></a>常见工具</h4><blockquote>
+<ul>
+<li>shalsum [ –check ] file</li>
+</ul>
+</blockquote>
+<ul>
+<li>md5sum [ –check ] file</li>
+<li>openssl</li>
+<li>gpg</li>
+<li>rpm -V</li>
+</ul>
+<h4 id="应用场合"><a href="#应用场合" class="headerlink" title="应用场合"></a>应用场合</h4><ul>
+<li>数据完整性检查</li>
+<li>按照关键字查找数据记录</li>
+</ul>
+<p>单项散列是不能取代<strong>对称加密</strong>和<strong>不对称加密</strong>,它们是互补的</p>
+<p>对称加密</p>
+<p>加密数据和解密数据, 基于同一个KEY</p>
+<p>优点: 相比不对称加密,效率高<br>缺点: 相比不对称加密,安全性差</p>
+<h3 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法:"></a>常用算法:</h3><p>DES, 3DES , Blowfish, RC2 , RC4, RC6 ,IDEA, CAST5</p>
+<h4 id="常见工具-1"><a href="#常见工具-1" class="headerlink" title="常见工具"></a>常见工具</h4><ul>
+<li>passwd</li>
+<li>gpg ( 3DES , CAST5 , Blowfish)</li>
+<li>openssl</li>
+</ul>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>信息量的数据, 一般用对称加密<br>对称加密和非对称加密常会结合使用</p>
+<h3 id="不对称加密"><a href="#不对称加密" class="headerlink" title="不对称加密"></a>不对称加密</h3><ul>
+<li>又叫公开密钥加密,是指一对加密密钥与解密密钥,用密码对当中的一个加密，必须是另一个密钥才能解密。公开的密钥为公钥,不公开的密钥叫私钥。</li>
+<li>如果加密密钥公开,这用于客户给私钥所有者.上传加密的数据,这被称作公开<br>密钥加密。</li>
+<li>如果解密密钥公开,用私钥加密的信息,可以用公钥对其解密，由于客户验证持有私钥- -方发布的数据或文件是可靠的,接收者由此可知这条信息确实来自于拥有私钥的某人,这被称做<strong>数字签名</strong>。</li>
+</ul>
+<h4 id="常见算法-1"><a href="#常见算法-1" class="headerlink" title="常见算法"></a>常见算法</h4><blockquote>
+<ul>
+<li>RSA</li>
+</ul>
+</blockquote>
+<ul>
+<li>DSA</li>
+<li>EIGamal</li>
+<li>ECC</li>
+<li>Deffie-Hallman中的公钥加密算法</li>
+</ul>
+<h3 id="GnuPG"><a href="#GnuPG" class="headerlink" title="GnuPG"></a>GnuPG</h3><p><strong>PGP - Pretty Good Privacy</strong></p>
+<ul>
+<li>是PGP公司开发的加密签名工具套件</li>
+<li>openGPG是最广泛使用的email加密工具，最初是基于PGP开发的</li>
+</ul>
+<h4 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a><strong>对称加密</strong></h4><ul>
+<li>gpg -C filename</li>
+<li>gpg -0 filename1 -d filename.gpg</li>
+</ul>
+<h4 id="不对称加密-1"><a href="#不对称加密-1" class="headerlink" title="不对称加密"></a><strong>不对称加密</strong></h4><ul>
+<li>gpg –gen-key</li>
+<li>gpg –list-keys</li>
+<li>gpg –export –armor &lt;key’s name&gt; filename</li>
+<li>gpg –import filename</li>
+<li>gpg -e –armor-r &lt;key’s name&gt; filename</li>
+</ul>
+<h4 id="数字签名和加密"><a href="#数字签名和加密" class="headerlink" title="数字签名和加密"></a><strong>数字签名和加密</strong></h4><ul>
+<li>gpg -sea -r &lt;key’s name&gt; filename</li>
+<li>gpg -d filename.asc</li>
+</ul>
+<h3 id="PKI"><a href="#PKI" class="headerlink" title="PKI"></a>PKI</h3><p><strong>PKI - Public Key Infrastructure(公钥基础设施),是一套创建、存储、分发用于验证公钥的数字证书系统</strong></p>
+<h4 id="PKI组件"><a href="#PKI组件" class="headerlink" title="PKI组件"></a>PKI组件</h4><ul>
+<li>CA- Certificate Authority</li>
+<li>RA - Registration Authority</li>
+<li>最终用户</li>
+</ul>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><ul>
+<li>用于认证</li>
+<li>将公司、个人和公钥绑定</li>
+<li>由CA颁发或自行签发证书</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/4ebaca7a8b564601b2090880c79a884f"
+                      alt="img"
+                ></p>
+<h3 id="X-509"><a href="#X-509" class="headerlink" title="X.509"></a>X.509</h3><p>X.509是PKI中针对证书格式、证书吊销列表和授权证书等所制定的标准</p>
+<blockquote>
+<ul>
+<li>所包含的内容:<ul>
+<li>版本</li>
+<li>序列号</li>
+<li>算法ID</li>
+<li>发行者</li>
+<li>有效期</li>
+<li>主题</li>
+<li>证书签名</li>
+<li>证书签名算法</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h3><p><strong>SSL- Secure Sockets Layer</strong>是一种安全协议,是Netscape公司在推出WEB浏览器首款时提出的,为网络通信提供数据安全及数据完整性。</p>
+<p>工作在OSI的第六层.</p>
+<ul>
+<li>优势:它是与第七层的应用层协议独立的,高层的应用层协议能透明的建立于SSL协议之上</li>
+</ul>
+<h4 id="TLS和SSL"><a href="#TLS和SSL" class="headerlink" title="TLS和SSL"></a>TLS和SSL</h4><ul>
+<li>IETF将SSL做了标准化,即RFC2246,并将其称为TLS</li>
+<li>TLS - Transport Layer Security</li>
+<li>从技术上, TLS和SSL相差不大</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/a5abc6d4c7bf4fb6af33411ac4fe31c5"
+                      alt="img"
+                ></p>
+<h4 id="TLS和SSL握手协议"><a href="#TLS和SSL握手协议" class="headerlink" title="TLS和SSL握手协议"></a>TLS和SSL握手协议</h4><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/22/a78f6604d31e4d609204b2df67f887f7"
+                      alt="img"
+                ></p>
+<h4 id="SSL应用"><a href="#SSL应用" class="headerlink" title="SSL应用"></a>SSL应用</h4><ul>
+<li>SSH</li>
+<li>HTTPS</li>
+<li>IMAPS</li>
+<li>POP3S</li>
+</ul>
+<h3 id="Openssl"><a href="#Openssl" class="headerlink" title="Openssl"></a>Openssl</h3><p><strong>OpenssI是一个开源的SSL&#x2F;TLS协议的实现工具,能用于生成keys或者加密解密数据,也能创造和管理X. 509数字证书。</strong></p>
+<blockquote>
+<ul>
+<li>加密<ul>
+<li>openssI enc-des3 -salt - -a -in plaintext - -out ciphertext.des3</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>解密<ul>
+<li>openssI enc-d -des3 - salt -a -in ciphertext.des3 - out plaintext</li>
+</ul>
+</li>
+</ul>
+<p><strong>单项散列</strong></p>
+<blockquote>
+<ul>
+<li>命令<ul>
+<li>openssl agst- -sha1 &#x2F;boot&#x2F;grub&#x2F;grub.conf</li>
+<li>openssl passwd -1</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><strong>生成RSA公钥和私钥</strong></p>
+<blockquote>
+<ul>
+<li>生成不加密的私钥<ul>
+<li>Openssl genrsa &gt; somename.key</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>生成加密的私钥<ul>
+<li>OpenssI genrsa -aes128 2048 &gt; somename.key</li>
+</ul>
+</li>
+<li>生成公钥<ul>
+<li>OpenssI rsa -in somename.key -pubout - -out public.key</li>
+</ul>
+</li>
+</ul>
+<p><strong>不对称加解密</strong></p>
+<blockquote>
+<ul>
+<li>加密<ul>
+<li>openssl rsautl -encrypt -pubin -inkey public.key -in plaintext -out encrypted.txt</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>解密<ul>
+<li>openssI rsautl -decrypt -inkey private.key - -in encrypted.txt -out plaintext.txt</li>
+</ul>
+</li>
+</ul>
+<p><strong>生成CSR文件</strong></p>
+<blockquote>
+<ul>
+<li>命令<ul>
+<li>openssI req -new -key somfile.key -out somefile.csr</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="撤销证书"><a href="#撤销证书" class="headerlink" title="撤销证书"></a>撤销证书</h4><blockquote>
+<ul>
+<li>命令<ul>
+<li>openssI ca -revoke stolen.crt</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 云计算 - Linux服务与安全</li>
+        <li><strong>作者:</strong> atdunbg</li>
+        <li><strong>创建于
+                :</strong> 2023-04-27 12:56:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-12-26 03:22:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://atdunbg.xyz/2023/04/27/cloud_linux_3/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">#云计算</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/03/27/cloud_linux_2/" title="云计算 - Linux系统管理" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux系统管理" class="!max-w-none">
+  <span class="title">云计算 - Linux系统管理</span>
+</a><a class="recommended-article-item" href="/2023/03/27/arch_install/" title="记一次ArchLinux的安装过程" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="记一次ArchLinux的安装过程" class="!max-w-none">
+  <span class="title">记一次ArchLinux的安装过程</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/03/27/cloud_linux_2/" title="云计算 - Linux系统管理" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux系统管理" class="!max-w-none">
+  <span class="title">云计算 - Linux系统管理</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/05/18/cloud_linux_5/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux集群</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/04/19/cloud_linux_4/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux开源虚拟化KVM</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://hexo-waline.atdunbg.xyz',
+          dark: 'body[class~="dark-mode"]',
+          reaction: true,
+          requiredMeta: ['nick', 'mail'],
+          emoji: ['https://unpkg.com/@waline/emojis@1.2.0/bilibili', 'https://unpkg.com/@waline/emojis@1.2.0/soul-emoji', 'https://unpkg.com/@waline/emojis@1.2.0/qq'],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">云计算 - Linux服务与安全</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="nav-text">网络基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket-%E9%80%9A%E8%AE%AF"><span class="nav-text">Socket 通讯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-S-B-S%E6%9E%B6%E6%9E%84"><span class="nav-text">C&#x2F;S, B&#x2F;S架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%9F%BA%E7%A1%80"><span class="nav-text">服务的基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#System-V-%E6%9C%8D%E5%8A%A1"><span class="nav-text">System V 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#chkconfig"><span class="nav-text">chkconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-sysconfig%E6%96%87%E4%BB%B6"><span class="nav-text">&#x2F;etc&#x2F;sysconfig文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transient-%E6%9C%8D%E5%8A%A1"><span class="nav-text">Transient 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-text">计划任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E6%80%A7%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-text">一次性计划任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%A8%E6%9C%9F%E6%80%A7%E7%9A%84%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-text">周期性的计划任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rsyslog-%E6%9C%8D%E5%8A%A1"><span class="nav-text">Rsyslog 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logrotate"><span class="nav-text">Logrotate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Logrotate-%E8%BD%AC%E5%8F%91"><span class="nav-text">Logrotate 转发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ntpl-Network-Time-Protocol"><span class="nav-text">ntpl (Network Time Protocol)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tcp-warppers"><span class="nav-text">Tcp-warppers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%92%8C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-text">服务和应用程序的访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcp-wrappers%E9%85%8D%E7%BD%AE"><span class="nav-text">tcp_ wrappers配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="nav-text">守护进程的说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="nav-text">宏定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELinux"><span class="nav-text">SELinux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-VS-DAC"><span class="nav-text">MAC VS DAC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux-Secutiry-Enhanced-Linux"><span class="nav-text">SELinux - Secutiry-Enhanced Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#role"><span class="nav-text">role</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Security-Level"><span class="nav-text">Security Level</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux%E4%B8%8D%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">SELinux不能做什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%92%8C%E5%85%B3%E9%97%ADSELinux"><span class="nav-text">启用和关闭SELinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Booleans"><span class="nav-text">Booleans</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-%E6%9C%8D%E5%8A%A1"><span class="nav-text">DNS 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bind"><span class="nav-text">Bind</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BA%E5%9D%97%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">区块文件结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOA%E6%9F%A5%E8%AF%A2"><span class="nav-text">SOA查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS-%E4%B8%BB%E4%BB%8E"><span class="nav-text">DNS 主从</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8-ACL"><span class="nav-text">访问控制列表(ACL)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chroot"><span class="nav-text">chroot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind-chroot%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-text">bind-chroot软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP-%E6%9C%8D%E5%8A%A1"><span class="nav-text">FTP 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FTP%E8%BD%AF%E4%BB%B6"><span class="nav-text">FTP软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE-FTP-vsftpd"><span class="nav-text">文件传输协议(FTP) - vsftpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS"><span class="nav-text">NFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E4%BA%8E%E9%98%B2%E7%81%AB%E5%A2%99%E7%9A%84%E7%AB%AF%E5%8F%A3%E9%80%89%E9%A1%B9"><span class="nav-text">用于防火墙的端口选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB-%E6%9C%8D%E5%8A%A1"><span class="nav-text">WEB 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E4%BE%A7%E5%86%99-httpd"><span class="nav-text">服务侧写: httpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1"><span class="nav-text">邮件服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP%E5%91%BD%E4%BB%A4"><span class="nav-text">SMTP命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP%E9%99%90%E5%88%B6"><span class="nav-text">SMTP限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E4%BE%A7%E5%86%99-dovecot"><span class="nav-text">服务侧写: dovecot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-text">防火墙</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E5%8A%9F%E8%83%BD"><span class="nav-text">防火墙功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iptable"><span class="nav-text">Iptable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netfilter"><span class="nav-text">Netfilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netfilter-1"><span class="nav-text">Netfilter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99%E7%9B%AE%E6%A0%87"><span class="nav-text">规则目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99"><span class="nav-text">匹配规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SNAT"><span class="nav-text">SNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etc-passwd"><span class="nav-text">&#x2F;etc&#x2F;passwd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etc-shadow"><span class="nav-text">&#x2F;etc&#x2F;shadow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E4%B8%AD%E8%AE%A4%E8%AF%81"><span class="nav-text">集中认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LDAP"><span class="nav-text">LDAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sample-Entry-in-LDIF-Form"><span class="nav-text">Sample Entry in LDIF Form</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95Schema"><span class="nav-text">目录Schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Objects-Classes"><span class="nav-text">Objects Classes</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kerberos"><span class="nav-text">Kerberos</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F"><span class="nav-text">安全网络认证系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AE%A4%E8%AF%81"><span class="nav-text">初始化认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%A8%E6%8D%AE%E8%AE%A4%E8%AF%81"><span class="nav-text">票据认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E5%8F%82%E4%B8%8E%E8%80%85"><span class="nav-text">标识参与者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1-IPA"><span class="nav-text">目录服务 IPA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8"><span class="nav-text">数据安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E5%8F%91%E7%94%9F%E5%99%A8"><span class="nav-text">随机数发生器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%86%B5"><span class="nav-text">熵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97"><span class="nav-text">单向散列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%80%A7-%E7%A1%AE%E5%AE%9A%E6%80%A7"><span class="nav-text">特性 - 确定性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95"><span class="nav-text">常见算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%B7%A5%E5%85%B7"><span class="nav-text">常见工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E5%90%88"><span class="nav-text">应用场合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95"><span class="nav-text">常用算法:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%B7%A5%E5%85%B7-1"><span class="nav-text">常见工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86"><span class="nav-text">不对称加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95-1"><span class="nav-text">常见算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GnuPG"><span class="nav-text">GnuPG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86"><span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-1"><span class="nav-text">不对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E5%92%8C%E5%8A%A0%E5%AF%86"><span class="nav-text">数字签名和加密</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PKI"><span class="nav-text">PKI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PKI%E7%BB%84%E4%BB%B6"><span class="nav-text">PKI组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X-509"><span class="nav-text">X.509</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL"><span class="nav-text">SSL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TLS%E5%92%8CSSL"><span class="nav-text">TLS和SSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TLS%E5%92%8CSSL%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE"><span class="nav-text">TLS和SSL握手协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL%E5%BA%94%E7%94%A8"><span class="nav-text">SSL应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Openssl"><span class="nav-text">Openssl</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%A4%E9%94%80%E8%AF%81%E4%B9%A6"><span class="nav-text">撤销证书</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 17 篇文章
+                    </span>
+                    
+                        <span>
+                            共 48.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+    
+<script src="/js/build/layouts/bookmarkNav.js" type="module"></script>
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+</body>
+
+</html>

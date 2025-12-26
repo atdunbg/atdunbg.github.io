@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://atdunbg.xyz/2023/03/27/arch_install/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次ArchLinux的安装过程">
+<meta property="og:url" content="http://atdunbg.xyz/2023/03/27/arch_install/index.html">
+<meta property="og:site_name" content="Atdunbg&#39;s Blog">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-03-27T10:30:00.000Z">
+<meta property="article:modified_time" content="2025-12-26T03:22:59.063Z">
+<meta property="article:author" content="atdunbg">
+<meta property="article:tag" content="Arch Linux">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            记一次ArchLinux的安装过程 | Atdunbg&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <meta name="referrer" content="no-referrer" />
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"atdunbg.xyz","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":true,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":5,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["..."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":"atdunbg@qq.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Daisy Crown","artist":"Empty old City/Wuthering Waves","url":"https://music.163.com/song/media/outer/url?id=2676687608.mp3","cover":"https://p2.music.126.net/J0ZfqWmqX3zGJLzTubJ7vg==/109951170498554226.jpg","lrc":null},{"name":"Destiny【BlackYearning】[RWBY Doujin remix]","artist":"Cre-sc3NT","url":"https://music.163.com/song/media/outer/url?id=463311509.mp3","cover":"https://p1.music.126.net/_M3lkuYe93Fdo8kBLDBQlA==/109951162870251332.jpg"}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"书签":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Google":{"path":"https://www.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"BookMarks":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 12:00:00"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/bookmarks"
+                                        >
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                    书签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://www.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/bookmarks"
+                        >
+                            <span>
+                                书签
+                            </span>
+                            
+                                <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://www.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/bookmarks"
+                        >
+                            <span>BookMarks</span>
+                            <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="记一次ArchLinux的安装过程" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">记一次ArchLinux的安装过程</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-03-27 10:30</span>
+        <span class="mobile">2023-03-27 10:30</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-12-26 03:22:59</span>
+            <span class="mobile">2025-12-26 03:22:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/Arch-Linux/">Arch Linux</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Arch-Linux/">Arch Linux</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Linux/">Linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.1k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>8 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="ArchLinux-KDE的安装过程"><a href="#ArchLinux-KDE的安装过程" class="headerlink" title="ArchLinux+KDE的安装过程"></a>ArchLinux+KDE的安装过程</h2><h2 id="1-1下载镜像文件"><a href="#1-1下载镜像文件" class="headerlink" title="1. 1下载镜像文件"></a>1. 1下载镜像文件</h2><p>Archlinux的官网:<a class="link"   target="_blank" rel="noopener" href="https://archlinux.org/" >https://archlinux.org/ <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>点击Download</p>
+<p>按照自身情况选择一个镜像源</p>
+<p>国内推荐<a class="link"   target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/2023.04.01/" >清华源 <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>下载iso镜像文件</p>
+<h2 id="1-2-选择安装方式"><a href="#1-2-选择安装方式" class="headerlink" title="1.2 选择安装方式"></a>1.2 <strong>选择安装方式</strong></h2><h3 id="1-2-1本机安装"><a href="#1-2-1本机安装" class="headerlink" title="1.2.1本机安装"></a>1.2.1本机安装</h3><p>folding cyan,本机安装<br>本机安装, 推荐用 <a class="link"   target="_blank" rel="noopener" href="https://www.ventoy.net/cn/" >ventoy <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>制作U盘启动盘进行安装</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://www.ventoy.net/static/img/screen/screen_uefi.png"
+                      alt="img"
+                ></p>
+<h4 id="1-制作启动盘"><a href="#1-制作启动盘" class="headerlink" title="(1).制作启动盘"></a>(1).制作启动盘</h4><ul>
+<li>准备一个大容量U盘(建议8G往上, 以后想装其他系统直接吧ISO文件复制到U盘里即可)</li>
+<li>确保U盘里没有重要文件(请提前备份好重要文件)</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/12/4a4bcbaa4c6341e29ea9bfb84e3bc731"
+                      alt="img"
+                ></p>
+<ul>
+<li>打开Ventoy2Disk.exe</li>
+<li>找到要制作的U盘, 点击开始安装即可</li>
+</ul>
+<p>然后将archlinux的iso镜像复制在U盘中</p>
+<h4 id="2-启动archlinux镜像"><a href="#2-启动archlinux镜像" class="headerlink" title="(2).启动archlinux镜像"></a>(2).启动archlinux镜像</h4><p><strong>启动电脑时按F2(不同电脑快捷键可能不同,请自行百度)</strong></p>
+<p>然后选择U盘启动,进入ventoy,选择archlinux.</p>
+<p>endfolding</p>
+<h3 id="1-2-2虚拟机安装"><a href="#1-2-2虚拟机安装" class="headerlink" title="1.2.2虚拟机安装"></a>1.2.2虚拟机安装</h3><p>folding cyan,虚拟机安装</p>
+<p><strong>此处演示的为 <a class="link"   target="_blank" rel="noopener" href="https://www.vmware.com/" >VMware <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>虚拟机</strong></p>
+<ul>
+<li>打开 VMware</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/12/64af68c7fa604fadabd2195870740c7d"
+                      alt="img"
+                ></p>
+<ul>
+<li>选择新建虚拟机,选择典型(推荐)配置</li>
+<li>选择安装光盘映像文件(iso), 选择下载好的archlinux的ISO镜像.</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/12/64af68c7fa604fadabd2195870740c7d"
+                      alt="img"
+                ></p>
+<ul>
+<li><strong>下一步</strong></li>
+<li>操作系统选择Linux,内核选择 其他 Linux 5.x 内核 64 位.</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/9178cbdb8638488ca6b693d02520db85"
+                      alt="img"
+                ></p>
+<ul>
+<li><strong>下一步</strong></li>
+</ul>
+<p> 虚拟机名字和创建文字按照自己情况适当调整</p>
+<ul>
+<li><strong>下一步</strong></li>
+</ul>
+<p>最大磁盘大小按照自己情况修改(我这里改为20GB)</p>
+<p>选择 <strong>将虚拟磁盘储存为单个文件</strong></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/babb449048224249882bb8bdafba1f4f"
+                      alt="img"
+                ></p>
+<ul>
+<li><strong>下一步</strong></li>
+<li>点击<strong>自定义硬件</strong>, 修改此虚拟机的内存,我这里修改的为<strong>4G</strong></li>
+<li>点击<strong>完成</strong></li>
+<li>点击<strong>编辑虚拟机设置</strong>, 依次点击 <strong>选项–&gt;高级–&gt;固件类型 中 选中UEFI模式</strong></li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/28c6a3ea59b9437b9051320301d7c763"
+                      alt="img"
+                ></p>
+<p><strong>至此,虚拟机配置就完成了</strong></p>
+<h2 id="1-3安装archlinux"><a href="#1-3安装archlinux" class="headerlink" title="1.3安装archlinux"></a>1.3安装archlinux</h2><h3 id="1-3-1进入镜像系统"><a href="#1-3-1进入镜像系统" class="headerlink" title="1.3.1进入镜像系统"></a>1.3.1进入镜像系统</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/d59ffd614b6242d09be1773f835df77c"
+                      alt="img"
+                ></p>
+<p>首先 先禁用 <strong>reflector服务</strong>, 防止自动更新服务器列表</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop reflector.service</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-2网络连接-有线网会自动连接-请忽略此步"><a href="#1-3-2网络连接-有线网会自动连接-请忽略此步" class="headerlink" title="1.3.2网络连接, 有线网会自动连接, 请忽略此步"></a>1.3.2<strong>网络连接</strong>, 有线网会自动连接, 请忽略此步</h3><p>无线网连接</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#执行iwctl指令,进入交互式命令界面</span></span><br><span class="line">iwctl</span><br><span class="line"></span><br><span class="line"><span class="comment">#累出设备名,如无线网卡应看到wlan0</span></span><br><span class="line">device list					</span><br><span class="line"></span><br><span class="line"><span class="comment">#用wlan0扫描网络</span></span><br><span class="line">station wlan0 scan		 	</span><br><span class="line"></span><br><span class="line"><span class="comment">#列出网络</span></span><br><span class="line">station wlan0 get-networks	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接指定无线网 输入密码</span></span><br><span class="line">station wlan0 connect [无线网名字]	</span><br><span class="line"></span><br><span class="line"><span class="comment">#退出iwctl</span></span><br><span class="line"><span class="built_in">exit</span>或者quit					</span><br></pre></td></tr></table></figure></div>
+
+<p>ping一下一个网站, 看看网络是否连接成功</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#例</span></span><br><span class="line"></span><br><span class="line">ping www.baidu.com</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-3同步网络时间"><a href="#1-3-3同步网络时间" class="headerlink" title="1.3.3同步网络时间"></a>1.3.3同步网络时间</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-4修改软件源-把中国源放在前列"><a href="#1-3-4修改软件源-把中国源放在前列" class="headerlink" title="1.3.4修改软件源 把中国源放在前列"></a>1.3.4修改软件源 把中国源放在前列</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ctrl+w		搜索指定文本</span></span><br><span class="line"><span class="comment"># Ctrl+6		标记指定文本</span></span><br><span class="line"><span class="comment"># Ctrl+k		剪切选中文本</span></span><br><span class="line"><span class="comment"># Ctrl+u		粘贴文本</span></span><br><span class="line"><span class="comment"># Ctrl+x		退出编辑</span></span><br><span class="line"></span><br><span class="line">nano /etc/pacman.d/mirrorslist				<span class="comment">#打开镜像源配置文件,将中国的镜像源放置最前列</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-5刷新但不更新软件包"><a href="#1-3-5刷新但不更新软件包" class="headerlink" title="1.3.5刷新但不更新软件包"></a>1.3.5刷新但不更新软件包</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syy</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-6-可选操作-安装openssh"><a href="#1-3-6-可选操作-安装openssh" class="headerlink" title="1.3.6(可选操作)安装openssh"></a>1.3.6(可选操作)安装openssh</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装openssh远程软件</span></span><br><span class="line">pacman -S openssh		</span><br><span class="line"></span><br><span class="line"><span class="comment">#启用sshd服务</span></span><br><span class="line">systemctl start sshd	</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置当前root密码</span></span><br><span class="line">passwd root</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看ip地址</span></span><br><span class="line">ip a					</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<ul>
+<li><strong>使用ssh连接archlinux,方便复制粘贴命令</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh [ip地址]@root</span><br><span class="line"><span class="comment">#输入密码即可成功连接</span></span><br></pre></td></tr></table></figure></div></blockquote>
+<h3 id="1-3-7磁盘分区"><a href="#1-3-7磁盘分区" class="headerlink" title="1.3.7磁盘分区"></a>1.3.7磁盘分区</h3><h4 id="fdisk软件分区"><a href="#fdisk软件分区" class="headerlink" title="fdisk软件分区"></a>fdisk软件分区</h4><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l		<span class="comment">#查看磁盘列表</span></span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/a486688cc9a6498ba62fe18295522538"
+                     
+                ></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sda		#对sda磁盘进行分区</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<ul>
+<li>fdisk操作命令<ul>
+<li>m: 帮助</li>
+<li>g(小写g): 创建GPT格式磁盘</li>
+<li>n: 创建分区</li>
+<li>p: 查看分区</li>
+<li>q: 不保存退出</li>
+<li>w: 保存并退出 所有操作在执行”w”前都不会生效</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/19d395dd4761416eb96503de9016e74f"
+                      alt="img"
+                ></p>
+<p>作为演示, 分以下四个分区</p>
+<ul>
+<li>512MB的ESP启动分区</li>
+<li>2G的交换分区</li>
+<li>10G作为根目录&#x2F;</li>
+<li>剩下的作为home目录</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/f7f0817f25c442ab9c46d675c786a7e6"
+                      alt="img"
+                ></p>
+<h4 id="cfdisk软件分区"><a href="#cfdisk软件分区" class="headerlink" title="cfdisk软件分区"></a>cfdisk软件分区</h4><p>folding cyan,cfdisk软件分区</p>
+<p>cfdisk分区软件操作比较简单,具体分区布局看下图</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/14/121193dfec9b4aa0a20d08e8291ee9f8"
+                      alt="img"
+                ></p>
+<p>分好区后选择write并键入yes即可使分区生效</p>
+<p>endfolding</p>
+<blockquote>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l		<span class="comment">#分好区后用此指令可以查看分区的状态</span></span><br></pre></td></tr></table></figure></div></blockquote>
+<h3 id="1-3-8格式化磁盘"><a href="#1-3-8格式化磁盘" class="headerlink" title="1.3.8格式化磁盘"></a>1.3.8格式化磁盘</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#根据自己情况适当修改,不可照抄</span></span><br><span class="line">mkfs.vfat /dev/sda1</span><br><span class="line"></span><br><span class="line">mkswap /dev/sda2</span><br><span class="line"></span><br><span class="line">mkfs.ext4 /dev/sda3</span><br><span class="line"></span><br><span class="line">mkfs.ext4 /dev/sda4</span><br><span class="line"></span><br><span class="line">swapon /dev/sda2</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-9挂载磁盘"><a href="#1-3-9挂载磁盘" class="headerlink" title="1.3.9挂载磁盘"></a>1.3.9挂载磁盘</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#挂载根目录/</span></span><br><span class="line">mount /dev/sda3 /mnt		<span class="comment">#必须先挂载根目录,才能再挂载其他目录</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建home,boot文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> /mnt/home</span><br><span class="line"><span class="built_in">mkdir</span> /mnt/boot</span><br><span class="line"></span><br><span class="line"><span class="comment">#挂载</span></span><br><span class="line">mount /dev/sda4 /mnt/home</span><br><span class="line">mount /dev/sda1 /mnt/boot</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-10往-mnt里安装系统"><a href="#1-3-10往-mnt里安装系统" class="headerlink" title="1.3.10往&#x2F;mnt里安装系统"></a>1.3.10往&#x2F;mnt里安装系统</h3><p>最基础的四个包是: base base-devel linux linux-firmeware</p>
+<p>其余的按自己需求安装</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd vim <span class="built_in">sudo</span> bash-completion nano net-tools openssh man git wget zsh fish</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-11生成fstab"><a href="#1-3-11生成fstab" class="headerlink" title="1.3.11生成fstab"></a>1.3.11生成fstab</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><strong>查看是否成功生成</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /mnt/etc/fstab</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/15/93edfde4bf124627a369e5196063059d"
+                      alt="img"
+                ></p>
+<h3 id="1-3-12从live切换到刚安装的系统"><a href="#1-3-12从live切换到刚安装的系统" class="headerlink" title="1.3.12从live切换到刚安装的系统"></a>1.3.12从live切换到刚安装的系统</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure></div>
+
+<p>编辑<strong>hostname</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#我这里填写的arch</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> [<span class="built_in">arch</span>] &gt; /etc/hostname			<span class="comment">#将arch写入到/etc/hostname文件里</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> /etc/hostname					<span class="comment">#查看/etc/hostname文件里的内容</span></span><br></pre></td></tr></table></figure></div>
+
+<p>编辑<strong>hosts</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#我这里名字是arch,可自行更改</span></span><br><span class="line"></span><br><span class="line">nano /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment">#向hosts文件里添加以下内容</span></span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">::1			localhost</span><br><span class="line">127.0.0.1	<span class="built_in">arch</span></span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>设置<strong>时区</strong>和<strong>硬件时间</strong>设置</li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置时区</span></span><br><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line"></span><br><span class="line"><span class="comment">#硬件时间设置</span></span><br><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-13编辑语言环境"><a href="#1-3-13编辑语言环境" class="headerlink" title="1.3.13编辑语言环境"></a>1.3.13编辑语言环境</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/locale.gen</span><br></pre></td></tr></table></figure></div>
+
+<p>ctrl+w搜索en_US注意大小写</p>
+<p>alt+w搜索下一个 找到en_US.UTF-8.UTF-8 然后把他取消注释</p>
+<p>保存退出</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locale-gen		<span class="comment">#使刚才编辑的语言环境生效</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-14设置root密码"><a href="#1-3-14设置root密码" class="headerlink" title="1.3.14设置root密码"></a>1.3.14设置root密码</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd root   	<span class="comment">#当前账户就是root 可以不用打root</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-15添加新用户"><a href="#1-3-15添加新用户" class="headerlink" title="1.3.15添加新用户"></a>1.3.15添加新用户</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用户名以<span class="built_in">arch</span>为例</span><br><span class="line"></span><br><span class="line">useradd -m -G wheel -s /bin/bash <span class="built_in">arch</span>		<span class="comment">#这里新建用户arch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#为arch设置密码</span></span><br><span class="line">passwd <span class="built_in">arch</span></span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>设置arch用户名的密码</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编辑arch用户的权限</span></span><br><span class="line">EDITOR=nano visudo</span><br></pre></td></tr></table></figure></div>
+
+<p>ctrl+w搜索%wheel</p>
+<p>找到**# %wheel ALL&#x3D;(ALL:ALL)ALL**取消注释</p>
+</li>
+</ul>
+<h3 id="1-3-16安装-cpu微码和引导软件"><a href="#1-3-16安装-cpu微码和引导软件" class="headerlink" title="1.3.16安装 cpu微码和引导软件"></a>1.3.16安装 cpu微码和引导软件</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pacman -S intel-ucode grub efibootmgr os-prober</span><br><span class="line"><span class="comment">#如果是amd的cpu 则输入amd-ucode</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装grub引导 如果不知道系统什么架构可以使用&#x27;uname -a&#x27;查看一下</span></span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">生成grub</span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/15/96749548992142d385ecb12fd4212472"
+                      alt="img"
+                ></p>
+<p>os-prober查找已安装的操作系统, 推荐双系统使用者安装此工具(虚拟机没必要)</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S os-prober</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="1-3-17安装KDE桌面-字体-浏览器等软件包等"><a href="#1-3-17安装KDE桌面-字体-浏览器等软件包等" class="headerlink" title="1.3.17安装KDE桌面 字体 浏览器等软件包等"></a>1.3.17安装KDE桌面 字体 浏览器等软件包等</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pacman -S plasma konsole dolphin     <span class="comment">#kde桌面和终端，文件管理器</span></span><br><span class="line"></span><br><span class="line">pacman -S ntfs-3g					<span class="comment">#可以读取ntfs格式磁盘,根据自己情况选择性安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#中文字体</span></span><br><span class="line">pacman -S adobe-source-han-serif-cn-fonts adobe-source-han-sans-cn-fonts wqy-zenhei wqy-microhei noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#一堆软件,以下不是必须安装.可以根据自己情况选择性安装</span></span><br><span class="line">pacman -S firefox ark gwenview packagekit-qt5 packagekit appstream-qt appstream man neofetch net-tools networkmanager openssh git wget</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<ul>
+<li>vmware虚拟机的自适应分辨率,<strong>实体机请勿安装</strong></li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pacman -S gtkmm gtk2 gtkmm3 open-vm-tools xf86-input-vmmouse xf86-video-vmware</span><br><span class="line"></span><br><span class="line"><span class="comment">#开机启动 显示管理器 网络管理 ssh 虚拟机自适应分辨率</span></span><br><span class="line">systemctl <span class="built_in">enable</span> NetworkManager sddm vmtoolsd sshd</span><br><span class="line"><span class="comment">#编辑配置文件</span></span><br><span class="line">nano /etc/mkinitcpio.conf</span><br><span class="line">MODULES=(vsock vmw_vsock_vmci_transport vmw_balloon vmw_vmci vmwgfx)</span><br><span class="line"><span class="comment">#使刚才配置文件生效</span></span><br><span class="line">mkinitcpio -p linux</span><br></pre></td></tr></table></figure></div></blockquote>
+<p><strong>至此系统基本安装完毕, 按照以下步骤重启准备进入系统</strong></p>
+<ul>
+<li><strong>exit</strong>退回到<strong>live</strong>系统中</li>
+<li><strong>umount -R &#x2F;mnt</strong> 卸载&#x2F;mnt目录</li>
+<li><strong>reboot</strong>重启</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/15/0bae9f13712841b59652d6ee34fa9227"
+                      alt="img"
+                ></p>
+<p>输入之前设置的密码即可进入系统</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/15/7a196807ebbe4020bee0efd8f7c03965"
+                      alt="img"
+                ></p>
+<h3 id="1-3-18最后调整"><a href="#1-3-18最后调整" class="headerlink" title="1.3.18最后调整"></a>1.3.18最后调整</h3><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#修改pacman.conf</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> nano /etc/pacman.conf</span><br><span class="line"></span><br><span class="line"><span class="comment">#取消&#x27;Color&#x27;前的注释,这样系统报错时会彩色显示,方便排查</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#取消以下两行的注释</span></span><br><span class="line">[multilib]</span><br><span class="line">Include = /etc/pacman.d/mirrorslist</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#再在最后面添加以下两行内容</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#保存并退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#更新一下软件包</span></span><br><span class="line">pacman -Sy</span><br></pre></td></tr></table></figure></div>
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cloud.atdunbg.xyz/2023-3-28-17.png"
+                      alt="img"
+                ></p>
+<p><strong>安装archlinuxcn-keyring包导入GPG key</strong></p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure></div>
+
+<p>再次更新下源</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>yay paru都是aur助手, 任选一种, 还有其他的aur助手软件可以自行搜索</li>
+</ul>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S yay paru</span><br></pre></td></tr></table></figure></div>
+
+<p>如果报错则执行以下命令</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf /etc/pacman.d/gnupg     	<span class="comment">#rm命令谨慎操作</span></span><br><span class="line">pacman-key --init</span><br><span class="line">pacman-key --populate archlinux</span><br><span class="line">pacman-key --populate archlinuxcn</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>安装fcitx5输入法</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-material-color</span><br><span class="line">  </span><br><span class="line"><span class="comment">#编辑运行环境 使fcitx5输入法生效</span></span><br><span class="line">EDITOR=nano sudoedit /etc/environment</span><br><span class="line">  </span><br><span class="line"><span class="comment">#输入以下内容</span></span><br><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br><span class="line">SDL_IM_MODULE=fcitx</span><br><span class="line">  </span><br><span class="line"><span class="comment">#重启以下系统即可</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="1-3-19结束安装"><a href="#1-3-19结束安装" class="headerlink" title="1.3.19结束安装"></a>1.3.19结束安装</h3><blockquote>
+<p>至此,系统已经全部安装完成.</p>
+</blockquote>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 记一次ArchLinux的安装过程</li>
+        <li><strong>作者:</strong> atdunbg</li>
+        <li><strong>创建于
+                :</strong> 2023-03-27 10:30:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-12-26 03:22:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://atdunbg.xyz/2023/03/27/arch_install/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Arch-Linux/">#Arch Linux</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Linux/">#Linux</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2025/12/26/archlinux-bootloader/" title="解决Windows更新后重写引导记录导致Archlinux引导消失的问题" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="解决Windows更新后重写引导记录导致Archlinux引导消失的问题" class="!max-w-none">
+  <span class="title">解决Windows更新后重写引导记录导致Archlinux引导消失的问题</span>
+</a><a class="recommended-article-item" href="/2022/12/18/arch_majaro/" title="Majaro 配置记录" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/3cf6864a213a1bf09c5ff.png" alt="Majaro 配置记录" class="!max-w-none">
+  <span class="title">Majaro 配置记录</span>
+</a><a class="recommended-article-item" href="/2023/03/27/cloud_linux_2/" title="云计算 - Linux系统管理" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux系统管理" class="!max-w-none">
+  <span class="title">云计算 - Linux系统管理</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2025/12/26/archlinux-bootloader/" title="解决Windows更新后重写引导记录导致Archlinux引导消失的问题" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="解决Windows更新后重写引导记录导致Archlinux引导消失的问题" class="!max-w-none">
+  <span class="title">解决Windows更新后重写引导记录导致Archlinux引导消失的问题</span>
+</a><a class="recommended-article-item" href="/2022/12/18/arch_majaro/" title="Majaro 配置记录" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/3cf6864a213a1bf09c5ff.png" alt="Majaro 配置记录" class="!max-w-none">
+  <span class="title">Majaro 配置记录</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/04/19/cloud_linux_4/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux开源虚拟化KVM</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/03/27/cloud_linux_2/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux系统管理</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://hexo-waline.atdunbg.xyz',
+          dark: 'body[class~="dark-mode"]',
+          reaction: true,
+          requiredMeta: ['nick', 'mail'],
+          emoji: ['https://unpkg.com/@waline/emojis@1.2.0/bilibili', 'https://unpkg.com/@waline/emojis@1.2.0/soul-emoji', 'https://unpkg.com/@waline/emojis@1.2.0/qq'],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">记一次ArchLinux的安装过程</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ArchLinux-KDE%E7%9A%84%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="nav-text">ArchLinux+KDE的安装过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="nav-text">1. 1下载镜像文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E9%80%89%E6%8B%A9%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="nav-text">1.2 选择安装方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1%E6%9C%AC%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="nav-text">1.2.1本机安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%B6%E4%BD%9C%E5%90%AF%E5%8A%A8%E7%9B%98"><span class="nav-text">(1).制作启动盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%90%AF%E5%8A%A8archlinux%E9%95%9C%E5%83%8F"><span class="nav-text">(2).启动archlinux镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="nav-text">1.2.2虚拟机安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3%E5%AE%89%E8%A3%85archlinux"><span class="nav-text">1.3安装archlinux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1%E8%BF%9B%E5%85%A5%E9%95%9C%E5%83%8F%E7%B3%BB%E7%BB%9F"><span class="nav-text">1.3.1进入镜像系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5-%E6%9C%89%E7%BA%BF%E7%BD%91%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%BF%9E%E6%8E%A5-%E8%AF%B7%E5%BF%BD%E7%95%A5%E6%AD%A4%E6%AD%A5"><span class="nav-text">1.3.2网络连接, 有线网会自动连接, 请忽略此步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3%E5%90%8C%E6%AD%A5%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4"><span class="nav-text">1.3.3同步网络时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4%E4%BF%AE%E6%94%B9%E8%BD%AF%E4%BB%B6%E6%BA%90-%E6%8A%8A%E4%B8%AD%E5%9B%BD%E6%BA%90%E6%94%BE%E5%9C%A8%E5%89%8D%E5%88%97"><span class="nav-text">1.3.4修改软件源 把中国源放在前列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-5%E5%88%B7%E6%96%B0%E4%BD%86%E4%B8%8D%E6%9B%B4%E6%96%B0%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-text">1.3.5刷新但不更新软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-6-%E5%8F%AF%E9%80%89%E6%93%8D%E4%BD%9C-%E5%AE%89%E8%A3%85openssh"><span class="nav-text">1.3.6(可选操作)安装openssh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-7%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="nav-text">1.3.7磁盘分区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fdisk%E8%BD%AF%E4%BB%B6%E5%88%86%E5%8C%BA"><span class="nav-text">fdisk软件分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cfdisk%E8%BD%AF%E4%BB%B6%E5%88%86%E5%8C%BA"><span class="nav-text">cfdisk软件分区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-8%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A3%81%E7%9B%98"><span class="nav-text">1.3.8格式化磁盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-9%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="nav-text">1.3.9挂载磁盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-10%E5%BE%80-mnt%E9%87%8C%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-text">1.3.10往&#x2F;mnt里安装系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-11%E7%94%9F%E6%88%90fstab"><span class="nav-text">1.3.11生成fstab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-12%E4%BB%8Elive%E5%88%87%E6%8D%A2%E5%88%B0%E5%88%9A%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F"><span class="nav-text">1.3.12从live切换到刚安装的系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-13%E7%BC%96%E8%BE%91%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="nav-text">1.3.13编辑语言环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-14%E8%AE%BE%E7%BD%AEroot%E5%AF%86%E7%A0%81"><span class="nav-text">1.3.14设置root密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-15%E6%B7%BB%E5%8A%A0%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-text">1.3.15添加新用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-16%E5%AE%89%E8%A3%85-cpu%E5%BE%AE%E7%A0%81%E5%92%8C%E5%BC%95%E5%AF%BC%E8%BD%AF%E4%BB%B6"><span class="nav-text">1.3.16安装 cpu微码和引导软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-17%E5%AE%89%E8%A3%85KDE%E6%A1%8C%E9%9D%A2-%E5%AD%97%E4%BD%93-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AD%89%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AD%89"><span class="nav-text">1.3.17安装KDE桌面 字体 浏览器等软件包等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-18%E6%9C%80%E5%90%8E%E8%B0%83%E6%95%B4"><span class="nav-text">1.3.18最后调整</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-19%E7%BB%93%E6%9D%9F%E5%AE%89%E8%A3%85"><span class="nav-text">1.3.19结束安装</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 17 篇文章
+                    </span>
+                    
+                        <span>
+                            共 48.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+    
+<script src="/js/build/layouts/bookmarkNav.js" type="module"></script>
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+</body>
+
+</html>

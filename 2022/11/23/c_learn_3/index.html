@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://atdunbg.xyz/2022/11/23/c_learn_3/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言-3">
+<meta property="og:url" content="http://atdunbg.xyz/2022/11/23/c_learn_3/index.html">
+<meta property="og:site_name" content="Atdunbg&#39;s Blog">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+<meta property="article:published_time" content="2022-11-23T20:56:10.000Z">
+<meta property="article:modified_time" content="2025-12-26T03:22:59.063Z">
+<meta property="article:author" content="atdunbg">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            C语言-3 | Atdunbg&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <meta name="referrer" content="no-referrer" />
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"atdunbg.xyz","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":true,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":5,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["..."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":"atdunbg@qq.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Daisy Crown","artist":"Empty old City/Wuthering Waves","url":"https://music.163.com/song/media/outer/url?id=2676687608.mp3","cover":"https://p2.music.126.net/J0ZfqWmqX3zGJLzTubJ7vg==/109951170498554226.jpg","lrc":null},{"name":"Destiny【BlackYearning】[RWBY Doujin remix]","artist":"Cre-sc3NT","url":"https://music.163.com/song/media/outer/url?id=463311509.mp3","cover":"https://p1.music.126.net/_M3lkuYe93Fdo8kBLDBQlA==/109951162870251332.jpg"}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"书签":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Google":{"path":"https://www.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"BookMarks":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 12:00:00"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/bookmarks"
+                                        >
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                    书签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://www.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/bookmarks"
+                        >
+                            <span>
+                                书签
+                            </span>
+                            
+                                <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://www.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/bookmarks"
+                        >
+                            <span>BookMarks</span>
+                            <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://t.alcy.cc/fj" alt="C语言-3" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">C语言-3</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2022-11-23 20:56:10</span>
+        <span class="mobile">2022-11-23 20:56:10</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-12-26 03:22:59</span>
+            <span class="mobile">2025-12-26 03:22:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/C%E8%AF%AD%E8%A8%80/">C语言</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.6k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="1、为什么需要："><a href="#1、为什么需要：" class="headerlink" title="1、为什么需要："></a>1、为什么需要：</h3><ul>
+<li>程序需要多次实现某一功能</li>
+<li>程序需要实现多种功能</li>
+</ul>
+<p>组装思想—&gt;模块化程序设计</p>
+<h3 id="2、什么是函数："><a href="#2、什么是函数：" class="headerlink" title="2、什么是函数："></a>2、什么是函数：</h3><p>函数（function）：函数就是功能，每一个函数用来实现某一个特定的功能</p>
+<h3 id="3、函数从哪来："><a href="#3、函数从哪来：" class="headerlink" title="3、函数从哪来："></a>3、函数从哪来：</h3><ul>
+<li>库函数</li>
+<li>编译函数</li>
+<li>自己编写函数</li>
+</ul>
+<h3 id="4、函数的分类"><a href="#4、函数的分类" class="headerlink" title="4、函数的分类"></a>4、函数的分类</h3><ul>
+<li>无参函数</li>
+<li>有参函数</li>
+</ul>
+<h3 id="5、其他"><a href="#5、其他" class="headerlink" title="5、其他"></a>5、其他</h3><ul>
+<li>一个C程序由一个或多个源文件组成</li>
+<li>一个源文件由一个或多个函数组成</li>
+</ul>
+<h2 id="怎么定义函数"><a href="#怎么定义函数" class="headerlink" title="怎么定义函数"></a>怎么定义函数</h2><h3 id="1、为什么要定义"><a href="#1、为什么要定义" class="headerlink" title="1、为什么要定义"></a>1、为什么要定义</h3><ul>
+<li><p>程序中用到的所有函数必须“先定义，后使用”</p>
+</li>
+<li><p>同变量定义的道理类似，需要事先告知系统该函数功能、参数等信息，具体包括：</p>
+<blockquote>
+<p>函数的名字，一遍按名调用<br>函数的类型，即函数返回值的类型<br>函数的参数名字即类型，以便调用函数时像他们传递数据<br>函数完成什么操作，即功能</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2、定义函数的方法"><a href="#2、定义函数的方法" class="headerlink" title="2、定义函数的方法"></a>2、定义函数的方法</h3><p>note blue no-icon<br>定义无参函数<br>endnote</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">类型名 函数名()             <span class="comment">//()内可以加void，可不加</span></span><br><span class="line">&#123;</span><br><span class="line">      函数体</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line"><span class="type">void</span> <span class="title function_">pr</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">      ptintf(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>note blue no-icon<br>定义有参函数<br>endnote</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">类型名 函数名(形参列表)</span><br><span class="line">&#123;</span><br><span class="line">      函数体</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line"><span class="type">int</span> <span class="title function_">max</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">      <span class="keyword">return</span>(a&gt;b?a:b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>note blue no-icon<br>定义空函数<br>endnote</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">类型名 函数名()</span><br><span class="line">&#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">void fun()</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="调用函数"><a href="#调用函数" class="headerlink" title="调用函数"></a>调用函数</h2><p>一般形式：函数名(实参表列）</p>
+<h3 id="1、调用函数的形式"><a href="#1、调用函数的形式" class="headerlink" title="1、调用函数的形式"></a>1、调用函数的形式</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">函数调用语句</span><br><span class="line">例：</span><br><span class="line">pr();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">函数表达式              //函数调用语句出现在另一个表达式中</span><br><span class="line">例：</span><br><span class="line">c=2*max(a,b);         //调用函数带回一个确定值并参</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">加表达式的运算</span><br><span class="line">函数参数                          //函数调用作为另一个函数调用时的参数</span><br><span class="line">例：</span><br><span class="line">m=max(a,max(b,c));         //将调用max函数的结果再重新作为下一次调用max函数的参数</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2、函数调用时的数据传递"><a href="#2、函数调用时的数据传递" class="headerlink" title="2、函数调用时的数据传递"></a>2、函数调用时的数据传递</h3><p>在调用有参函数时，系统会把实参的值传传给被调用函数的形参，该值在函数调用期间有效。</p>
+<p><strong>1.形参：定义函数时，函数名括号后面的变量称为形式参数（或虚拟参数）</strong></p>
+<ul>
+<li>形参在函数调用时被分配内存单元，调用结束后立即释放</li>
+<li>形参为变量时，实参与形参的数据传递是“值传递”，即“单向传递”。</li>
+</ul>
+<p><strong>2.实参：在主调函数中调用一个函数时，函数名后面括号中的参数称为实际参数</strong></p>
+<ul>
+<li>实参可以是常量、变量或表达式，但要求有确定值。</li>
+<li>应保证形参与实参个数、类型、顺序的一致（字符型与整型可通用）。</li>
+<li>形参与实参的类型应相同或i赋值兼容。</li>
+</ul>
+<p>note red modern<br>注：实参向形参的数据传递是“值传递”，单向传递，只能由实参传给形参，而不能由形参传给实参。<br>实参和形参在内存中占有不同的存储单元，实参无法得到形参的值。<br>endnote</p>
+<h3 id="3、函数的返回值"><a href="#3、函数的返回值" class="headerlink" title="3、函数的返回值"></a>3、函数的返回值</h3><p>调函数调用函数希望得到一个确定值，这就是函数的返回值</p>
+<ul>
+<li><p>函数的返回值是通过return语句获得的</p>
+</li>
+<li><p>可以有多个return语句，但只能有一个起作用。即函数只能返回一个值</p>
+</li>
+<li><p>函数返回值的类型取决于定义函数时指定的函数值的类型</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int max(int x,int y)             //函数值为整型</span><br><span class="line">double min(int x,int..y)         //函数值为double类型</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在定义函数时指定的函数类型一般应该和return语句中的表达式一致，若不一致，则以函数类型为<br>准，即函数类型决定返回值类型。</p>
+</li>
+<li><p>对于不带返回值的函数，应当定义为void类型。</p>
+</li>
+</ul>
+<p><strong>小结</strong></p>
+<ul>
+<li><p>函数——即想要实现某一功能所编写的程序，可将其理解为一个黑匣子，给它相应的输入（由调用<br>者决定），它经过加工操作，给出你一个输出（结果）。</p>
+</li>
+<li><p>函数的定义可理解为该制作该黑匣子，需要包括以下信息：</p>
+<blockquote>
+<p>需要明确告知该函数的名字（一般以黑匣子的功能简称作为名字，做到见名知意）<br>使用该函数需要提供的输入（包括明确规定需要提供几个输入以及每个输入的类型）<br>该函数能够实现什么功能（黑匣子的详细功能介绍）<br>函数类型，也称函数返回值类型（即执行完毕后会输出什么）</p>
+<blockquote>
+<p>该输出值由return语句带回。<br>若不用带回值，则不用写return语句，同时函数定义为void类型<br>返回值类型应与函数类型一致，若不一致，则以函数类型为准。</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>函数调用：使用该黑匣子的过程，若需要提供输入，则涉及到形参和实参之间的数据传递</p>
+</li>
+</ul>
+<h2 id="对被调用函数的声明和函数原型"><a href="#对被调用函数的声明和函数原型" class="headerlink" title="对被调用函数的声明和函数原型"></a>对被调用函数的声明和函数原型</h2><p><strong>1、调用函数时应该具备的条件</strong></p>
+<ul>
+<li>被调用函数必须是已经定义的函数</li>
+<li>若该被调用函数为库函数，则需要在文件开头，用#include指令调用</li>
+<li>若该被调用函数为用户自己定义的函数，而该函数的位置在调用它的函数的后面，则需要在主调函数中对被调函数做声明。<ul>
+<li>声明是为了提前将该函数的相关信息告知编译系统，以允许编译系统检查调用是否合法。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2、函数声明的形式(2种)</strong></p>
+<ul>
+<li>1.函数类型函数名(参数类型1参数名1,参数类型2c参数名2,……参数类型n参数名n);</li>
+<li>2.函数类型函数名(参数类型1,参数类型2,……参数类型n)</li>
+</ul>
+<h2 id="函数的嵌套调用"><a href="#函数的嵌套调用" class="headerlink" title="函数的嵌套调用"></a>函数的嵌套调用</h2><p><strong>在调用一个函数的过程中，又调用另一个函数</strong></p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun2</span><span class="params">(<span class="type">int</span> m)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> m*m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun1</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> fun2(x) + fun2(y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a,b;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;a,&amp;b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,fun1(a,b));</span><br><span class="line">    return0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="函数的递归调用"><a href="#函数的递归调用" class="headerlink" title="函数的递归调用"></a>函数的递归调用</h2><p><strong>在调用一个函数的过程中又直接或间接地调用该函数本身</strong></p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">unsigned</span> <span class="title function_">fac</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> f;</span><br><span class="line">    <span class="keyword">if</span> (n==<span class="number">0</span>)</span><br><span class="line">        f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        f = fac(n<span class="number">-1</span>)*n;</span><br><span class="line">    <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> n,y;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    y = fac(n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d!=%d\n&quot;</span>,n,y);</span><br><span class="line">    return0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="数组作为函数参数-数组元素和数组名"><a href="#数组作为函数参数-数组元素和数组名" class="headerlink" title="数组作为函数参数(数组元素和数组名)"></a>数组作为函数参数(数组元素和数组名)</h2><ul>
+<li>调用有参函数时，需要提供实参。</li>
+<li>实参可以是常量、变量、表达式。</li>
+<li>数组元素和数组名也可以作为函数的实参。</li>
+</ul>
+<h3 id="1、数组元素作为函数参数"><a href="#1、数组元素作为函数参数" class="headerlink" title="1、数组元素作为函数参数"></a>1、数组元素作为函数参数</h3><ul>
+<li><p>与变量作用相当，凡是变量可以出现的地方，都可以用数组元素代替。</p>
+</li>
+<li><p>数组元素<strong>只可以作为函数的实参，不可以用作形参。</strong></p>
+<ul>
+<li><p>因为形参是在函数被调用时临时分配存储单元的，不可能为一个数组元素单独分配存储单元。</p>
+</li>
+<li><p>而实参的传递是单向值传递。</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//已知10个三角形的三边长,求它们的面积。</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">float</span> <span class="title function_">area</span><span class="params">(<span class="type">float</span> a,<span class="type">float</span> b,<span class="type">float</span> c)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> p,s;</span><br><span class="line">    p = (a+b+c)/<span class="number">2</span>;</span><br><span class="line">    s = <span class="built_in">sqrt</span>(p*(p-a)*(p-b)*(p-c));</span><br><span class="line">    <span class="keyword">return</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    floata[<span class="number">10</span>],b[<span class="number">10</span>],c[<span class="number">10</span>],s[<span class="number">10</span>];</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%f%f%f&quot;</span>,&amp;a[i],&amp;b[i],&amp;c[i]);</span><br><span class="line">        s[i]=area(a[i],b[i],c[i]);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;s[%d]=%f\n&quot;</span>,i+<span class="number">1</span>,s[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    return0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="2、数组名作为函数参数"><a href="#2、数组名作为函数参数" class="headerlink" title="2、数组名作为函数参数"></a>2、数组名作为函数参数</h3><h4 id="1、一维数组名作为函数参数"><a href="#1、一维数组名作为函数参数" class="headerlink" title="1、一维数组名作为函数参数"></a>1、一维数组名作为函数参数</h4><ul>
+<li><p>数组名既可以作形参，也可以作实参。</p>
+</li>
+<li><p>数组名表示的是数组第一个元素的地址</p>
+</li>
+<li><p>形参数组可以不指定大小，但在定义数组时，需要在数组名后加上一个空的方括号</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">average</span><span class="params">(<span class="type">float</span> <span class="built_in">array</span>[])</span>          <span class="comment">//定义average函数，形参数组不指定大小</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>由于用数组名作函数实参时，不是把数组元素的值传给形参，而是把实参数组的首元素地址传递给形参数组，因此这两个数组共用一段内存单元。即形参数组中各元素的值如果发生了变化，会使实参数组元素的值同时发生变化。</p>
+</li>
+</ul>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//形参和实参共享一段内存单元</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">fun</span><span class="params">(<span class="type">int</span> b[])</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=<span class="number">4</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        b[i] = <span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a[<span class="number">5</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    fun(a);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;=<span class="number">4</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    return0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2、多维数组名作函数参数"><a href="#2、多维数组名作函数参数" class="headerlink" title="2、多维数组名作函数参数"></a>2、多维数组名作函数参数</h4><ul>
+<li><p>多维数组元素可以作为函数参数，在被调用函数中，对形参数组定义时，可以指定每一维大小，也可省略第一维大小。</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一下两种均合法</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="built_in">array</span>[<span class="number">3</span>][<span class="number">10</span>];</span><br><span class="line"><span class="type">int</span> <span class="built_in">array</span>[][<span class="number">10</span>];</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>但不能将2为或更高维的大小省略</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//错误示范</span><br><span class="line"></span><br><span class="line">int array[][]</span><br><span class="line">int array[3][]</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>第二维大小相同的前提下，形参数组第一维可以与实参数组不同</p>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">实参数组定义：<span class="type">int</span> score[<span class="number">5</span>][<span class="number">10</span>];</span><br><span class="line">形参数组定义：<span class="type">int</span> <span class="built_in">array</span>[][<span class="number">10</span>];  或  <span class="type">int</span> <span class="built_in">array</span>[<span class="number">8</span>][<span class="number">10</span>];</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="局部变量和全局变量"><a href="#局部变量和全局变量" class="headerlink" title="局部变量和全局变量"></a>局部变量和全局变量</h2><ul>
+<li>量必须先定义，后使用</li>
+<li>在一个函数中定义的变量，在其他函数中能否被引用？&#x3D;&#x3D;&#x3D;&#x3D;》<strong>作用域</strong></li>
+<li>在<strong>函数内</strong>定义的变量是<strong>局部变量</strong>，在<strong>函数外</strong>定义的变量是<strong>外部变量</strong>，<strong>外部变量</strong>是<strong>全局变量</strong></li>
+</ul>
+<h3 id="1、定义变量的三种情况"><a href="#1、定义变量的三种情况" class="headerlink" title="1、定义变量的三种情况"></a>1、定义变量的三种情况</h3><ul>
+<li>在函数开头定义（作用范围：从定义处开始至本函数结束）局部变量</li>
+<li>在函数内的复合语句内定义（作用范围：本复合语句范围内）局部变量</li>
+</ul>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a=<span class="number">1</span>,b=<span class="number">2</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> c;</span><br><span class="line">        c = a+b;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,c);              <span class="comment">//可以输出</span></span><br><span class="line">    &#125;                          		   <span class="comment">//c的作用范围仅限于该复合语句块内</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,c);                 <span class="comment">//会报错，显示c未被定义</span></span><br><span class="line">    return0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>在函数的外部定义（作用范围：从定义变量的位置开始到本源文件结束）外部变量</li>
+</ul>
+<h3 id="2、其他注意事项"><a href="#2、其他注意事项" class="headerlink" title="2、其他注意事项"></a>2、其他注意事项</h3><ul>
+<li>在一个函数中既可以使用本函数中的局部变量，也可以使用有效的全局变量</li>
+<li>设置全局变量可以增加函数间数据联系的渠道，但也因此如果在一个函数中改变了全局变量的值，</li>
+<li>就会影响到其他函数全局变量的值。</li>
+<li>因函数调用只能带回一个函数返回值，因此有时可以利用全局变量得到一个以上的值。</li>
+<li>不成文的规定：将全局变量首字母大写</li>
+<li>非必要不使用全局变量<ul>
+<li>长时间占用存储空间</li>
+<li>函数通用性降低<ul>
+<li>增加了耦合性（各函数之间关联变多）</li>
+<li>移植性差</li>
+</ul>
+</li>
+<li>降低了清晰性</li>
+</ul>
+</li>
+<li>若在同一个源文件中，全局变量和局部变量同名，在局部变量的作用范围内，全局变量会被屏蔽。</li>
+</ul>
+<h2 id="变量的存储方式和生存期"><a href="#变量的存储方式和生存期" class="headerlink" title="变量的存储方式和生存期"></a>变量的存储方式和生存期</h2><ul>
+<li>从变量值的存在时间（生存期）来看，变量的存储可以分为<strong>静态存储方式</strong>和<strong>动态存储方式</strong>。<ul>
+<li>静态存储方式：程序运行期间由系统分配固定的存储空间（全局变量全部存放在静态存储区中）</li>
+<li>动态存储方式：程序运行期间，根据需要动态的分配存储空间。（函数形参，自动变量，函数调用时的现场保护和返回地址）</li>
+</ul>
+</li>
+</ul>
+<h3 id="1、局部变量的存储类别"><a href="#1、局部变量的存储类别" class="headerlink" title="1、局部变量的存储类别"></a>1、局部变量的存储类别</h3><h4 id="1、自动变量（auto）"><a href="#1、自动变量（auto）" class="headerlink" title="1、自动变量（auto）"></a>1、自动变量（auto）</h4><ul>
+<li><p>特点：在调用该函数时，系统会给这些变量分配存储空间，在函数调用结束时就自动释放这些存储空间</p>
+</li>
+<li><p>函数中的形参和在函数中定义的局部变量都属于自动变量</p>
+<ul>
+<li><p>不写auto则隐含指定为自动存储类别</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int fac(int a)</span><br><span class="line">&#123;</span><br><span class="line">    auto int b,c=3;             //与intb,c=3;完全等价</span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+</ul>
+<h4 id="2、静态局部变量（static）"><a href="#2、静态局部变量（static）" class="headerlink" title="2、静态局部变量（static）"></a>2、静态局部变量（static）</h4><ul>
+<li>特点：函数中局部变量的值在函数调用结束后不消失而继续保留原值，在下一次调用该函数时，该变量已有值。</li>
+</ul>
+<h4 id="3、寄存器变量（register）"><a href="#3、寄存器变量（register）" class="headerlink" title="3、寄存器变量（register）"></a>3、寄存器变量（register）</h4><ul>
+<li><p>对于一些频繁使用的变量，可将其存储在具有高速存取速率的寄存器中，这种变量叫寄存器变量</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">register int f;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>目前已不需要，遇到能看懂即可。</p>
+</li>
+</ul>
+<h3 id="全局变量的存储类别"><a href="#全局变量的存储类别" class="headerlink" title="全局变量的存储类别"></a>全局变量的存储类别</h3><p><strong>1、在一个文件内扩展外部变量的作用域(extern关键字)</strong><br><strong>2、将外部变量的作用域扩展到其他文件(extern关键字)</strong><br><strong>3、将外部变量的作用域限制在本文件中(定义变量时加上static声明)</strong></p>
+<ul>
+<li>对局部变量用static声明，把它分配在静态存储区，该变量在整个程序执行期间不释放，其所分配的空间始终存在。<br>*对全局变量用static声明，则该变量的唑酮与只限于本文件模块（即被声明的文件中）。</li>
+</ul>
+<h2 id="关于变量的声明和定义"><a href="#关于变量的声明和定义" class="headerlink" title="关于变量的声明和定义"></a>关于变量的声明和定义</h2><h3 id="1、对于函数而言"><a href="#1、对于函数而言" class="headerlink" title="1、对于函数而言"></a>1、对于函数而言</h3><ul>
+<li>函数的声明时函数的原型，函数的定义是对函数功能的定义。</li>
+</ul>
+<h3 id="2、对变量而言"><a href="#2、对变量而言" class="headerlink" title="2、对变量而言"></a>2、对变量而言</h3><p>*建立存储空间的声明称为定义，不建立存储空间的声明称为声明。</p>
+<h2 id="内部函数和外部函数"><a href="#内部函数和外部函数" class="headerlink" title="内部函数和外部函数"></a>内部函数和外部函数</h2><ul>
+<li>根据函数能否被其他源文件调用，将函数区分为内部函数和外部函数</li>
+</ul>
+<h3 id="1、内部函数（静态函数）"><a href="#1、内部函数（静态函数）" class="headerlink" title="1、内部函数（静态函数）"></a>1、内部函数（静态函数）</h3><p>如果一个函数只能被本文件中其他函数所调用，则称为内部函数。定义内部函数时，在函数名和函数类型的前面加static，即</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static 类型名 函数名(形参名）</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2、外部函数"><a href="#2、外部函数" class="headerlink" title="2、外部函数"></a>2、外部函数</h3><p>如果在定义函数时，在函数首部的左端加关键字extern，则此函数时外部函数，可供其他文件调用</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extern int fun(int a,int b)</span><br></pre></td></tr></table></figure></div>
+
+<p>若在定义时省略extern，则默认为外部函数</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> C语言-3</li>
+        <li><strong>作者:</strong> atdunbg</li>
+        <li><strong>创建于
+                :</strong> 2022-11-23 20:56:10</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-12-26 03:22:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://atdunbg.xyz/2022/11/23/c_learn_3/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/C%E8%AF%AD%E8%A8%80/">#C语言</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2022/12/01/c_learn_4/" title="C语言-4" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-4" class="!max-w-none">
+  <span class="title">C语言-4</span>
+</a><a class="recommended-article-item" href="/2022/11/01/c_learn_1/" title="C语言-1" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-1" class="!max-w-none">
+  <span class="title">C语言-1</span>
+</a><a class="recommended-article-item" href="/2022/11/22/c_learn_2/" title="C语言-2" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-2" class="!max-w-none">
+  <span class="title">C语言-2</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2022/12/01/c_learn_4/" title="C语言-4" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-4" class="!max-w-none">
+  <span class="title">C语言-4</span>
+</a><a class="recommended-article-item" href="/2022/11/01/c_learn_1/" title="C语言-1" rel="bookmark">
+  <img src="https://t.alcy.cc/fj" alt="C语言-1" class="!max-w-none">
+  <span class="title">C语言-1</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2022/12/01/c_learn_4/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">C语言-4</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2022/11/22/c_learn_2/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">C语言-2</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://hexo-waline.atdunbg.xyz',
+          dark: 'body[class~="dark-mode"]',
+          reaction: true,
+          requiredMeta: ['nick', 'mail'],
+          emoji: ['https://unpkg.com/@waline/emojis@1.2.0/bilibili', 'https://unpkg.com/@waline/emojis@1.2.0/soul-emoji', 'https://unpkg.com/@waline/emojis@1.2.0/qq'],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">C语言-3</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%EF%BC%9A"><span class="nav-text">1、为什么需要：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="nav-text">2、什么是函数：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%87%BD%E6%95%B0%E4%BB%8E%E5%93%AA%E6%9D%A5%EF%BC%9A"><span class="nav-text">3、函数从哪来：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">4、函数的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E5%85%B6%E4%BB%96"><span class="nav-text">5、其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="nav-text">怎么定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AE%9A%E4%B9%89"><span class="nav-text">1、为什么要定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">2、定义函数的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-text">调用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="nav-text">1、调用函数的形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%97%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92"><span class="nav-text">2、函数调用时的数据传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-text">3、函数的返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%A2%AB%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0%E7%9A%84%E5%A3%B0%E6%98%8E%E5%92%8C%E5%87%BD%E6%95%B0%E5%8E%9F%E5%9E%8B"><span class="nav-text">对被调用函数的声明和函数原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%B5%8C%E5%A5%97%E8%B0%83%E7%94%A8"><span class="nav-text">函数的嵌套调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8"><span class="nav-text">函数的递归调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0-%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E5%92%8C%E6%95%B0%E7%BB%84%E5%90%8D"><span class="nav-text">数组作为函数参数(数组元素和数组名)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-text">1、数组元素作为函数参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%95%B0%E7%BB%84%E5%90%8D%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-text">2、数组名作为函数参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84%E5%90%8D%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-text">1、一维数组名作为函数参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84%E5%90%8D%E4%BD%9C%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-text">2、多维数组名作函数参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E5%92%8C%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-text">局部变量和全局变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-text">1、定义变量的三种情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%85%B6%E4%BB%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">2、其他注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%E5%92%8C%E7%94%9F%E5%AD%98%E6%9C%9F"><span class="nav-text">变量的存储方式和生存期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB"><span class="nav-text">1、局部变量的存储类别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E8%87%AA%E5%8A%A8%E5%8F%98%E9%87%8F%EF%BC%88auto%EF%BC%89"><span class="nav-text">1、自动变量（auto）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E9%9D%99%E6%80%81%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%EF%BC%88static%EF%BC%89"><span class="nav-text">2、静态局部变量（static）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%AF%84%E5%AD%98%E5%99%A8%E5%8F%98%E9%87%8F%EF%BC%88register%EF%BC%89"><span class="nav-text">3、寄存器变量（register）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%9A%84%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB"><span class="nav-text">全局变量的存储类别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E5%92%8C%E5%AE%9A%E4%B9%89"><span class="nav-text">关于变量的声明和定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AF%B9%E4%BA%8E%E5%87%BD%E6%95%B0%E8%80%8C%E8%A8%80"><span class="nav-text">1、对于函数而言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AF%B9%E5%8F%98%E9%87%8F%E8%80%8C%E8%A8%80"><span class="nav-text">2、对变量而言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E5%87%BD%E6%95%B0%E5%92%8C%E5%A4%96%E9%83%A8%E5%87%BD%E6%95%B0"><span class="nav-text">内部函数和外部函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%86%85%E9%83%A8%E5%87%BD%E6%95%B0%EF%BC%88%E9%9D%99%E6%80%81%E5%87%BD%E6%95%B0%EF%BC%89"><span class="nav-text">1、内部函数（静态函数）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%A4%96%E9%83%A8%E5%87%BD%E6%95%B0"><span class="nav-text">2、外部函数</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 17 篇文章
+                    </span>
+                    
+                        <span>
+                            共 48.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+    
+<script src="/js/build/layouts/bookmarkNav.js" type="module"></script>
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+</body>
+
+</html>

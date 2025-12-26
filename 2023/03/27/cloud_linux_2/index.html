@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="atdunbg">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://atdunbg.xyz/2023/03/27/cloud_linux_2/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云计算 - Linux系统管理">
+<meta property="og:url" content="http://atdunbg.xyz/2023/03/27/cloud_linux_2/index.html">
+<meta property="og:site_name" content="Atdunbg&#39;s Blog">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-03-27T10:30:00.000Z">
+<meta property="article:modified_time" content="2025-12-26T03:22:59.067Z">
+<meta property="article:author" content="atdunbg">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://atdunbg.xyz/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            云计算 - Linux系统管理 | Atdunbg&#39;s Blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <meta name="referrer" content="no-referrer" />
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+        
+<script src="/js/build/libs/anime.min.js"></script>
+
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"atdunbg.xyz","root":"/","language":"zh-CN","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":true,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":5,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":true,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg","dark":"https://hexoimage.pages.dev/file/089291f3f0192bb92a1ce.jpg"},"title":"Atdunbg's Blog","subtitle":{"text":["..."],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/atdunbg","instagram":null,"zhihu":null,"twitter":null,"email":"atdunbg@qq.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Daisy Crown","artist":"Empty old City/Wuthering Waves","url":"https://music.163.com/song/media/outer/url?id=2676687608.mp3","cover":"https://p2.music.126.net/J0ZfqWmqX3zGJLzTubJ7vg==/109951170498554226.jpg","lrc":null},{"name":"Destiny【BlackYearning】[RWBY Doujin remix]","artist":"Cre-sc3NT","url":"https://music.163.com/song/media/outer/url?id=463311509.mp3","cover":"https://p1.music.126.net/_M3lkuYe93Fdo8kBLDBQlA==/109951162870251332.jpg"}]},"mermaid":{"enable":false,"version":"11.4.1"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"书签":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Google":{"path":"https://www.google.com/","icon":"fa-brands fa-google"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"right","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"BookMarks":{"path":"/bookmarks","icon":"fa-solid fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/1/1 12:00:00"};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    <h2 class="ml13">
+        Atdunbg&#39;s Blog
+    </h2>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+        var animation = anime.timeline({ loop: true })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [20, 0],
+                translateZ: 0,
+                opacity: [0, 1],
+                filter: ['blur(5px)', 'blur(0px)'],
+                easing: "easeOutExpo",
+                duration: 1200,
+                delay: (el, i) => 300 + 20 * i,
+            })
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [0, -20],
+                opacity: [1, 0],
+                filter: ['blur(0px)', 'blur(5px)'],
+                easing: "easeInExpo",
+                duration: 1000,
+                delay: (el, i) => 15 * i,
+                complete: function() {
+                    hidePreloader();
+                }
+            }, '-=700');
+
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            setTimeout(hidePreloader, 5000); // Call hidePreloader after 5000 milliseconds if not already called by animation
+        });
+
+        function hidePreloader() {
+            var preloader = document.querySelector('.preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function () {
+                preloader.style.display = 'none';
+            }, 200);
+        }
+    </script>
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Atdunbg&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/bookmarks"
+                                        >
+                                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                                    书签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   target="_blank" rel="noopener" href="https://www.google.com/"
+                                        >
+                                    <i class="fa-brands fa-google fa-fw"></i>
+                                    GOOGLE
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/bookmarks"
+                        >
+                            <span>
+                                书签
+                            </span>
+                            
+                                <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           target="_blank" rel="noopener" href="https://www.google.com/"
+                        >
+                            <span>
+                                GOOGLE
+                            </span>
+                            
+                                <i class="fa-brands fa-google fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/bookmarks"
+                        >
+                            <span>BookMarks</span>
+                            <i class="fa-solid fa-bookmark fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags"
+                        >
+                            <span>Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/categories"
+                        >
+                            <span>Categories</span>
+                            <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux系统管理" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">云计算 - Linux系统管理</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/redefine-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">atdunbg</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv3</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-03-27 10:30</span>
+        <span class="mobile">2023-03-27 10:30</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-12-26 03:22:59</span>
+            <span class="mobile">2025-12-26 03:22:59</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.5k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><blockquote>
+<ul>
+<li>文件系统格式操作系统用于明确存储设备或分区上的文件的方法和数据结构,即在储存设备上组织文件的方法.</li>
+</ul>
+</blockquote>
+<ul>
+<li>操作系统中负责管理和储存文件信息的软件机构称为文件下管理系统,简称文件系统.</li>
+<li>文件系统时命名文件以及放置文件逻辑级储存和恢复的系统.</li>
+</ul>
+<h2 id="文件系统类型"><a href="#文件系统类型" class="headerlink" title="文件系统类型"></a>文件系统类型</h2><blockquote>
+<ul>
+<li>本地文件系统(基于磁盘的文件系统):<ul>
+<li>Windows系统: FAT,NTFS</li>
+<li>Linux系统: EXT2,EXT3,EXT4,XFS</li>
+<li>Unix系统: ZFS,JFS,JFS2,HFS</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>网络文件系统:<ul>
+<li>NTFS,GFS,GFS2,NFS,CIFS</li>
+</ul>
+</li>
+<li>虚拟文件系统: 基于内存的文件系统<ul>
+<li>TMPFS</li>
+<li>PROC</li>
+<li>SYSFS</li>
+<li>…</li>
+</ul>
+</li>
+<li>交换分区(swap)</li>
+</ul>
+<h2 id="inode-和-block-概述"><a href="#inode-和-block-概述" class="headerlink" title="inode 和 block 概述"></a>inode 和 block 概述</h2><blockquote>
+<p>文件是存储在硬盘上的，硬盘的最小存储单位叫做扇区sector，每个扇区存储512字节。操作系统读取硬盘的时候，不会一个个扇区地读取，这样效率太低，而是一次性连续读取多个扇区，即一次性读取一个块block。这种由多个扇区组成的块，是文件存取的最小单位。块的大小，最常见的是4KB，即连续八个sector组成一个block。</p>
+<p>文件数据存储在块中，那么还必须找到一个地方存储文件的元信息，比如文件的创建者、文件的创建日期、文件的大小等等。这种存储文件元信息的区域就叫做inode，中文译名为索引节点，也叫i节点。因此，一个文件必须占用一个inode，但至少占用一个block。</p>
+</blockquote>
+<ul>
+<li>元信息 → inode</li>
+<li>数据 → block</li>
+</ul>
+<h3 id="inode"><a href="#inode" class="headerlink" title="inode"></a>inode</h3><blockquote>
+<ul>
+<li>inode表包括ext2,ext3或ext4文件系统上的所有文件列表</li>
+</ul>
+</blockquote>
+<ul>
+<li>inode(索引节点)时表的入口,包括文件信息(元数据)<ul>
+<li>文件类型,许可权限,UID,GID</li>
+<li>链接数量(指向该文件的路径数目)</li>
+<li>文件大小和可变的时间戳</li>
+<li>文件数据在磁盘上的块指针</li>
+<li>文件的其他数据</li>
+</ul>
+</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/05/db1f2d302f744dbd86b07f6057c5bba7"
+                      alt="img"
+                ></p>
+<h2 id="EXT3-EXT4文件系统之日志的功能"><a href="#EXT3-EXT4文件系统之日志的功能" class="headerlink" title="EXT3&#x2F;EXT4文件系统之日志的功能"></a>EXT3&#x2F;EXT4文件系统之日志的功能</h2><ul>
+<li>日志的作用<ul>
+<li>在系统崩溃后,通过扫描日志文件就可以把文回复到一致的状态</li>
+</ul>
+</li>
+</ul>
+<h3 id="三种日志模式"><a href="#三种日志模式" class="headerlink" title="三种日志模式"></a>三种日志模式</h3><blockquote>
+<ul>
+<li>完整数据模式(Full Data)</li>
+</ul>
+</blockquote>
+<ul>
+<li>预定模式(Ordered)</li>
+<li>写回模式(WriteBack)</li>
+</ul>
+<h3 id="磁盘配额-quota"><a href="#磁盘配额-quota" class="headerlink" title="磁盘配额(quota)"></a>磁盘配额(quota)</h3><blockquote>
+<ul>
+<li>在内核中实现配额</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>在单个文件系统上实现</p>
+</li>
+<li><p>针对每个用户或组具有单独的策略</p>
+<ul>
+<li>对块(blocks)或节点(inodes)的数量进行限制</li>
+<li>可以实现软限制或硬限制</li>
+</ul>
+</li>
+<li><p>分区<strong>mount</strong>选项: usrquota, grpquota</p>
+</li>
+<li><p>初始化数据库:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quotacheck -cugm /filesystem</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="为用户配额"><a href="#为用户配额" class="headerlink" title="为用户配额"></a>为用户配额</h3><blockquote>
+<ul>
+<li>实现方法<ul>
+<li>启用和停止Perez: quotaon, quotaoff</li>
+<li>直接修改配置:edquota, username</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>从Shell设置:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setquota username 4096 5120 40 50 /foo</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>定义模板用户</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edquota -p user1 user2</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="配额状态报告"><a href="#配额状态报告" class="headerlink" title="配额状态报告"></a>配额状态报告</h3><blockquote>
+<ul>
+<li>用户审查: quota</li>
+</ul>
+</blockquote>
+<ul>
+<li>配额总览: requota</li>
+</ul>
+<h2 id="访问控制列表-ACL"><a href="#访问控制列表-ACL" class="headerlink" title="访问控制列表(ACL)"></a>访问控制列表(ACL)</h2><ul>
+<li><strong>ACL的定义及作用</strong></li>
+<li><strong>设置ACLs</strong></li>
+</ul>
+<h3 id="ACLs"><a href="#ACLs" class="headerlink" title="ACLs"></a>ACLs</h3><blockquote>
+<ul>
+<li>ACLs全称Access control lists(访问控制列表)<ul>
+<li>用于对文件或者目录作做更精细控制</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>主要通过三个方面控制资源</p>
+<ul>
+<li>拥有者</li>
+<li>拥有组</li>
+<li>mask</li>
+</ul>
+</li>
+<li><p>命令:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m/x[修改/删除] u/g/m/d[拥有者/拥有组/mask掩码/默认权限]:name file|directory</span><br><span class="line"></span><br><span class="line">setfacl -m u:gandolf:rwx file|directory     </span><br><span class="line">setfacl -m g:anzgul:rw file|directory</span><br><span class="line">setfacl -m m::rwx file|directory</span><br><span class="line">setfacl -m d:u:frodo:rw directory</span><br><span class="line">setfacl -x u:samwise file|directory</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>使用mount选项实现</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o acl /mountpoint</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在安装期间设置文件系统</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tunefs -l /dev/sda1 | grep options</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="硬链接和软链接"><a href="#硬链接和软链接" class="headerlink" title="硬链接和软链接"></a>硬链接和软链接</h3><h4 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h4><p>命令</p>
+<ul>
+<li><p><strong>创建硬链接</strong></p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln filename [linkname]</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/05/ef50ed44ce6d41eebbf1501d88aad00c"
+                      alt="img"
+                ></p>
+<blockquote>
+<ul>
+<li>只要还有一个链接存在,文件就存在</li>
+</ul>
+</blockquote>
+<ul>
+<li>当链接数为零时,文件被删除</li>
+<li>不能跨硬盘分区</li>
+</ul>
+<h4 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h4><p>命令</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s filename linkname</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="高级权限"><a href="#高级权限" class="headerlink" title="高级权限"></a>高级权限</h2><ul>
+<li>suid</li>
+<li>sgid</li>
+<li>sticky bit</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/05/634f4cc1fd3b49aaac8545bde3da882d"
+                      alt="img"
+                ></p>
+<h3 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h3><blockquote>
+<ul>
+<li>在文件上的含义<ul>
+<li>suid: 命令运行时具有命令所有者拥权限,不是命令的执行者</li>
+<li>sgid: 命令运行时具有命令所在组权限的合并</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>在目录上面的含义<ul>
+<li>sgid: 在带有sgid为设置的目录下创建的文件又目录的组的权限的累加</li>
+<li>sticky bit: 带有sticky bit设置的目录,下面的文件只能被锁又这或者root用户删除,无论目录的写权限是啊如何设置的</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>描述</th>
+<th>数字表示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>drwsr-xr-x</td>
+<td>基本权限是 rwxr-xr-x 高级权限是 suid</td>
+<td>基本权限是 755 高级权限是 4 完整权限是 4755</td>
+</tr>
+<tr>
+<td>drwSr-xr-x</td>
+<td>基本权限是 rwxr-xr-x 高级权限是 suid</td>
+<td>基本权限是 655 高级权限是 4 完整权限是 4655</td>
+</tr>
+<tr>
+<td>drwxrwsr-x</td>
+<td>基本权限是 rwxrwxr-x 高级权限是 sgid</td>
+<td>基本权限是 775 高级权限是 2 完整权限是 2775</td>
+</tr>
+<tr>
+<td>drwxrwSr-x</td>
+<td>基本权限是 rwxrw-r-x 高级权限是 sgid</td>
+<td>基本权限是 765 高级权限是 2 完整权限是 2765</td>
+</tr>
+<tr>
+<td>drwxrwxrwt</td>
+<td>基本权限是 rwxrwxrwx 高级权限是 sticky</td>
+<td>基本权限是 777 高级权限是 1 完整权限是 1777</td>
+</tr>
+</tbody></table>
+<h3 id="符号法"><a href="#符号法" class="headerlink" title="符号法"></a>符号法</h3><blockquote>
+<ul>
+<li><p>语法</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod [-R] mode file</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>mode(模式)</p>
+<ul>
+<li>u,g或者o表示文件所属用户,组以及其他用户</li>
+<li><ul>
+<li>或者 - 表示允许或者禁止</li>
+</ul>
+</li>
+<li>s和t表示高级权限</li>
+</ul>
+</li>
+<li><p>示例:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">u+s:设置的是suid</span><br><span class="line">g+s:设置的是sgid</span><br><span class="line">o+t:设置的是sticky bit</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="数字法"><a href="#数字法" class="headerlink" title="数字法"></a>数字法</h3><blockquote>
+<ul>
+<li>权限通过累加的方式来计算:<ul>
+<li>4(suid) 2(sgid) 1(sticky)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>示例<ul>
+<li>chmod 4775 file</li>
+</ul>
+</li>
+</ul>
+<h2 id="储存高级"><a href="#储存高级" class="headerlink" title="储存高级"></a>储存高级</h2><h3 id="GTP-GIUD-Partition-Table-全局唯一标识磁盘分区表"><a href="#GTP-GIUD-Partition-Table-全局唯一标识磁盘分区表" class="headerlink" title="GTP(GIUD Partition Table): 全局唯一标识磁盘分区表"></a>GTP(GIUD Partition Table): 全局唯一标识磁盘分区表</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/05/a140d5f97570432d9d49789d18462ff8"
+                      alt="img"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://www.itgeeker.net/wp-content/uploads/mrb-gpt.png"
+                      alt="img"
+                ></p>
+<h3 id="GPT分区工具parted"><a href="#GPT分区工具parted" class="headerlink" title="GPT分区工具parted"></a>GPT分区工具<strong>parted</strong></h3><h4 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h4><blockquote>
+<ul>
+<li>LVM全称 Logical Volume Manager(逻辑券管理器)</li>
+</ul>
+</blockquote>
+<ul>
+<li>为了便于操作卷,包括重定义文件系统的大小,额定义的抽象层</li>
+<li>允许在多个五路设备上重新组织文件系统</li>
+<li>设备被认定为物理卷(PV)</li>
+<li>一个或多个物理卷可以用于创建成一个卷组(VG)</li>
+<li>卷组由固定大小的物理区域(PhysicalExten,PE)定义</li>
+<li>逻辑卷在卷组上创建按,并由PE组成</li>
+<li>文件系统创建在逻辑卷之上</li>
+</ul>
+<h4 id="LVM工作模式"><a href="#LVM工作模式" class="headerlink" title="LVM工作模式"></a>LVM工作模式</h4><blockquote>
+<ul>
+<li>非条带化(线性)</li>
+</ul>
+</blockquote>
+<ul>
+<li>条带化</li>
+<li>镜像</li>
+<li>快照</li>
+</ul>
+<h3 id="调整逻辑卷大小"><a href="#调整逻辑卷大小" class="headerlink" title="调整逻辑卷大小"></a>调整逻辑卷大小</h3><blockquote>
+<ul>
+<li>扩展卷<ul>
+<li>Ivextend可以扩展逻辑卷</li>
+<li>resize2fs可以在联机或脱机状态下扩展ext4文件系统</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>收缩卷<ul>
+<li>必须在脱机状态下实施( umount )</li>
+<li>需要先进行文件系统校验( e2fsck )</li>
+<li>先收缩文件系统性( resize2fs )</li>
+<li>最后，lvreduce可用于收缩卷</li>
+</ul>
+</li>
+</ul>
+<h2 id="图形化"><a href="#图形化" class="headerlink" title="图形化"></a>图形化</h2><h3 id="X-Window又叫做X11或X"><a href="#X-Window又叫做X11或X" class="headerlink" title="X Window又叫做X11或X"></a>X Window又叫做X11或X</h3><blockquote>
+<ul>
+<li>1987年X的第11版发行,即X11</li>
+</ul>
+</blockquote>
+<ul>
+<li>是基于网络的显示协议,提供了窗口功能,包含建立图形用户界面的标准工具和协议</li>
+<li>X Window是Linux的图形子系统</li>
+<li>开发X Window的团体:<ul>
+<li>XFree86</li>
+<li>X.org</li>
+</ul>
+</li>
+<li>Xorg是红帽公司、普华公司用在X Window系统中的特定版本</li>
+</ul>
+<h3 id="X-Window的组成"><a href="#X-Window的组成" class="headerlink" title="X Window的组成"></a>X Window的组成</h3><blockquote>
+<ul>
+<li>服务端</li>
+</ul>
+</blockquote>
+<ul>
+<li>客户端</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/06/e1a1aac64cc6432ea2592afd6392d936"
+                      alt="img"
+                ></p>
+<h3 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h3><blockquote>
+<ul>
+<li>在X图形系统基础上，桌面环境为计算机提供完全的图形用户界面(GUI)</li>
+</ul>
+</blockquote>
+<ul>
+<li>提供桌面环境解决方案的团体:<ul>
+<li>GNOME</li>
+<li>KDE</li>
+<li>xfce4</li>
+<li>XDM</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>GUI</strong></li>
+</ul>
+</blockquote>
+<ul>
+<li>X Window + Window Manager + Display Manager</li>
+<li>配置文件<ul>
+<li>&#x2F;etc&#x2F;X11&#x2F;xorg.conf</li>
+<li>X -configure</li>
+</ul>
+</li>
+</ul>
+<h1 id="进程-线程-LWP"><a href="#进程-线程-LWP" class="headerlink" title="进程,线程,LWP"></a>进程,线程,LWP</h1><blockquote>
+<ul>
+<li>进程是资源管理的最小单元；</li>
+</ul>
+</blockquote>
+<ul>
+<li>线程是程序执行的最小单元。</li>
+<li>轻量级进程(LWP)是建立在内核之上并由内核支持的用户线程，它是内核线程的高度抽象，每一个轻量级进程都与一个特定的内核线程关联。内核线程只能由内核管理并像普通进程一样被调度</li>
+</ul>
+<h2 id="操作系的启动过程"><a href="#操作系的启动过程" class="headerlink" title="操作系的启动过程"></a>操作系的启动过程</h2><h3 id="1-第一阶段-硬件引导"><a href="#1-第一阶段-硬件引导" class="headerlink" title="1,第一阶段:硬件引导"></a>1,第一阶段:硬件引导</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/06/38a65e8374db47d7b8d1da102f72cae9"
+                      alt="img"
+                ></p>
+<blockquote>
+<ul>
+<li>备份:<ul>
+<li>dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D; &#x2F;tmp&#x2F;mbr. bak bs&#x3D;512 count&#x3D; 1</li>
+<li>dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D; &#x2F;tmp&#x2F;mbr. bak bs &#x3D;446 count&#x3D;1</li>
+<li>dd if&#x3D;&#x2F;tmp&#x2F;mbr.bak of&#x3D;&#x2F;dev&#x2F;sda bs&#x3D;512 count&#x3D;1</li>
+<li>dd if&#x3D; &#x2F;tmp&#x2F;mbr .bak of&#x3D; &#x2F;dev&#x2F;sda bs&#x3D; 512 count&#x3D;1</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>生成bootloader<ul>
+<li>grub-install &#x2F;dev&#x2F;sda</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-第二阶段-加载管理启动程序"><a href="#2-第二阶段-加载管理启动程序" class="headerlink" title="2,第二阶段:加载管理启动程序"></a>2,第二阶段:加载管理启动程序</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/06/003a055acdf846c68fa1cf7df3fb8bbc"
+                      alt="img"
+                ></p>
+<blockquote>
+<ul>
+<li>&#x2F;boot&#x2F;grub&#x2F;grub.conf</li>
+</ul>
+</blockquote>
+<ul>
+<li>最小需求:<ul>
+<li>title xxx</li>
+<li>root (hdX,Y)</li>
+<li>kernel &#x2F;vmlinuz-version ro root&#x3D;根文件系统名称.<ul>
+<li>Kernel包含的文件<ul>
+<li>&#x2F;boot&#x2F;vmlinuz -version</li>
+<li>&#x2F;boot&#x2F;initramfs-version.img</li>
+<li>&#x2F;lib&#x2F;modules&#x2F;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>initrd &#x2F;initramfs-version.img</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-第三阶段-加载内核，并挂载根文件系统"><a href="#3-第三阶段-加载内核，并挂载根文件系统" class="headerlink" title="3,第三阶段: 加载内核，并挂载根文件系统"></a>3,第三阶段: 加载内核，并挂载根文件系统</h3><h4 id="内核初始化"><a href="#内核初始化" class="headerlink" title="内核初始化"></a>内核初始化</h4><blockquote>
+<ul>
+<li>启动期间内核功能<ul>
+<li>设备检测</li>
+<li>设备驱动初始化</li>
+<li>以只读方式装载根文件系统.</li>
+<li>调入最初的进程( init )</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="4-第四阶段-Sys-V-init初始化"><a href="#4-第四阶段-Sys-V-init初始化" class="headerlink" title="4,第四阶段: Sys V init初始化"></a>4,第四阶段: Sys V init初始化</h3><blockquote>
+<ul>
+<li>&#x2F;etc&#x2F;init&#x2F;rcS.conf</li>
+</ul>
+</blockquote>
+<ul>
+<li>&#x2F;etc&#x2F;rc.d&#x2F;rc.sysinit<ul>
+<li>重要的任务包括:<ul>
+<li>激活udev和selinux</li>
+<li>设置&#x2F;etc&#x2F;sysctl.conf中定义的核心参数</li>
+<li>设置主机名</li>
+<li>启用交换分区</li>
+<li>根文件系统检查并且重装加载</li>
+<li>激活RAID和LVM设备</li>
+<li>启用磁盘限额管理</li>
+<li>检查并加载其它文件系统</li>
+<li>清除过期的锁和PID文件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x2F;etc&#x2F;inittab</li>
+<li>&#x2F;etc&#x2F;rc.d&#x2F;rc[0-6].d</li>
+<li>&#x2F;etc&#x2F;init&#x2F;control-alt-delete.conf</li>
+<li>&#x2F;etc&#x2F;init&#x2F;tty.conf</li>
+<li>&#x2F;etc&#x2F;init&#x2F;serial.conf</li>
+<li>&#x2F;etc&#x2F;init&#x2F;prefdm.conf</li>
+</ul>
+<h3 id="5-第五阶段-完成启动"><a href="#5-第五阶段-完成启动" class="headerlink" title="5,第五阶段: 完成启动"></a>5,第五阶段: 完成启动</h3><h3 id="系统故障排除"><a href="#系统故障排除" class="headerlink" title="系统故障排除"></a>系统故障排除</h3><h4 id="Rescue"><a href="#Rescue" class="headerlink" title="Rescue"></a>Rescue</h4><blockquote>
+<ul>
+<li>Rescue mode: 拯救模式,拯救系统<ul>
+<li>用于修复操作系统的一个平台</li>
+<li>类似winPE,liveCD</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>进入Rescue mode:<ul>
+<li>通过光盘引导,PXE引导,制作USB引导等</li>
+</ul>
+</li>
+</ul>
+<h2 id="新Linux发行版"><a href="#新Linux发行版" class="headerlink" title="新Linux发行版"></a>新Linux发行版</h2><h3 id="GRUB2"><a href="#GRUB2" class="headerlink" title="GRUB2"></a>GRUB2</h3><blockquote>
+<ul>
+<li>配置文件:<ul>
+<li>&#x2F;boot&#x2F;grub2&#x2F;grub.cfg或&#x2F;boot&#x2F;efi&#x2F;EFI&#x2F;redhat&#x2F;grub.cfg</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>生成配置文件:<ul>
+<li>grub2-mkconfig -0 &#x2F;boot&#x2F;grub2&#x2F;grub.cfg</li>
+</ul>
+</li>
+<li>修改配置文件<ul>
+<li>&#x2F;etc&#x2F;default&#x2F;grub</li>
+</ul>
+</li>
+<li>Grub2 特性L:<ul>
+<li>支持Intel , AMD , PowerPC架构</li>
+<li>支持固件类型: BIOS , EFI&#x2F;UEFI</li>
+<li>支持主引|导记录MBR和GPT</li>
+<li>支持非Linux文件系统:苹果的扩展分层文件系统( HFS+ )和微软的NTFS</li>
+</ul>
+</li>
+</ul>
+<h3 id="gdisk工具"><a href="#gdisk工具" class="headerlink" title="gdisk工具"></a>gdisk工具</h3><p>支持GPT格式</p>
+<h2 id="Archlinux"><a href="#Archlinux" class="headerlink" title="Archlinux"></a>Archlinux</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装指南</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" >官方wiki安装指南 <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="pacman包管理器"><a href="#pacman包管理器" class="headerlink" title="pacman包管理器"></a>pacman包管理器</h3><blockquote>
+<ul>
+<li>pacman是archlinux包管理器，负责安装、删除和升级软件。</li>
+</ul>
+</blockquote>
+<ul>
+<li>它的最大亮点是将一-个简单的二进制包格式和易用的构建系统(ABS)结合。</li>
+<li>pacman 软件仓库:<ul>
+<li>在&#x2F;etc&#x2F;pacman.conf文件中定义使用的软件仓库，可以直接设置或从其它文件包含，只需要维护-一个列表。</li>
+<li>[core]提供了最基本的包，安装盘也提供有</li>
+<li>[extra]提供的是不适合[core] 库标准的软件包</li>
+<li>[community]提供的是由TU认证的AUR包</li>
+</ul>
+</li>
+</ul>
+<h3 id="pacman常用命令"><a href="#pacman常用命令" class="headerlink" title="pacman常用命令"></a>pacman常用命令</h3><blockquote>
+<ul>
+<li>安装指定的包:<ul>
+<li>pacman -S package_name….</li>
+<li>pacman -S extra&#x2F;package_name</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>安装包组:<ul>
+<li>pacman -S gnome</li>
+</ul>
+</li>
+<li>升级软件包:<ul>
+<li>pacman -Syu</li>
+</ul>
+</li>
+<li>查看那些包属于改组:<ul>
+<li>pacman -Sg gnome</li>
+</ul>
+</li>
+<li>删除软件包,保留全部依赖关系:<ul>
+<li>pacman -R package_name</li>
+</ul>
+</li>
+<li>删除软件包,仅保个别依赖关系:<ul>
+<li>pacman -Rs package_name</li>
+</ul>
+</li>
+<li>删除软件包,不删除依赖该软件的其他程序:<ul>
+<li>pacman -Rdd package_name</li>
+</ul>
+</li>
+<li>删除软件包,并删除所有依赖该软件的程序:<ul>
+<li>pacman -Rsc package_name</li>
+</ul>
+</li>
+<li>查询可用的软件包:<ul>
+<li>pacman -Ss package_ name</li>
+</ul>
+</li>
+<li>查询已安装的软件包:<ul>
+<li>pacman -Qs package_ name</li>
+</ul>
+</li>
+<li>查询文件是由哪个软件包提供:<ul>
+<li>pacman -Qo filename</li>
+</ul>
+</li>
+<li>查询软件包信息:<ul>
+<li>pacman -Si package_ name</li>
+</ul>
+</li>
+<li>查询已安装软件包所包含的文件:<ul>
+<li>pacman -QI package name</li>
+</ul>
+</li>
+</ul>
+<h2 id="服务管理-systemd"><a href="#服务管理-systemd" class="headerlink" title="服务管理(systemd)"></a>服务管理(systemd)</h2><blockquote>
+<p><strong>systemd</strong> 是一个 Linux 系统基础组件的集合，提供了一个系统和服务管理器，运行为 PID 1 并负责启动其它程序。功能包括：支持并行化任务；同时采用 socket 式与 D-Bus 总线式启用服务；按需启动守护进程（daemon）；利用 Linux 的 cgroups 监视进程；支持快照和系统恢复；维护挂载点和自动挂载点；各服务间基于依赖关系进行精密控制。systemd 支持 SysV 和 LSB 初始脚本，可以替代 sysvinit。除此之外，功能还包括日志进程、控制基础系统配置，维护登陆用户列表以及系统账户、运行时目录和设置，可以运行容器和虚拟机，可以简单的管理网络配置、网络时间同步、日志转发和名称解析等。</p>
+</blockquote>
+<p>更多有关<a class="link"   target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/wiki/Systemd" >systemd <i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>的详细介绍.</p>
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p><strong>ubuntu是基于Debian GNU&#x2F;Linux，由全球化的专业开发团队(Canonical Ltd)打造的开源GNU&#x2F;Linux操作系统，发行周期为6个月。</strong></p>
+<h3 id="ubuntu设计的目标"><a href="#ubuntu设计的目标" class="headerlink" title="ubuntu设计的目标"></a>ubuntu设计的目标</h3><p><strong>ubuntu的目标是更多地的以用户为本以及桌面应用</strong></p>
+<h3 id="Ubuntu风格"><a href="#Ubuntu风格" class="headerlink" title="Ubuntu风格"></a>Ubuntu风格</h3><blockquote>
+<ul>
+<li>ubuntu提供的最新的、同时又相当稳定的主要由自由<br>软件，附带一部分当今比较流行的第三方软件构建而成的<br>操作系统</li>
+</ul>
+</blockquote>
+<ul>
+<li>ubuntu对GNU&#x2F;Linux的普及特别是桌面普及作出了巨大贡献</li>
+</ul>
+<h3 id="Ubuntu-系统衍生版本"><a href="#Ubuntu-系统衍生版本" class="headerlink" title="Ubuntu 系统衍生版本"></a>Ubuntu 系统衍生版本</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s1.vika.cn/space/2023/04/07/73973831bc804bd680f9c8c66169252c"
+                      alt="img"
+                ></p>
+<h3 id="Ubuntu安装"><a href="#Ubuntu安装" class="headerlink" title="Ubuntu安装"></a>Ubuntu安装</h3><p>略</p>
+<h3 id="Ubuntu包管理器"><a href="#Ubuntu包管理器" class="headerlink" title="Ubuntu包管理器"></a>Ubuntu包管理器</h3><p>ubuntu派生自Debian,所以使用相同的包管理与仓库工具</p>
+<h4 id="dpkg-Debian-Package-Management-System"><a href="#dpkg-Debian-Package-Management-System" class="headerlink" title="dpkg (Debian Package Management System)"></a>dpkg (Debian Package Management System)</h4><p><strong>ubuntu&#x2F;Debian下的二进制软件包通常是以.deb格式发布的，使用dpkg进行软件管理，如安装、删除、查询等功能</strong></p>
+<blockquote>
+<ul>
+<li><p>安装软件:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -i packagename.deb</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>删除软件:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -r packagename</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询软件包信息:</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dpkg –info packafename.deb</span><br><span class="line">dpkg –status packagename</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询软件包所含文件</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dpkg –listfiles packagename</span><br><span class="line">dpkg –contents packagename.deb</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询文件归属</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg –search filename</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询系统中的包</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg –l</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h4 id="apt-Advanced-Packaging-Tool"><a href="#apt-Advanced-Packaging-Tool" class="headerlink" title="apt (Advanced Packaging Tool)"></a>apt (Advanced Packaging Tool)</h4><p><strong>apt是ubuntu&#x2F;debian及其派生发行版的软件包管理器，可以自动下载，配置，安装二进制或者源代码格式的软件包</strong></p>
+<blockquote>
+<ul>
+<li><p>安装软件</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install package</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>删除软件</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get remove package</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询软件包信息</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-cache show package</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询文件归属</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-file search filename</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询软件包所含文件</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-file list package</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>查询系统中的包</p>
+<div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-cache pkgnames</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="apt前端程序"><a href="#apt前端程序" class="headerlink" title="apt前端程序"></a>apt前端程序</h3><p>aptitude: apt 的高级的字符和命令行前端<br>aynaptic: 图形界面的apt前端<br>dselect: 使用菜单界面的包管理工具<br>gnome-apt: 图形界面的apt前端</p>
+<h3 id="PPA-Personal-Package-Archives"><a href="#PPA-Personal-Package-Archives" class="headerlink" title="PPA (Personal Package Archives)"></a>PPA (Personal Package Archives)</h3><p><strong>PPA是ubuntu的私人软件仓库，允许用户上传原码包，由launchpad编译并发布作为apt的仓库</strong></p>
+<h4 id="命令行添加PPA"><a href="#命令行添加PPA" class="headerlink" title="命令行添加PPA"></a>命令行添加PPA</h4><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:user/ppa-name</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install package</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h4 id="命令行删除PPA"><a href="#命令行删除PPA" class="headerlink" title="命令行删除PPA"></a>命令行删除PPA</h4><div class="code-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository –remove ppa:user/ppa-name</span><br></pre></td></tr></table></figure></div>
+
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 云计算 - Linux系统管理</li>
+        <li><strong>作者:</strong> atdunbg</li>
+        <li><strong>创建于
+                :</strong> 2023-03-27 10:30:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2025-12-26 03:22:59
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://atdunbg.xyz/2023/03/27/cloud_linux_2/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%AC%94%E8%AE%B0/">#笔记</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">#云计算</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/03/27/arch_install/" title="记一次ArchLinux的安装过程" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="记一次ArchLinux的安装过程" class="!max-w-none">
+  <span class="title">记一次ArchLinux的安装过程</span>
+</a><a class="recommended-article-item" href="/2023/04/27/cloud_linux_3/" title="云计算 - Linux服务与安全" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux服务与安全" class="!max-w-none">
+  <span class="title">云计算 - Linux服务与安全</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/19/cloud_linux_1/" title="云计算 - Linux用户基础" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/2369b0203a6961af7cd62.jpg" alt="云计算 - Linux用户基础" class="!max-w-none">
+  <span class="title">云计算 - Linux用户基础</span>
+</a><a class="recommended-article-item" href="/2023/03/27/arch_install/" title="记一次ArchLinux的安装过程" rel="bookmark">
+  <img src="https://hexoimage.pages.dev/file/49f93be93d3b83ea337a5.png" alt="记一次ArchLinux的安装过程" class="!max-w-none">
+  <span class="title">记一次ArchLinux的安装过程</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/03/27/arch_install/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">记一次ArchLinux的安装过程</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/03/19/cloud_linux_1/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">云计算 - Linux用户基础</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://hexo-waline.atdunbg.xyz',
+          dark: 'body[class~="dark-mode"]',
+          reaction: true,
+          requiredMeta: ['nick', 'mail'],
+          emoji: ['https://unpkg.com/@waline/emojis@1.2.0/bilibili', 'https://unpkg.com/@waline/emojis@1.2.0/soul-emoji', 'https://unpkg.com/@waline/emojis@1.2.0/qq'],
+                    lang: 'zh-CN',
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">云计算 - Linux系统管理</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%B1%BB%E5%9E%8B"><span class="nav-text">文件系统类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inode-%E5%92%8C-block-%E6%A6%82%E8%BF%B0"><span class="nav-text">inode 和 block 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inode"><span class="nav-text">inode</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXT3-EXT4%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B9%8B%E6%97%A5%E5%BF%97%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-text">EXT3&#x2F;EXT4文件系统之日志的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E6%97%A5%E5%BF%97%E6%A8%A1%E5%BC%8F"><span class="nav-text">三种日志模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D-quota"><span class="nav-text">磁盘配额(quota)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E7%94%A8%E6%88%B7%E9%85%8D%E9%A2%9D"><span class="nav-text">为用户配额</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E9%A2%9D%E7%8A%B6%E6%80%81%E6%8A%A5%E5%91%8A"><span class="nav-text">配额状态报告</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8-ACL"><span class="nav-text">访问控制列表(ACL)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ACLs"><span class="nav-text">ACLs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%92%8C%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-text">硬链接和软链接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="nav-text">硬链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-text">软链接</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%9D%83%E9%99%90"><span class="nav-text">高级权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89"><span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E6%B3%95"><span class="nav-text">符号法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E6%B3%95"><span class="nav-text">数字法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%82%A8%E5%AD%98%E9%AB%98%E7%BA%A7"><span class="nav-text">储存高级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GTP-GIUD-Partition-Table-%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="nav-text">GTP(GIUD Partition Table): 全局唯一标识磁盘分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPT%E5%88%86%E5%8C%BA%E5%B7%A5%E5%85%B7parted"><span class="nav-text">GPT分区工具parted</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LVM"><span class="nav-text">LVM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LVM%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">LVM工作模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E9%80%BB%E8%BE%91%E5%8D%B7%E5%A4%A7%E5%B0%8F"><span class="nav-text">调整逻辑卷大小</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E5%8C%96"><span class="nav-text">图形化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#X-Window%E5%8F%88%E5%8F%AB%E5%81%9AX11%E6%88%96X"><span class="nav-text">X Window又叫做X11或X</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X-Window%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">X Window的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="nav-text">桌面环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B-%E7%BA%BF%E7%A8%8B-LWP"><span class="nav-text">进程,线程,LWP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%9A%84%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="nav-text">操作系的启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5-%E7%A1%AC%E4%BB%B6%E5%BC%95%E5%AF%BC"><span class="nav-text">1,第一阶段:硬件引导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5-%E5%8A%A0%E8%BD%BD%E7%AE%A1%E7%90%86%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="nav-text">2,第二阶段:加载管理启动程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5-%E5%8A%A0%E8%BD%BD%E5%86%85%E6%A0%B8%EF%BC%8C%E5%B9%B6%E6%8C%82%E8%BD%BD%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">3,第三阶段: 加载内核，并挂载根文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">内核初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5-Sys-V-init%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">4,第四阶段: Sys V init初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%AC%AC%E4%BA%94%E9%98%B6%E6%AE%B5-%E5%AE%8C%E6%88%90%E5%90%AF%E5%8A%A8"><span class="nav-text">5,第五阶段: 完成启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4"><span class="nav-text">系统故障排除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Rescue"><span class="nav-text">Rescue</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0Linux%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-text">新Linux发行版</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GRUB2"><span class="nav-text">GRUB2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gdisk%E5%B7%A5%E5%85%B7"><span class="nav-text">gdisk工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Archlinux"><span class="nav-text">Archlinux</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pacman%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-text">pacman包管理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pacman%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">pacman常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86-systemd"><span class="nav-text">服务管理(systemd)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu"><span class="nav-text">Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu%E8%AE%BE%E8%AE%A1%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="nav-text">ubuntu设计的目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu%E9%A3%8E%E6%A0%BC"><span class="nav-text">Ubuntu风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-%E7%B3%BB%E7%BB%9F%E8%A1%8D%E7%94%9F%E7%89%88%E6%9C%AC"><span class="nav-text">Ubuntu 系统衍生版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu%E5%AE%89%E8%A3%85"><span class="nav-text">Ubuntu安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-text">Ubuntu包管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dpkg-Debian-Package-Management-System"><span class="nav-text">dpkg (Debian Package Management System)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apt-Advanced-Packaging-Tool"><span class="nav-text">apt (Advanced Packaging Tool)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt%E5%89%8D%E7%AB%AF%E7%A8%8B%E5%BA%8F"><span class="nav-text">apt前端程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PPA-Personal-Package-Archives"><span class="nav-text">PPA (Personal Package Archives)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B7%BB%E5%8A%A0PPA"><span class="nav-text">命令行添加PPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%88%A0%E9%99%A4PPA"><span class="nav-text">命令行删除PPA</span></a></li></ol></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2025&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">atdunbg</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 17 篇文章
+                    </span>
+                    
+                        <span>
+                            共 48.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	
+<script src="/js/build/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/build/utils.js" type="module"></script>
+
+<script src="/js/build/main.js" type="module"></script>
+
+<script src="/js/build/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/build/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/build/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/build/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/tools/localSearch.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/codeBlock.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/layouts/lazyload.js" type="module"></script>
+
+
+
+
+    
+<script src="/js/build/tools/runtime.js"></script>
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+  
+<script src="/js/build/plugins/typed.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+    
+<script src="/js/build/tools/tocToggle.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/layouts/toc.js" type="module" data-swup-reload-script=""></script>
+
+<script src="/js/build/plugins/tabs.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+<script src="/js/build/layouts/essays.js" type="module" data-swup-reload-script=""></script>
+
+
+
+
+
+    
+<script src="/js/build/layouts/bookmarkNav.js" type="module"></script>
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+</body>
+
+</html>
