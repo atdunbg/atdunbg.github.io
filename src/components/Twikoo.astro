@@ -1,0 +1,25 @@
+---
+// src/components/Twikoo.astro
+import { twikooConfig } from "../config";
+
+const { enable, envId, lang = "zh_CN" } = twikooConfig;
+const shouldRender = enable && envId;
+---
+
+{shouldRender && (
+  <div id="twikoo-comment"></div>
+
+  <script is:inline src="https://s4.zstatic.net/npm/twikoo@1.7.1/dist/twikoo.min.js"></script>
+
+  <script define:vars={{ envId, lang }}>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof twikoo !== 'undefined') {
+        twikoo.init({
+          envId,
+          el: '#twikoo-comment',
+          lang,
+        }).catch(console.error);
+      }
+    });
+  </script>
+)}
