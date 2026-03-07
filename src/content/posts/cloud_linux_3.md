@@ -15,7 +15,7 @@ lang: ''
 
 ### Socket 通讯
 
-- 所谓socket通常也称作”套接字” ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。
+- 所谓socket通常也称作"套接字" ,用于描述IR地址和端口,是一个通信链的句柄。应用程序通常通过"套接字"向网络发出请求或者应答网络请求。
 
 ![img](https://s1.vika.cn/space/2023/04/19/c3c2efcc5f0840f4bb365212449401c1)
 
@@ -45,15 +45,15 @@ linux下的服务管理有两类:
 
 ### System V 服务
 
-System V， 曾经也被称为 AT&T System V，是Unix操作系统众多版本中的一支。它最初由 AT&T 开发，在1983年第一次发布。一共发行了4个 System V 的主要版本：版本1、2、3 和 4。System V Release 4，或者称为SVR4，是最成功的版本，成为一些UNIX共同特性的源头，例如 ”SysV 初始化脚本“ (/etc/init.d)，用来控制系统启动和关闭，System V Interface Definition (SVID) 是一个System V 如何工作的标准定义。
+System V， 曾经也被称为 AT&T System V，是Unix操作系统众多版本中的一支。它最初由 AT&T 开发，在1983年第一次发布。一共发行了4个 System V 的主要版本：版本1、2、3 和 4。System V Release 4，或者称为SVR4，是最成功的版本，成为一些UNIX共同特性的源头，例如 "SysV 初始化脚本" (/etc/init.d)，用来控制系统启动和关闭，System V Interface Definition (SVID) 是一个System V 如何工作的标准定义。
 
-> - 通常被成为”System V” 或 “SysV”
+> - 通常被成为"System V" 或 "SysV"
 
 - 许多脚本都是用文件系统目录的格式来组织的
 - 可启用或者禁用资源服务
 - 经常使用几个配置文件
 - 大多数服务启动一个或多个进程
-- 命令被“包裹”在脚本中.
+- 命令被"包裹"在脚本中.
 - 服务由/etc/init.d/目录中的脚本管理
   - 例如: /etc/init.d/sshd status
   - service sshd status
@@ -143,7 +143,7 @@ System V， 曾经也被称为 AT&T System V，是Unix操作系统众多版本�
 
 ### Rsyslog 服务
 
-**把日志集中存储在一个安全的地方, 通过日志分析系统的运行情况. Rsyslog全称”the Rocket-fast SYStem for LOG processing”,是一种应用于UNIX和Linux计算机系统在IP网络转发日志消息开源软件实用的程序。它实现了基本的syslog协议,扩展了基于内容过滤的过滤能力,丰富灵活的配置选项,并增加了诸如使用TCP传输的特点。**
+**把日志集中存储在一个安全的地方, 通过日志分析系统的运行情况. Rsyslog全称"the Rocket-fast SYStem for LOG processing",是一种应用于UNIX和Linux计算机系统在IP网络转发日志消息开源软件实用的程序。它实现了基本的syslog协议,扩展了基于内容过滤的过滤能力,丰富灵活的配置选项,并增加了诸如使用TCP传输的特点。**
 
 > - 格式: selector action
 >   - selector : facility.level
@@ -230,7 +230,7 @@ endfolding
 - 启用TCP
   - $ModLoad imtcp
   - $InputTCPServerRun 514
-- $template TemplateName, “格式”, < options>
+- $template TemplateName, "格式", < options>
 - 引号模板:
   - ? TemplateName
 
@@ -300,7 +300,7 @@ endfolding
     - can be used to start additional programs
     - special expansions are available (%C, %s)
     - 例如:
-    - in.telnetd: ALL : spawn echo “login attempt from %C to %s”| mail -S warning root
+    - in.telnetd: ALL : spawn echo "login attempt from %C to %s"| mail -S warning root
   - deny:
     - 可作为hosts.allow中的一个选项
     - 例如:
@@ -331,7 +331,7 @@ endfolding
 
 ![img](https://s1.vika.cn/space/2023/04/21/d34dc5807a5946b2bca55e836f6a0ed4)
 
-> - 所有文件和进程都具备“安全环境”( security context )
+> - 所有文件和进程都具备"安全环境"( security context )
 
 - 环境包含几个元素,根据安全的需要使用不同的元素
   - user.role:type:sensitivity:category
@@ -353,7 +353,7 @@ endfolding
 
 - system_ _r - - -般为进程的角色
 
-> - 一组叫做”策略( policy)”的规则会决定控制的严格程度
+> - 一组叫做"策略( policy)"的规则会决定控制的严格程度
 
 - 进程要么是被限制的(restricted) ,要么是无束缚的( unconfined)
 - 策略被用来定义被限制的进程能够使用哪些资源
@@ -450,7 +450,7 @@ endfolding
   - 域字段叫做始发地址
   - rdata字段被引申为支持额外数据r 下-一个演示片对此进行了解释
   - 一般来说, -一个域通常有一 个主名称服务器,它保存数据的主要副本
-  - 域或区块的其它规范性名称服务器被称为“从服务器”,它们会将其数据与主服务器同步
+  - 域或区块的其它规范性名称服务器被称为"从服务器",它们会将其数据与主服务器同步
 - SOA rdata
   - 主名称服务器的FQDN
   - 联系邮件地址
@@ -458,7 +458,7 @@ endfolding
   - 在刷新序列号码之前刷新延迟时间
   - 从服务器的重试间隔
   - 当从服务器无法连接它的主服务器时，记录会过期
-  - 否定性答复(“no such host”)的TTL最小值
+  - 否定性答复("no such host")的TTL最小值
 
 | 记录类型 | 说明                   |
 | -------- | ---------------------- |
@@ -494,11 +494,11 @@ zone "example.com"
 - 一般可以用来代替匹配列表(允许嵌套! )
 - 最好的办法是在/etc/named.conf文件的开始处定义ACL
 - 声明示例
-  - acly”trusted {192.168.1.21; }
-  - acl “classroom” { 192.168.0.0/24; trusted;};
-  - acl “cracker” { 192.168.1.0/24; };
-  - acl “mymasters” { 192.168.0.254; };
-  - acl “myaddresses” { 127.0.0.1; 192.168.0.1; };
+  - acly"trusted {192.168.1.21; }
+  - acl "classroom" { 192.168.0.0/24; trusted;};
+  - acl "cracker" { 192.168.1.0/24; };
+  - acl "mymasters" { 192.168.0.254; };
+  - acl "myaddresses" { 127.0.0.1; 192.168.0.1; };
 - 内置ACL
   - BIND预定义了几个ACL:
     - none - 不匹配任何IP地址
@@ -567,10 +567,10 @@ zone "example.com"
 > - mountd, statd和lockd可以被强制使用一个静态端口
 
 - 在/etc/sysconfig/nfs中设置MOUNTD_ PORT、STATD_ PORT LOCKD_ TCPPORTHE和LOCKD_ UDPPORT变量
-  - MOUNTD_ PORT=”4002”
-  - STATD_ PORT= “4003”
-  - LOCKD_ TCPPORT= “4004”
-  - LOCKD_ UDPPORT= “4004”
+  - MOUNTD_ PORT="4002"
+  - STATD_ PORT= "4003"
+  - LOCKD_ TCPPORT= "4004"
+  - LOCKD_ UDPPORT= "4004"
 
 ## WEB 服务
 
@@ -726,7 +726,7 @@ iptable -t filter -A INPUT -s 192.168.0.1 -j DROP
 | 2    | 密码      | 在旧的unix系统中，该字段是用户加密后的密码，现在已经不再使用，而是将密码放在/etc/shadow中，所以此处都只是一个字母X |
 | 3    | UID       | 系统用来区分不同用户的整数                                   |
 | 4    | GID       | 系统用来区分不同用户组的整数                                 |
-| 5    | 说明栏    | 类似于“注释”                                                 |
+| 5    | 说明栏    | 类似于"注释"                                                 |
 | 6    | 家目录    | 用户登录后，默认所处的目录，即家目录                         |
 | 7    | 登录SHELL | 用户登录后，所使用的SHELL                                    |
 

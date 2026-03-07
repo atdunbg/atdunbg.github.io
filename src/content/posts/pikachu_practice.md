@@ -239,7 +239,7 @@ sqlmap.py -u "http://127.0.0.1/vul/sqli/sqli_str.php?name=1&submit=%E6%9F%A5%E8%
 
 ### 搜索型注入
 
-由于没有过滤“%”，“%”可以进行匹配任意字符，与linux中的”*“类似
+由于没有过滤"%"，"%"可以进行匹配任意字符，与linux中的"*"类似
 
 **sqlmap**
 
@@ -265,7 +265,7 @@ sqlmap.py -u "http://127.0.0.1/vul/sqli/sqli_search.php?name=1&submit=%E6%90%9C%
 python sqlmap.py -u "http://127.0.0.1/vul/sqli/sqli_x.php?name=1&submit=%E6%9F%A5%E8%AF%A2" --batch -D pikachu -T member --dump
 ```
 
-### “insert/update”注入
+### "insert/update"注入
 
 注册一下账户，然后brup抓包，随便选一个变量，修改如下
 
@@ -281,11 +281,11 @@ extractvalue()		是mysql对xml文档数据进行查询和修改的xpath函数
 updatexml()			是mysql对xml文档数据进行查询的xpath函数
 ```
 
-### “delete”注入
+### "delete"注入
 
 操作同上，在点击删除留言时进行抓包，发现有一个id参数可以进行注入，不过发现注入的参数中不能出现空格，否则空格后面不会进行处理
 
-可以用“+”代替空格
+可以用"+"代替空格
 
 ```txt
 +and+updatexml(1,concat(0x7e,database(),0x7e),1)
@@ -293,7 +293,7 @@ updatexml()			是mysql对xml文档数据进行查询的xpath函数
 
 ![报错注入2](https://s1.vika.cn/space/2023/08/12/0af26ca25cc440cd87e1683bc22e3942)
 
-### “http header”注入
+### "http header"注入
 
 ![http_header注入](https://s1.vika.cn/space/2023/08/12/4f4d58643a944fefa047f5119908366c)
 
@@ -344,7 +344,7 @@ kobe' and substr(database(),1,1)='a'#
 
 ![boolean盲注3](https://s1.vika.cn/space/2023/08/12/e4c7a656d5df4108aefea632dbd20f7a)
 
-第二个参数修改，爆破字符为a-z ，顺带着添加一个”_”
+第二个参数修改，爆破字符为a-z ，顺带着添加一个"_"
 
 ![boolean盲注4](https://s1.vika.cn/space/2023/08/12/77a6c71a8e894d339f3afd1ad959468f)
 
@@ -383,27 +383,27 @@ sqlmap.py -u "http://127.0.0.1/vul/sqli/sqli_blind_t.php?name=123&submit=%E6%9F%
 
 　　输入%df和函数执行添加的%5C，被合并成%df%5C。由于GBK是两字节，这个%df%5C被MYSQL识别为GBK。导致本应的%df\变成%df%5C。%df%5C在GBK编码中没有对应，所以被当成无效字符。
 
-　　%DF’ ：会被PHP当中的addslashes函数转义为“%DF\'” ，“\”既URL里的“%5C”，那么也就是说，“%DF'”会被转成“%DF%5C%27”倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为“%DF%5C%27”是一个宽字符。也就是“縗’”
+　　%DF’ ：会被PHP当中的addslashes函数转义为"%DF\'" ，"\"既URL里的"%5C"，那么也就是说，"%DF'"会被转成"%DF%5C%27"倘若网站的字符集是GBK，MYSQL使用的编码也是GBK的话，就会认为"%DF%5C%27"是一个宽字符。也就是"縗’"
 
 例如：http://www.xxx.com/login.php?user=%df’ or 1=1 limit 1,1%23&pass=
 
 其对应的sql就是：
 
-select * fromcms_user where username = ‘運’ or 1=1 limit 1,1#’ and password=”
+select * fromcms_user where username = ‘運’ or 1=1 limit 1,1#’ and password="
 ```
 
 在’前面加个%df也就可以实现逃逸转义，然后burp抓包，剩下操作同上
 
 ## 0x06 RCE
 
-### exec”ping”
+### exec"ping"
 
 ```txt
 127.0.0.1&&dir
 #执行完ping指令后同时执行dir指令
 ```
 
-### exec”eval”
+### exec"eval"
 
 ```txt
 直接输入 phpinfo();
@@ -654,7 +654,7 @@ dict://192.168.1.66:80
 
 ### SSRF(file_get_content)
 
-利用file_get_content(“path”)利用传递的参数，通过file参数访问内部资源，或者跳转到其他服务器页面
+利用file_get_content("path")利用传递的参数，通过file参数访问内部资源，或者跳转到其他服务器页面
 
 ```txt
 //直接读取内部文件

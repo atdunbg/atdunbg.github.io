@@ -7,19 +7,87 @@ const shouldRender = enable && envId;
 ---
 
 {shouldRender && (
-  <div id="twikoo-comment"></div>
+  <div id="twikoo-comment" class="card-base p-6 mb-4 text-black/75 dark:text-white/75  transition">
+    <p>加载评论中...</p>
+  </div>
 
-  <script is:inline src="https://s4.zstatic.net/npm/twikoo@1.7.1/dist/twikoo.min.js"></script>
+  <script is:inline define:vars={{ envId, lang }}>
+    (function() {
+      const MAX_RETRIES = 3;          
+      const RETRY_DELAY = 2000;       
 
-  <script define:vars={{ envId, lang }}>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof twikoo !== 'undefined') {
-        twikoo.init({
-          envId,
-          el: '#twikoo-comment',
-          lang,
-        }).catch(console.error);
+      let scriptRetryCount = 0;        
+      let initRetryCount = 0;          
+
+      // 尝试初始化 Twikoo
+      function initTwikoo() {
+        if (typeof twikoo === 'undefined') {
+          // Twikoo 对象不存在，说明脚本还没加载成功，重试加载脚本
+          if (scriptRetryCount < MAX_RETRIES) {
+            scriptRetryCount++;
+            console.log(`Twikoo 库未加载，尝试重新加载脚本 (${scriptRetryCount}/${MAX_RETRIES})……`);
+            setTimeout(loadScript, RETRY_DELAY);
+          } else {
+            console.error('Twikoo 库加载失败，已达到最大重试次数。');
+            showError('评论加载失败，请刷新页面重试。');
+          }
+          return;
+        }
+
+        twikoo.init({ envId, el: '#twikoo-comment', lang })
+          .then(() => {
+            console.log('Twikoo 初始化成功');
+          })
+          .catch(err => {
+            console.error('Twikoo 初始化失败：', err);
+            if (initRetryCount < MAX_RETRIES) {
+              initRetryCount++;
+              console.log(`尝试重新初始化 (${initRetryCount}/${MAX_RETRIES})……`);
+              setTimeout(initTwikoo, RETRY_DELAY);
+            } else {
+              showError('评论加载失败，请刷新页面重试。');
+            }
+          });
       }
-    });
+
+      function loadScript() {
+        const script = document.createElement('script');
+
+        // 推荐在中国使用
+        //  https://registry.npmmirror.com/twikoo/1.7.1/files/dist/twikoo.min.js
+        //  https://s4.zstatic.net/npm/twikoo@1.7.1/dist/twikoo.min.js
+        // 推荐在全球使用
+        //  https://cdn.jsdelivr.net/npm/twikoo@1.7.1/dist/twikoo.min.js
+        // 备用选项
+        //  https://s4.zstatic.net/ajax/libs/twikoo/1.6.41/twikoo.min.js
+        //  https://lib.baomitu.com/twikoo/1.6.39/twikoo.min.js
+
+        script.src = 'https://s4.zstatic.net/npm/twikoo@1.7.1/dist/twikoo.min.js';
+        script.onload = () => {
+          console.log('Twikoo 脚本加载成功');
+          scriptRetryCount = 0;          
+          initTwikoo();                  
+        };
+        script.onerror = () => {
+          console.error('Twikoo 脚本加载失败');
+          if (scriptRetryCount < MAX_RETRIES) {
+            scriptRetryCount++;
+            console.log(`尝试重新加载脚本 (${scriptRetryCount}/${MAX_RETRIES})……`);
+            setTimeout(loadScript, RETRY_DELAY);
+          } else {
+            showError('评论加载失败，请刷新页面重试。');
+          }
+        };
+        document.head.appendChild(script);
+      }
+
+      // 显示错误信息到评论区
+      function showError(msg) {
+        const container = document.querySelector('#twikoo-comment');
+        if (container) container.innerHTML = `<p style="color: red;">${msg}</p>`;
+      }
+
+      loadScript();
+    })();
   </script>
 )}
