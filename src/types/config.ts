@@ -38,6 +38,8 @@ export type SiteConfig = {
 	favicon: Favicon[];
 
 	startDate?: Date;
+
+	music?: MusicPlayerConfig;
 };
 
 export type Favicon = {
@@ -107,4 +109,11 @@ export type TwikooConfig = {
 	enable?: boolean;
 	envId?: string;
 	lang?: string;
+};
+
+export type MusicPlayerConfig = {
+	enable: boolean;
+	playlistId: string;
+	server?: "netease" | "tencent" | "kugou" | "xiami" | "baidu";
+	defaultVolume?: number;
 };

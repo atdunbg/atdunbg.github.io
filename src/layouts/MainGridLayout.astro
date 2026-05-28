@@ -62,7 +62,7 @@ const mainPanelTop = siteConfig.banner.enable
 <!-- Main content -->
 <div class="absolute w-full z-30 pointer-events-none" style={`top: ${mainPanelTop}`}>
     <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
-    <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
+    <div id="content-center-wrap" class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
         <div id="main-grid" class="transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto]
     mx-auto gap-4 px-0 md:px-4"
         >
@@ -82,7 +82,7 @@ const mainPanelTop = siteConfig.banner.enable
 
             <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
 
-            <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
+            <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden" data-has-toc={headings.length > 0 ? "" : undefined}>
                 <div id="content-wrapper" class="onload-animation">
                     <!-- the overflow-hidden here prevent long text break the layout-->
                     <!-- make id different from windows.swup global property -->
@@ -104,7 +104,7 @@ const mainPanelTop = siteConfig.banner.enable
 
 <!-- The things that should be under the banner, only the TOC for now -->
 <div class="absolute w-full z-0 hidden 2xl:block">
-    <div class="relative max-w-[var(--page-width)] mx-auto">
+    <div id="toc-center-wrap" class="relative max-w-[var(--page-width)] mx-auto">
         <!-- TOC component -->
         {siteConfig.toc.enable && <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 -right-[var(--toc-width)] w-[var(--toc-width)] items-center",
             {"toc-hide": siteConfig.banner.enable}]}
@@ -123,3 +123,40 @@ const mainPanelTop = siteConfig.banner.enable
     </div>
 </div>
 </Layout>
+
+<style is:global>
+@media (min-width: 1536px) {
+    #content-center-wrap,
+    #toc-center-wrap {
+        margin-left: calc((100% - var(--page-width)) / 2) !important;
+        margin-right: calc((100% - var(--page-width)) / 2) !important;
+        transition: margin 500ms cubic-bezier(0.5, 0, 0.3, 1);
+    }
+    #main-grid {
+        transition-property: none !important;
+    }
+    #sidebar-sticky {
+        transition-property: none !important;
+    }
+    #top-row {
+        transition: max-width 500ms cubic-bezier(0.5, 0, 0.3, 1),
+                    padding 500ms cubic-bezier(0.5, 0, 0.3, 1);
+    }
+    #top-row .card-base {
+        transition: background-color 300ms,
+                    max-width 500ms cubic-bezier(0.5, 0, 0.3, 1);
+    }
+    body.toc-offset #content-center-wrap,
+    body.toc-offset #toc-center-wrap {
+        margin-left: calc((100% - var(--page-width)) / 2 - var(--toc-width) / 2) !important;
+        margin-right: calc((100% - var(--page-width)) / 2 - var(--toc-width) / 2) !important;
+    }
+    body.toc-offset #top-row {
+        max-width: calc(var(--page-width) + var(--toc-width)) !important;
+    }
+    body.toc-offset #top-row .card-base {
+        max-width: calc(var(--page-width) + var(--toc-width)) !important;
+    }
+}
+</style>
+

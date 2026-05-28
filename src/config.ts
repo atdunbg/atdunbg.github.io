@@ -1,6 +1,7 @@
 import type {
 	ExpressiveCodeConfig,
 	LicenseConfig,
+	MusicPlayerConfig,
 	NavBarConfig,
 	ProfileConfig,
 	SiteConfig,
@@ -38,6 +39,13 @@ export const siteConfig: SiteConfig = {
 		//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
 		// }
 	],
+
+	music: {
+		enable: true,
+		playlistId: "7708342577",
+		server: "netease",
+		defaultVolume: 1,
+	} satisfies MusicPlayerConfig,
 };
 
 export const navBarConfig: NavBarConfig = {

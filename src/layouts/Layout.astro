@@ -4,6 +4,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import MusicPlayer from "@components/widget/MusicPlayer.astro";
 import { profileConfig, siteConfig } from "@/config";
 import {
 	AUTO_MODE,
@@ -156,6 +157,8 @@ const bannerOffset =
 		<slot />
 
 		<SpeedInsights />
+
+		<MusicPlayer />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
@@ -566,5 +569,29 @@ if (window.swup) {
 	setup()
 } else {
 	document.addEventListener("swup:enable", setup)
+}
+</script>
+
+<script>
+function adjustTocLayout() {
+	const hasToc = !!document.querySelector('[data-has-toc]');
+	const isWide = window.innerWidth >= 1536;
+	if (hasToc && isWide) {
+		document.body.classList.add('toc-offset');
+	} else {
+		document.body.classList.remove('toc-offset');
+	}
+}
+adjustTocLayout();
+window.addEventListener('resize', adjustTocLayout);
+if (window.swup) {
+	window.swup.hooks.on('content:replace', () => requestAnimationFrame(adjustTocLayout));
+	window.swup.hooks.on('page:view', () => requestAnimationFrame(adjustTocLayout));
+} else {
+	document.addEventListener('swup:enable', () => {
+		adjustTocLayout();
+		window.swup.hooks.on('content:replace', () => requestAnimationFrame(adjustTocLayout));
+		window.swup.hooks.on('page:view', () => requestAnimationFrame(adjustTocLayout));
+	});
 }
 </script>
