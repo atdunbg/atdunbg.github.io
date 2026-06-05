@@ -1,6 +1,6 @@
 # About Me
 
-::github{repo="atdunbg/atdunbg"}
+::github{repo="atdunbg/Nekosonic-Music"}
 ::gitea{repo="atdunbg/Prism"}
 
 欢迎来到[Atdunbg](https://atdunbg.xyz)的小站, 这里是一个又菜又爱学的技术小白。
