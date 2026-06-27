@@ -1,5 +1,6 @@
 import type {
 	ExpressiveCodeConfig,
+	GiteaConfig,
 	LicenseConfig,
 	MusicPlayerConfig,
 	NavBarConfig,
@@ -55,8 +56,8 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.About,
 		{
 			name: "Gitea",
-			url: "https://gitea.atdunbg.xyz/atdunbg", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
+			url: "https://git.atdunbg.xyz/atdunbg",
+			external: true,
 		},
 	],
 };
@@ -85,8 +86,8 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "Gitea",
-			icon: "fa6-brands:git",
-			url: "https://gitea.atdunbg.xyz/atdunbg",
+			icon: "simple-icons:gitea",
+			url: "https://git.atdunbg.xyz/atdunbg",
 		},
 	],
 };
@@ -106,4 +107,8 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 export const twikooConfig: TwikooConfig = {
 	enable: true,
 	envId: "https://twikoo.atdunbg.xyz",
+};
+
+export const giteaConfig: GiteaConfig = {
+	domain: "git.atdunbg.xyz",
 };

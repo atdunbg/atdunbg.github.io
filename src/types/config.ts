@@ -117,3 +117,7 @@ export type MusicPlayerConfig = {
 	server?: "netease" | "tencent" | "kugou" | "xiami" | "baidu";
 	defaultVolume?: number;
 };
+
+export type GiteaConfig = {
+	domain: string;
+};
