@@ -29,7 +29,7 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	toc: {
-		enable: false, // Display the table of contents on the right side of the post
+		enable: true, // Display the table of contents on the right side of the post
 		depth: 3, // Maximum heading depth to show in the table, from 1 to 3
 	},
 	favicon: [
