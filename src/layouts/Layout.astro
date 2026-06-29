@@ -15,6 +15,7 @@ import {
 	DEFAULT_THEME,
 	LIGHT_MODE,
 	PAGE_WIDTH,
+	TOC_BREAKPOINT,
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
@@ -572,10 +573,10 @@ if (window.swup) {
 }
 </script>
 
-<script>
+<script is:inline define:vars={{ TOC_BREAKPOINT }}>
 function adjustTocLayout() {
 	const hasToc = !!document.querySelector('[data-has-toc]');
-	const isWide = window.innerWidth >= 1536;
+	const isWide = window.innerWidth >= TOC_BREAKPOINT;
 	if (hasToc && isWide) {
 		document.body.classList.add('toc-offset');
 	} else {

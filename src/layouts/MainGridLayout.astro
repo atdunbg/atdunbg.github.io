@@ -82,7 +82,7 @@ const mainPanelTop = siteConfig.banner.enable
 
             <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
 
-            <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden" data-has-toc={headings.length > 0 ? "" : undefined}>
+            <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden" data-has-toc={siteConfig.toc.enable && headings.length > 0 ? "" : undefined}>
                 <div id="content-wrapper" class="onload-animation">
                     <!-- the overflow-hidden here prevent long text break the layout-->
                     <!-- make id different from windows.swup global property -->
@@ -140,7 +140,8 @@ const mainPanelTop = siteConfig.banner.enable
     }
     #top-row {
         transition: max-width 500ms cubic-bezier(0.5, 0, 0.3, 1),
-                    padding 500ms cubic-bezier(0.5, 0, 0.3, 1);
+                    padding 500ms cubic-bezier(0.5, 0, 0.3, 1),
+                    margin 500ms cubic-bezier(0.5, 0, 0.3, 1);
     }
     #top-row .card-base {
         transition: background-color 300ms,
@@ -152,10 +153,13 @@ const mainPanelTop = siteConfig.banner.enable
         margin-right: calc((100% - var(--page-width)) / 2 - var(--toc-width) / 2) !important;
     }
     body.toc-offset #top-row {
-        max-width: calc(var(--page-width) + var(--toc-width)) !important;
+        /* 用显式 margin 取代 mx-auto：左边对齐正文内容、右边比 TOC 多 1rem 抵消 padding，让 navbar 右边对齐 TOC 右边 */
+        margin-left: calc((100% - var(--page-width)) / 2 - var(--toc-width) / 2) !important;
+        margin-right: calc((100% - var(--page-width)) / 2 - var(--toc-width) / 2 - 1rem) !important;
+        max-width: calc(var(--page-width) + var(--toc-width) + 1rem) !important;
     }
     body.toc-offset #top-row .card-base {
-        max-width: calc(var(--page-width) + var(--toc-width)) !important;
+        max-width: calc(var(--page-width) + var(--toc-width) - 1rem) !important;
     }
 }
 </style>
