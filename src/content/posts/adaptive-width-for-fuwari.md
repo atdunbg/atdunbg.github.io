@@ -1,16 +1,15 @@
 ---
 title: Fuwari 宽屏下正文 自动连带TOC一块居中方案
 published: 2026-06-29
-description: '让正文与右侧 TOC 作为一个整体在视口中真正居中，并修复顶栏与 TOC 的对齐'
-image: ''
+description: "让正文与右侧 TOC 作为一个整体在视口中真正居中，并修复顶栏与 TOC 的对齐"
+image: ""
 tags: [fuwari, css, 布局]
-category: '教程'
+category: "教程"
 draft: false
-lang: ''
+lang: ""
 ---
 
-
-## 修复 Fuwari 宽屏下「正文 + TOC」整体偏右、视觉不居中的问题。
+## 解决 Fuwari 宽屏下「正文 + TOC」整体偏右、视觉不居中的问题。
 
 ## 问题原因
 
@@ -26,12 +25,14 @@ lang: ''
 ## 涉及的核心变量
 
 `--page-width` 定义在 `src/constants/constants.ts`
+
 ```ts title="src/constants/constants.ts"
 // Page width: rem
 export const PAGE_WIDTH = 75;
 ```
 
 `--toc-width` 定义在 `src/styles/variables.styl`，会根据 `--page-width` 自动计算
+
 ```styl title="src/styles/variables.styl"
 --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
 ```
@@ -97,6 +98,7 @@ export const PAGE_WIDTH = 75;
 ### 3. 客户端根据情况给 body 加 `toc-offset` 类
 
 打开 `src/layouts/Layout.astro`，先在 frontmatter 的 import 里加上 `TOC_BREAKPOINT`
+
 ```diff title="src/layouts/Layout.astro" lang="astro"
  import {
  	AUTO_MODE,
@@ -210,6 +212,7 @@ if (window.swup) {
 ## 如何使用
 
 方案默认开启，无需任何配置。只需保证 `src/config.ts` 中 TOC 处于启用状态
+
 ```ts title="src/config.ts"
 toc: {
 	enable: true, // Display the table of contents on the right side of the post
@@ -221,11 +224,11 @@ toc: {
 
 ## 触发条件
 
-| 条件 | 是否触发 `toc-offset` | 表现 |
-| --- | --- | --- |
-| 有 TOC 且视口 ≥ 1536px | 是 | 正文 + TOC 整体居中，Navbar 对齐 TOC 右边 |
-| 有 TOC 但视口 < 1536px | 否 | TOC 隐藏，正文居中 |
-| 无 TOC（如首页 / 关于页） | 否 | 正文居中（原版行为） |
+| 条件                      | 是否触发 `toc-offset` | 表现                                      |
+| ------------------------- | --------------------- | ----------------------------------------- |
+| 有 TOC 且视口 ≥ 1536px    | 是                    | 正文 + TOC 整体居中，Navbar 对齐 TOC 右边 |
+| 有 TOC 但视口 < 1536px    | 否                    | TOC 隐藏，正文居中                        |
+| 无 TOC（如首页 / 关于页） | 否                    | 正文居中（原版行为）                      |
 
 如果想调整正文宽度，修改 `src/constants/constants.ts` 的 `PAGE_WIDTH` 即可，`--toc-width` 会自动跟随。
 
